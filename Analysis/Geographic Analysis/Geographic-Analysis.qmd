@@ -7,6 +7,8 @@ date: "`r Sys.Date()`"
 
 # Data Analysis
 
+please work!!
+
 ```{r}
 #| eval: false
 pacman::p_load(arrow, lubridate, maptools, sp, sf, raster, spatstat, tmap, classInt, viridis, tidyverse, spNetwork)
