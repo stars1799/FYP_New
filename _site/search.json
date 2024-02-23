@@ -257,5 +257,40 @@
     "title": "On-the-ground Research: Punggol",
     "section": "",
     "text": "In terms of walkability:\n\nDesired paths are commonly found near car-based street and carparks\nAssumption: HDB’s internal car-based streets → not walking-friendly to residents \nSheltered walkways are commonly found\nE.g. From Punggol MRT/ Bus interchange to nearby estates  \nAssumption: Consideration of the tropical weather in Singapore\n\nIn terms of amenities:\n\nEateries are usually located below the the HDB blocks \nReachable in walking distances within 5-10 minutes \nSufficient parks/ recreational facilities but lack of maintenance"
+  },
+  {
+    "objectID": "Data Exploration/SMT/SMT.html",
+    "href": "Data Exploration/SMT/SMT.html",
+    "title": "SMT Data Exploration",
+    "section": "",
+    "text": "HDB Property Information\nSource: https://beta.data.gov.sg/collections/150/view\nOpenStreetMap (OSM) data (Malaysia, Singapore, and Brunei dataset)\nSource: https://download.geofabrik.de/asia/malaysia-singapore-brunei.html\n\nUrban Redevelopment Authority (URA) datasets\nSource: https://beta.data.gov.sg/collections?agencies=Urban%20Redevelopment%20Authority%20(URA)\n\nMaster Plan 2019 Land Use Layer\nMaster Plan 2019 Subzone Boundary (No Sea)\nMaster Plan 2019 Planning Area Boundary (No Sea)\n\n\n\n\n\n\n\nRe-categorizing types of buildings & land use and color coding the data (QGIS)\n\nBuildings\n\nLand Use\n\n\nRe-labelling data points that were inaccurately labelled (QGIS)\n\n\nIn the above maps, many buildings in the dataset are not correctly categorised as shown in the one map. Even though many of the identified buildings are residential and carpark buildings, they are labelled as null values which have been colored in grey.\n\n\nTherefore, there is a need to manually adjust the categories of buildings to their respective correct ones within QGIS.\n\n\n\n\n\n\nIdentify the average age of HDB estates by towns (Tableau)\nLand use analysis of HDB estates (QGIS)\nIsotope areas around the key amenities and public transport (QGIS)\n\n\n\n\n\nManually inserting the desired lines into the paths layer in the dataset (QGIS)"
+  },
+  {
+    "objectID": "Data Exploration/SMT/SMT.html#datasets-used",
+    "href": "Data Exploration/SMT/SMT.html#datasets-used",
+    "title": "SMT Data Exploration",
+    "section": "",
+    "text": "HDB Property Information\nSource: https://beta.data.gov.sg/collections/150/view\nOpenStreetMap (OSM) data (Malaysia, Singapore, and Brunei dataset)\nSource: https://download.geofabrik.de/asia/malaysia-singapore-brunei.html\n\nUrban Redevelopment Authority (URA) datasets\nSource: https://beta.data.gov.sg/collections?agencies=Urban%20Redevelopment%20Authority%20(URA)\n\nMaster Plan 2019 Land Use Layer\nMaster Plan 2019 Subzone Boundary (No Sea)\nMaster Plan 2019 Planning Area Boundary (No Sea)"
+  },
+  {
+    "objectID": "Data Exploration/SMT/SMT.html#data-cleaning",
+    "href": "Data Exploration/SMT/SMT.html#data-cleaning",
+    "title": "SMT Data Exploration",
+    "section": "",
+    "text": "Re-categorizing types of buildings & land use and color coding the data (QGIS)\n\nBuildings\n\nLand Use\n\n\nRe-labelling data points that were inaccurately labelled (QGIS)\n\n\nIn the above maps, many buildings in the dataset are not correctly categorised as shown in the one map. Even though many of the identified buildings are residential and carpark buildings, they are labelled as null values which have been colored in grey.\n\n\nTherefore, there is a need to manually adjust the categories of buildings to their respective correct ones within QGIS."
+  },
+  {
+    "objectID": "Data Exploration/SMT/SMT.html#data-analysis",
+    "href": "Data Exploration/SMT/SMT.html#data-analysis",
+    "title": "SMT Data Exploration",
+    "section": "",
+    "text": "Identify the average age of HDB estates by towns (Tableau)\nLand use analysis of HDB estates (QGIS)\nIsotope areas around the key amenities and public transport (QGIS)"
+  },
+  {
+    "objectID": "Data Exploration/SMT/SMT.html#data-integration",
+    "href": "Data Exploration/SMT/SMT.html#data-integration",
+    "title": "SMT Data Exploration",
+    "section": "",
+    "text": "Manually inserting the desired lines into the paths layer in the dataset (QGIS)"
   }
 ]

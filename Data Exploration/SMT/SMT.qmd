@@ -1,3 +1,59 @@
 ---
 title: "SMT Data Exploration"
 ---
+
+# Data Exploration
+
+## Datasets Used
+
+-   HDB Property Information\
+    *Source: <https://beta.data.gov.sg/collections/150/view>*
+
+-   OpenStreetMap (OSM) data (Malaysia, Singapore, and Brunei dataset)\
+    *Source: <https://download.geofabrik.de/asia/malaysia-singapore-brunei.html>*
+
+    ![](images/clipboard-182833000.png){width="376"}
+
+-   Urban Redevelopment Authority (URA) datasets\
+    *Source: <https://beta.data.gov.sg/collections?agencies=Urban%20Redevelopment%20Authority%20(URA)>*
+
+    -   Master Plan 2019 Land Use Layer
+
+    -   Master Plan 2019 Subzone Boundary (No Sea)
+
+    -   Master Plan 2019 Planning Area Boundary (No Sea)
+
+    ![](images/clipboard-10357827.png){width="376"}
+
+## **Data Cleaning**
+
+-   Re-categorizing types of buildings & land use and color coding the data (QGIS)
+
+    -   Buildings
+
+        ![](images/clipboard-1928117994.png){width="368"}
+
+    -   Land Use
+
+        ![](images/clipboard-3871123458.png){width="365"}
+
+-   Re-labelling data points that were inaccurately labelled (QGIS)
+
+    ![](images/clipboard-3975062281.png){width="356"}
+
+    -   In the above maps, many buildings in the dataset are not correctly categorised as shown in the one map. Even though many of the identified buildings are residential and carpark buildings, they are labelled as null values which have been colored in grey.\
+        \
+        ![](images/clipboard-4107873992.png){width="404"}\
+        Therefore, there is a need to manually adjust the categories of buildings to their respective correct ones within QGIS.
+
+## Data Analysis
+
+-   Identify the average age of HDB estates by towns (Tableau)
+
+-   Land use analysis of HDB estates (QGIS)
+
+-   Isotope areas around the key amenities and public transport (QGIS)
+
+## Data Integration
+
+-   Manually inserting the desired lines into the paths layer in the dataset (QGIS)
