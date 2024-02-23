@@ -8,7 +8,7 @@ title: "Population Demographic Analysis"
 
 2.  Has there been a change in the demographic composition across age groups in Punggol over the past decade?
 
-## Purpose of Dashboard
+### Purpose of Dashboard
 
 This dashboard aims to provide a comprehensive overview by looking at factors such as age groups, gender, years etc for each area respectively.
 
@@ -78,7 +78,7 @@ In the nested chart, both groups, "Child + Young Adults" and "Middle Aged + Elde
 
 1.  Areas with higher population densities at the subzone level will have a higher incidence of desired lines forming
 
-## Purpose of Dashboard
+### Purpose of Dashboard
 
 This dashboard aims to provide a comprehensive overview by looking at the relationship between desire lines and variables like population density, area size and population.
 
@@ -108,7 +108,7 @@ var scriptElement = document.createElement('script');                    scriptE
 
 1.  Over the years, there is an increase in the number of households which results in the ratio of people in a household to fall
 
-## Purpose of Dashboard
+### Purpose of Dashboard
 
 This dashboard aims to provide a comprehensive overview by looking at the relationship between average household size and the total number of households.
 
