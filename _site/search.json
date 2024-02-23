@@ -147,6 +147,20 @@
     "text": "Purpose of Dashboard\nThis dashboard aims to provide a comprehensive overview by looking at the relationship between desire lines and variables like population density, area size and population.\n\nOverall Dashboard\nThe first dashboard showcases our desire lines and population density data across the 6 subzones that we collected desire line data from (Cheng San, Chong Boon, Kebun Bahru, Punngol Town Centre, Townsvile and Waterway East). It also showcases the spread of our data for both population density and desire lines respectively in the form of a box-and-whiskers graph. Selecting the area on either map would allow the user to see the exact values for desire lines and poulation density on the box-and-whiskers graph.\n\n\nRelationship Dashboard\nThe second dashboard showcases the relationship between our desire lines and 3 different variables - population density, area size and population respectively. Based on the Population Density & Desire Lines chart, although there is a upward trend observed, the p-value of this trend line is at 0.13. This means that the trend is not statically significant, indicating that there is no real relationship between Population Density & Desire Lines.\nAs such, we would explore with the other variables to see if they have a statically significant relationship with desire lines. Firstly, based on the Area Size & Desire Lines chart, we noticed that there is an upward trend as well. However, plotting the trend line once again gives us a p-value of 0.27 which also implies that this trend is not statically significant, indicating that there is no real relationship between Area Size & Desire Lines.\nLastly, based on the Population & Desire Lines chart, we observe that there is an upward trend as well. However, plotting the trend line this time gives us a significant p-value of only 0.007. This means that, with our alpha at 0.05, this trend is statically significant, indicating that there is a real relationship between Population & Desire Lines."
   },
   {
+    "objectID": "Analysis/Demographic Analysis/demo.html#hypothesis-4",
+    "href": "Analysis/Demographic Analysis/demo.html#hypothesis-4",
+    "title": "Population Demographic Analysis",
+    "section": "Hypothesis 4",
+    "text": "Hypothesis 4\n\nOver the years, there is an increase in the number of households which results in the ratio of people in a household to fall"
+  },
+  {
+    "objectID": "Analysis/Demographic Analysis/demo.html#purpose-of-dashboard-2",
+    "href": "Analysis/Demographic Analysis/demo.html#purpose-of-dashboard-2",
+    "title": "Population Demographic Analysis",
+    "section": "Purpose of Dashboard",
+    "text": "Purpose of Dashboard\nThis dashboard aims to provide a comprehensive overview by looking at the relationship between average household size and the total number of households.\n\nOverall Dashboard\nThe dashboard showcases the scatter plot of average household size and the total number of households. A trend line plotted has a p-value of &lt;0.0001 which signifies that there is a real relationship between average household size and the total number of households. This is further supported by the line chart where we can see that over the years from 1981-2022 there is an increase in total number of households while the average household size, reflected by the colour of the line, becomes lighter, which implies that it is decreasing over the years."
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "Meet Our Team Members",
