@@ -1,0 +1,98 @@
+---
+title: "Our Proposal"
+date: "'r Sys.Date()`"
+format: html
+execute: 
+  message: false
+  warning: false
+  freeze: true
+editor: visual
+---
+
+# Project Outline
+
+## Project Motivation
+
+In urban development, there is a significant challenge of conceptual designs being laid out by architects and urban planners that do not always align with the practical needs and preferences of people who use these spaces. After the implementation of these designs, it often becomes evident that there is a gap between the envisioned plans and the community's practical needs, which should truly align with their desires for accessibility. This gap then results in “desired lines” which are natural walkways or routes that people prefer to take when moving between locations. These pathways are not originally implemented but emerge organically based on their needs and preferences.
+
+With limited land and space to work with in Singapore, the Urban Redevelopment Authority of Singapore (URA) aims to bridge this gap by developing a framework that they can use to prevent the need for retrofitting. Additionally, with future estates in consideration, URA aims to effectively build an estate with more direct and accessible paths from HDB estates to key amenities.
+
+## Project Description
+
+Our project aims to bridge this gap by reevaluating an existing estate with these desired lines and developing a comprehensive framework that eliminates the need for such pathways. The framework will be one that URA will ultimately leverage and follow to plan for future estates that contain more direct paths to key amenities. Through this project, we are committed to rearranging the urban environment through a user-centric perspective that optimally accommodates the community's movements, thus eliminating the disconnect between conceptual designs and practical needs.
+
+Additionally, we recognise that retrofitting is difficult. Therefore, our focus is on preemptively eliminating the need for retrofitting by ensuring that the initial designs of walkways are in harmony with the community's needs. This proactive strategy not only saves resources but also creates convenience for residents to travel to and from key amenities.
+
+## **Alignment of Project to Smart Cities**
+
+The project aligns with the goal of creating an inclusive and accessible urban environment within the Smart City Framework. Our project aims to enhance accessibility for everyone within the city by ensuring that urban spaces are designed to truly accommodate the needs of pedestrians. By studying how people navigate their surroundings, we gain valuable insights into their practical needs and desired walkways. This in-depth analysis allows us to design urban spaces that organically align with the way residents move, eliminating the disconnect between conceptual designs and real-life requirements. We believe that this would improve the well-being of the community as they would be able to navigate the urban landscape more comfortably and safely. 
+
+## **Stakeholders**
+
+|                                    |                                                               |
+|---------------------------|---------------------------------------------|
+| **Sponsor**                        | URA - Ms Tan Chun Xiao (Planner under Design & Planning Lab)  |
+| **Users**                          | URA and the Design & Planning Lab team                        |
+| **Advisors/Practitioners/Mentors** | URA - Mr Wang Songyu                                          |
+
+## **Deliverables**
+
+### **Outcomes:** 
+
+-   A framework with a set of methodologies that details how URA can build future walkways and BFAs in estates, providing desired walkways that people are looking for within their estate to access key amenities efficiently.
+
+### **Value Statement:** 
+
+-   URA are able to conduct data-informed urban planning when planning for walkways around the HDBs and key amenities within the estate.
+
+-   Reduces the need to retrofit future walkways in estates to correct errors which saves time and resources.
+
+-   More efficient use of untapped land in Singapore, given the limited amount of land available.
+
+### **Scope**
+
+The scope of this project centres around the main tasks that we will need to perform:
+
+-   Analysis of current locations of HDB buildings and amenities within the chosen estates
+
+-   Analysis of current walking routes between the postal codes within the estate (especially between the amenities and HDBs)
+
+-   Analyse the current considerations (framework) used when planning a HDB estate
+
+-   Analyse population demographics (Singstat data) and gain insights into their behaviours when travelling within the estate (behavioural analysis)
+
+-   Generate a new framework to be used when planning the layout of a new estate for building walkways
+
+# Project Plan
+
+## Team Conduct
+
+We would be utilising Scrum for our project with James as Scrum Master. We would have time-boxed sprints of 2 weeks each time and use Jira as our productivity tool for our scrum boards. Additionally, Sprint Retrospectives will be conducted at the end of each Sprint to review team performance, reflect on what went well, and improve on teamwork and collaboration for subsequent sprints.
+
+## Resources
+
+### Datasets
+
+-   **GeoFabrik/OpenStreetMap: [Shapefiles](https://download.geofabrik.de/asia/malaysia-singapore-brunei.html)** containing information about POIs, Transport Infrastructure, Roads & Paths, Essential Amenities, etc.
+
+-   **URA datasets:** for specific data related to desire lines and paths not found in traditional geospatial datasets (e.g. paths through HDB void decks)
+
+-   **Data.gov.sg: [Geospatial data](https://beta.data.gov.sg/collections?formats=KML%7CKMZ&sort=Last%20updated)** containing information about the Master Plan of Singapore (e.g. zoning, planning areas) and related census data.
+
+-   **SingStat (example datasets):**
+
+    -   [**Population Trends**](https://www.singstat.gov.sg/publications/population/population-trends) (Singapore Residents by Planning Area, Subzone, Age Group, Sex and Type of Dwelling, Jun2023)
+
+    -   [**Resident Households By Type Of Dwelling**](https://www.singstat.gov.sg/-/media/files/find_data/population/statistical_tables/hsetod2023.ashx)(Type of Dwelling-Dwelling Count as at Jun2023 by Planning Area, Subzone)
+
+    -   [**Resident Population Aged 5 Years and Over by Planning Area of Residence**](https://www.singstat.gov.sg/publications/reference/cop2020/cop2020-sr2/census20_stat_release2) (Level of Difficulty in Performing Basic Activity in Specific Domain and Age Group, Singapore Census of Population 2020)
+
+### Technologies
+
+-   **Programming Languages:** Python (including pandas), HTML, CSS, JavaScript 
+
+-   **Web Development Stack:** WAMP, development libraries
+
+-   **Tools/Platforms:** QGIS/ArcGIS, Jupyter Notebook, Tableau, GitHub, Jira
+
+-   **Techniques:** Clustering, Network Analysis & Centrality, Geoprocessing, Pedestrian Route Directness (PRD) ratio

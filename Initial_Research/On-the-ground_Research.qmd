@@ -1,0 +1,28 @@
+---
+title: "On-the-ground Research"
+date: "`r Sys.Date()`"
+format: html
+execute: 
+  message: false
+  warning: false
+  freeze: true
+editor: visual
+---
+
+Through comprehensive on-the-ground research and interviews with residents, we have gathered valuable insights into the pedestrian experience and connectivity within these vibrant communities. Our analysis aims to delve into various aspects such as amenities, walking experience and transportation accessibility to identify areas for improvement and innovation.
+
+Below, we will summarize our findings and analysis for Ang Mo Kio and Punggol, offering valuable insights into their current walkability status and potential avenues for enhancement. Stay tuned as we uncover key trends and opportunities to create more pedestrian-friendly and livable neighborhoods in Ang Mo Kio and Punggol.
+
+# Ang Mo Kio 
+
+Click [here](AMK.html) to find about more!
+
+Click [here](AMK.html) to find about more!
+
+![](amk.jpg){fig-align="center"}
+
+# Punggol
+
+Click [here](PG.html) to find about more!
+
+![](our-towns-punggol-3.png){fig-align="center"}

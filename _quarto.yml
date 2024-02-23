@@ -2,16 +2,49 @@ project:
   type: website
 
 website:
-  title: "FYP_New"
+  title: "32_Step_Ahead_Solutions"
   navbar:
-    left:
+    left: 
+      - text: Proposal
+        menu: 
+          - text: Our Proposal
+            href: "Proposal/fyp_proposal.html"
+          
+      - text: Research  
+        menu: 
+          - text: Literature Review
+            href: "Initial_Research/Literature_Review.html"
+          - text: On-the-ground Research
+            href: "Initial_Research/On-the-ground_Research.html"
+          - text: Ang Mo Kio
+            href: "Initial_Research/AMK.html"
+          - text: Punggol
+            href: "Initial_Research/PG.html"
+          
+            
+      - text: Data Exploration
+        menu: 
+          - text: BA
+            href: "Data Exploration/BA/BA.html"
+          - text: SMT
+            href: "Data Exploration/"
+          
+      - text: Analysis 
+        menu: 
+          - text: Demographics Analysis
+            href: "Analysis/Demographic Analysis/demo.html"
+          - text: Geospatial Analysis
+            href: "Analysis/Geographic Analysis/Geographic-Analysis.html"
+    
+    right:
       - href: index.qmd
         text: Home
-      - about.qmd
+      #href: about.qmd
+      #text: About us 
 
 format:
   html:
-    theme: cosmo
+    theme: lumen
     css: styles.css
     toc: true
 

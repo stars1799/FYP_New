@@ -1,0 +1,120 @@
+---
+title: "On-the-ground Research: Ang Mo Kio"
+date: "`r Sys.Date()`"
+format: html
+execute: 
+  message: false
+  warning: false
+  freeze: true
+editor: visual
+---
+
+# 1st On-the-ground Research: Kebun Baru
+
+Conducted on: 29/1/2024
+
+Members: James, Karina, Shanelle
+
+Total No. of desired lines found: 7
+
+## Kebun Baru
+
+![](images/clipboard-94001109.png)
+
++---------------------------------------+------------------------------------+
+| ### Locational Characteristic:        | ### Key Amenities:                 |
++---------------------------------------+------------------------------------+
+| -   Northern part of Singapore        | -   Mayflower MRT Station          |
+|                                       |                                    |
+| -   Quite hilly, numerous uphill walk | -   Mayflower Market & Food Centre |
+|                                       |                                    |
+| -   Most HDB building built in 1980s  | -   Kebun Baru Community Club      |
++---------------------------------------+------------------------------------+
+
+### Desire Lines
+
+### Examples:
+
+| Discription                         | Photos                             |
+|-------------------------------------|------------------------------------|
+| Commonly found nearby road crossing | ![](images/clipboard-60905207.png) |
+|                                     |                                    |
+|                                     |                                    |
+
+# 2nd On-the-ground Research: AMK Hub
+
+Conducted on: 21/2/2024
+
+Members: James, Karina, Shanelle, Yao Quan, Alvin
+
+Total No. of desired lines found: ??
+
+![](images/IMG_0329.PNG)
+
++---------------------------------------+----------------------------------------------------------------------------------------------------+
+| ### Locational Characteristic:        | ### Key Amenities:                                                                                 |
++---------------------------------------+----------------------------------------------------------------------------------------------------+
+| -   Northern part of Singapore        | -   Ang Mo Kio MRT Station                                                                         |
+|                                       |                                                                                                    |
+| -   Quite hilly, numerous uphill walk | -   Ang Mo Kio Bus Interchange                                                                     |
+|                                       |                                                                                                    |
+| -   Most HDB building built in 1980s  | -   Ang Mo Kio Hub                                                                                 |
+|                                       |                                                                                                    |
+|                                       | -   Hawker Centres: Choon Boon Market and Food Centre, Cheng San Market and Cook Food Centre, etc. |
++---------------------------------------+----------------------------------------------------------------------------------------------------+
+
+### Desire Lines
+
+### Examples:
+
++-----------------------------------+--------------------------------------+
+| Discription                       | Photos                               |
++===================================+======================================+
+| Commonly found near road crossing | ![](images/clipboard-1756411319.png) |
+|                                   |                                      |
+|                                   | ![](images/clipboard-41294998.png)   |
++-----------------------------------+--------------------------------------+
+| Commonly found near carparks      | ![](images/clipboard-1190717585.png) |
+|                                   |                                      |
+|                                   | ![](images/clipboard-3398062726.png) |
++-----------------------------------+--------------------------------------+
+|                                   |                                      |
++-----------------------------------+--------------------------------------+
+
+## Interview with Residents:
+
++--------------------------------------------------+-----------------------------+-----------------------------------------------------------------------------------------------------+
+| Demographics                                     | Overall Walking Experience: | Views on existing walking paths:                                                                    |
++==================================================+=============================+=====================================================================================================+
+| ![](images/clipboard-2804988194.png){width="97"} | Pleasant                    | -   Amenities are very accessible around the neighbourhood (e.g. AMK Hub, food courts, supermarket) |
+|                                                  |                             |                                                                                                     |
+| 75-80 years old woman                            |                             | -   Sufficient sheltered walkways so far                                                            |
+|                                                  |                             |                                                                                                     |
+|                                                  |                             | -   Does not feel the neighbourhood need any improvement at all                                     |
+|                                                  |                             |                                                                                                     |
+|                                                  |                             | -   Would not walk on the desired paths (e.g. grasses) –\> very dangerous for elderly               |
++--------------------------------------------------+-----------------------------+-----------------------------------------------------------------------------------------------------+
+|                                                  |                             |                                                                                                     |
++--------------------------------------------------+-----------------------------+-----------------------------------------------------------------------------------------------------+
+
+# Observations:
+
+Before going to AMK, our group assumed that there would be quite a lot of desired paths within the neighborhood as AMK has quite of history. Indeed, it is surprisingly found that there are not much desired paths around the area from our 2 on-the-ground research.
+
+#### [In terms of walkability:]{.underline}
+
+-   Desired paths are commonly found nearby existing traffic light crossroad
+
+    Assumption: Long waiting time for traffic lights reduce the patience of residents to cross safely
+
+-   Jaywalking are common within the neighborhood
+
+    Assumption: The current designed paths are not the most direct path → residents tend to find a shortcut by themselves
+
+### [**In terms of amenities:**]{.underline}
+
+-   Eateries/ Clinics are usually located below the the HDB blocks 
+
+-   Reachable in walking distances within 5-10 minutes 
+
+-   Low variety of amenities within the neighborhood: lack of parks/ recreational facilities 
