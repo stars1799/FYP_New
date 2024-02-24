@@ -602,7 +602,7 @@ plot(density(edl_a_ppp,
      main = "Ang Mo Kio Desired Lines diggle")
 
 # Chart 4
-plot(density(edl_amk_ppp,
+plot(density(edl_a_ppp,
              sigma = bw.ppl,
              edge = TRUE,
              kernel = "gaussian"),
