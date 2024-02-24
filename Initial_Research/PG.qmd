@@ -23,7 +23,7 @@ Total No. of desired lines found: 39
 | ![](images/clipboard-1420105062.png) | ![](images/clipboard-924838719.png) |
 +--------------------------------------+-------------------------------------+
 
-### Reasons for choosing this area: 
+### Reasons for choosing this area:
 
 -   has a good range of amenities
 
@@ -43,7 +43,7 @@ Total No. of desired lines found: 39
 
 ### Desired Lines
 
-### Example:
+### Examples
 
 +----------------------------------------------------+--------------------------------------+
 | Description                                        | Photos                               |
@@ -65,7 +65,7 @@ Total No. of desired lines found: 39
 |                                                    | ![](images/clipboard-150381246.png)  |
 +----------------------------------------------------+--------------------------------------+
 
-## Interviewing with Residents:
+## Interviewing with Residents
 
 +--------------------------------------------------+---------------------------------+-----------------------------------------------------------------------------------------------------+
 | Demographics                                     | **Overall Walking Experience:** | **Things to be improved:**                                                                          |
@@ -83,7 +83,7 @@ Total No. of desired lines found: 39
 | 34 years old woman, housewife with 1 child       |                                 |                                                                                                     |
 +--------------------------------------------------+---------------------------------+-----------------------------------------------------------------------------------------------------+
 
-## Observations from Punggol West:
+# Observations
 
 [**In terms of walkability:**]{.underline}
 
