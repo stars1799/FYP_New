@@ -3,47 +3,54 @@ title: "Geospatial Analysis using OneMap Data"
 execute: 
   warning: false
 date: "`r Sys.Date()`"
+code: false
 ---
 
 # Data Analysis
 
-please work!!
-
 ```{r}
-#| eval: false
 pacman::p_load(arrow, lubridate, maptools, sp, sf, raster, spatstat, tmap, classInt, viridis, tidyverse, spNetwork)
 ```
 
 Reading shapefiles that were exported from our qgis geopackage:
 
 ```{r}
-#| eval: false
-desired_lines <- st_read(dsn = "data/geospatial", 
-                 layer = "desired_lines")
+pg_wdl <- st_read(dsn = "data/geospatial", 
+                 layer = "pg_wdl")
+amk_wdl <- st_read(dsn = "data/geospatial", 
+                 layer = "wdl_amk")
 ```
 
 ```{r}
-#| eval: false
 dl_pg <- st_read(dsn = "data/geospatial", 
-                 layer = "dl_pg")
+                 layer = "pg_dl")
+dl_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "dl_amk")
 ```
 
 ```{r}
-#| eval: false
-plot(desired_lines)
+#| echo: false
+plot(dl_amk)
 ```
 
 ```{r}
-#| eval: false
-plot(dl_pg)
+#| echo: false
+edl_pg_points <- st_centroid(dl_pg, n = 10)
+plot(edl_pg_points)
 ```
 
 ```{r}
-#| eval: false
+#| echo: false
+edl_amk_points <- st_centroid(dl_amk, n = 10)
+plot(edl_amk_points)
+```
+
+```{r}
+#| echo: false
 # Define colors based on the value of the "fclass" column
-line_colors <- ifelse(dl_pg$fclass == "dl", "red", "green")
+line_colors <- ifelse(pg_wdl$fclass == "dl", "red", "green")
 
-dl_class <- dl_pg["fclass"]
+dl_class <- pg_wdl["desired_li"]
 
 # Plot with custom colors
 plot(dl_class, col = line_colors, main = "Desired Lines in Punggol")
@@ -56,7 +63,299 @@ library(ggmap)
 ```
 
 ```{r}
-#| eval: false
+#dl_map2 <- osm_basemap +
+#  tm_shape(dl_class) +
+#  tm_lines(line_colors)
+#  tmap_options(check.and.fix = TRUE)
+
+# View the map
+#dl_map2
+```
+
+```{r}
+target_buildings <- st_read(dsn = "data/geospatial", 
+                 layer = "target_buildings")
+```
+
+```{r}
+#| echo: false
+st_crs(target_buildings)
+```
+
+```{r}
+tb_cat <- target_buildings["Categorize"]
+```
+
+```{r}
+#| echo: false
+plot(tb_cat, key.width = lcm(6.32))
+```
+
+```{r}
+#| echo: false
+mpsz <- st_read(dsn = "data/geospatial/MPSZ", layer = "MPSZ-2019")
+```
+
+```{r}
+#| echo: false
+st_crs(mpsz)
+```
+
+```{r}
+mpsz3414 <- st_transform(mpsz, 3414)
+```
+
+```{r}
+#| echo: false
+st_crs(mpsz3414)
+```
+
+```{r}
+#| echo: false
+plot(mpsz3414)
+```
+
+```{r}
+#| echo: false
+plot(st_geometry(mpsz3414))
+```
+
+```{r}
+#| echo: false
+plot(mpsz3414["PLN_AREA_N"])
+```
+
+```{r}
+pa_mpsz <- mpsz3414["PLN_AREA_N"]
+```
+
+```{r}
+mpsz2 <- as_Spatial(pa_mpsz)
+```
+
+extracting study areas:
+
+```{r}
+pg = mpsz2[mpsz2@data$PLN_AREA_N == "PUNGGOL",]
+amk = mpsz2[mpsz2@data$PLN_AREA_N == "ANG MO KIO",]
+```
+
+```{r}
+#| echo: false
+par(mfrow=c(2,2), mar = c(4, 4, 2, 1))
+plot(pg, main = "Punggol")
+plot(amk, main = "Ang Mo Kio")
+```
+
+```{r}
+pg_sp = as(pg, "SpatialPolygons")
+amk_sp = as(amk, "SpatialPolygons")
+```
+
+```{r}
+pg_owin = as(pg_sp, "owin")
+amk_owin = as(amk_sp, "owin")
+```
+
+```{r}
+edl_pg_points_sf <- st_as_sf(edl_pg_points)
+```
+
+```{r}
+edl_coords <- st_coordinates(edl_pg_points_sf)
+
+# Create an owin object from the coordinates
+edl_pg_owin <- owin(xrange = range(edl_coords[,1]), yrange = range(edl_coords[,2]))
+```
+
+```{r}
+edl_amk_points_sf <- st_as_sf(edl_amk_points)
+```
+
+```{r}
+amk_edl_coords <- st_coordinates(edl_amk_points_sf)
+
+# Create an owin object from the coordinates
+edl_amk_owin <- owin(xrange = range(amk_edl_coords[,1]), yrange = range(amk_edl_coords[,2]))
+```
+
+```{r}
+#| echo: false
+edl_pg_ppp <- as.ppp(st_coordinates(edl_pg_points_sf), st_bbox(edl_pg_points_sf))
+plot(edl_pg_ppp)
+```
+
+```{r}
+#| echo: false
+edl_amk_ppp <- as.ppp(st_coordinates(edl_amk_points_sf), st_bbox(edl_amk_points_sf))
+plot(edl_amk_ppp)
+```
+
+```{r}
+edl_pg_ppp = edl_pg_ppp[pg_owin]
+edl_a_ppp = edl_amk_ppp[amk_owin]
+```
+
+```{r}
+#| echo: false
+par(mfrow=c(2,2))
+par(mar = c(3,3,2,1))
+plot(edl_pg_ppp, main= "Desired Lines Punggol")
+```
+
+```{r}
+#| echo: false
+plot(density(edl_pg_ppp,
+             sigma=bw.CvL,
+             edge=TRUE,
+             kernel="gaussian"),
+             main="Punggol Desired Lines CvL")
+```
+
+```{r}
+#| echo: false
+plot(density(edl_pg_ppp,
+             sigma=bw.scott,
+             edge=TRUE,
+             kernel="gaussian"),
+             main="Punggol Desired Lines scott")
+```
+
+```{r}
+#| echo: false
+plot(density(edl_pg_ppp,
+             sigma=bw.diggle,
+             edge=TRUE,
+             kernel="gaussian"),
+             main="Punggol Desired Lines diggle")
+```
+
+```{r}
+#| echo: false
+plot(density(edl_pg_ppp,
+             sigma=bw.ppl,
+             edge=TRUE,
+             kernel="gaussian"),
+             main="Punggol Desired Lines ppl")
+```
+
+```{r}
+class(pg)
+```
+
+```{r}
+pg_sf <- st_as_sf(pg)
+amk_sf <- st_as_sf(amk)
+```
+
+```{r}
+pg_buildings <- st_intersection(pg_sf, tb_cat)
+amk_buildings <- st_intersection(amk_sf, tb_cat)
+```
+
+```{r}
+#| echo: false
+pg_b_cat <- pg_buildings["Categorize"]
+plot(pg_b_cat, key.width = lcm(6.32))
+```
+
+```{r}
+#| echo: false
+amk_b_cat <- amk_buildings["Categorize"]
+plot(amk_b_cat, key.width = lcm(6.32))
+```
+
+```{r}
+library(ggplot2)
+#install.packages("ggmap")
+library(ggmap)
+```
+
+```{r}
+landuse_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_target_landuse_PG")
+landuse_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_target_landuse_AMK")
+```
+
+```{r}
+landuse_pg_desc <- (landuse_pg["descriptio"])
+```
+
+```{r}
+plot(landuse_amk["descriptio"])
+```
+
+```{r}
+plot(landuse_pg_desc)
+```
+
+```{r}
+landuse_pg_sf <- st_as_sf(landuse_pg)
+landuse_amk_sf <- st_as_sf(landuse_amk)
+```
+
+```{r}
+landuse_pg_sf <- st_make_valid(landuse_pg_sf)
+valid_pg <- st_make_valid(pg_sf)
+valid_amk <- st_make_valid(amk_sf)
+```
+
+```{r}
+pg_landuse <- st_intersection(valid_pg, landuse_pg_sf)
+amk_landuse <- st_intersection(valid_amk, landuse_amk_sf)
+```
+
+# Punggol Buildings Chart
+
+```{r}
+pg_b_cat <- pg_buildings["Categorize"]
+plot(pg_b_cat, key.width = lcm(6.32))
+```
+
+# Punggol Buildings Chart on OSM Layer
+
+```{r}
+tmap_mode('view')
+# Define basemaps
+osm_basemap <- tm_basemap(server = "OpenStreetMap.HOT")
+imagery_basemap <- tm_basemap(server = "Esri.WorldImagery")
+
+# Plot pg_b_cat over OpenStreetMap basemap with color categorization and legend
+pg_b_cat_map2 <- tm_shape(pg_b_cat) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "Categorize", title = "Building Category") +  # Color categorization
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_b_cat_map2
+```
+
+# Ang Mo Kio Buildings Chart
+
+```{r}
+amk_b_cat <- amk_buildings["Categorize"]
+plot(amk_b_cat, key.width = lcm(6.32))
+```
+
+# Ang Mo Kio Buildings Chart on OSM Layer
+
+```{r}
+# Plot pg_b_cat over OpenStreetMap basemap with color categorization and legend
+amk_b_cat_map <- tm_shape(amk_b_cat) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "Categorize", title = "Building Category") +  # Color categorization
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+amk_b_cat_map
+```
+
+# Punggol Walkway Lines + Desired Lines on OSM Layer
+
+```{r}
 tmap_mode('view')
 
 # Define basemaps
@@ -73,107 +372,175 @@ dl_map <- osm_basemap +
 dl_map
 ```
 
+# Ang Mo Kio Walkway Lines + Desired Lines on OSM Layer
+
 ```{r}
-#| eval: false
-# Plot dl_class over OpenStreetMap basemap with custom colors
-dl_map2 <- osm_basemap +
-  tm_shape(dl_class) +
-  tm_lines(col = ifelse(dl_pg$fclass == "dl", "red", "green"), lwd = 2) +  # Include color logic here
+a_dl_class <- amk_wdl["desired_li"]
+tmap_mode('view')
+
+# Define basemaps
+osm_basemap <- tm_basemap(server = "OpenStreetMap.HOT")
+imagery_basemap <- tm_basemap(server = "Esri.WorldImagery")
+
+# Plot dl_class over OpenStreetMap basemap
+dl_map <- osm_basemap +
+  tm_shape(a_dl_class) +
+  tm_lines(col = "red", lwd = 2) +  # Adjust line color and width as needed
   tmap_options(check.and.fix = TRUE)
 
 # View the map
-dl_map2
+dl_map
+```
+
+# Punggol Desired Lines vs Walkway Lines
+
+```{r}
+# Define colors based on the value of the "fclass" column
+line_colors <- ifelse(pg_wdl$fclass == "dl", "red", "green")
+
+dl_class <- pg_wdl["desired_li"]
+
+# Plot with custom colors
+plot(dl_class, col = line_colors, main = "Desired Lines in Punggol")
+```
+
+# Ang Mo Kio Desired Lines vs Walkway Lines
+
+```{r}
+# Define colors based on the value of the "fclass" column
+line_colors <- ifelse(amk_wdl$fclass == "dl", "red", "green")
+
+a_dl_class <- amk_wdl["desired_li"]
+
+# Plot with custom colors
+plot(a_dl_class, col = line_colors, main = "Desired Lines in Ang Mo Kio")
+```
+
+# Punggol Desired Lines on OSM Layer
+
+```{r}
+tmap_mode('view')
+
+# Define basemaps
+osm_basemap <- tm_basemap(server = "OpenStreetMap.HOT")
+imagery_basemap <- tm_basemap(server = "Esri.WorldImagery")
+
+# Plot dl_class over OpenStreetMap basemap
+dl_map <- osm_basemap +
+  tm_shape(dl_pg) +
+  tm_lines(col = "red", lwd = 2) +  # Adjust line color and width as needed
+  tmap_options(check.and.fix = TRUE)
+
+# View the map
+dl_map
+```
+
+# Ang Mo Kio Desired Lines on OSM Layer
+
+```{r}
+tmap_mode('view')
+
+# Define basemaps
+osm_basemap <- tm_basemap(server = "OpenStreetMap.HOT")
+imagery_basemap <- tm_basemap(server = "Esri.WorldImagery")
+
+# Plot dl_class over OpenStreetMap basemap
+dl_map_amk <- osm_basemap +
+  tm_shape(dl_amk) +
+  tm_lines(col = "red", lwd = 2) +  # Adjust line color and width as needed
+  tmap_options(check.and.fix = TRUE)
+
+# View the map
+dl_map_amk
 ```
 
 ```{r}
-#| eval: false
-target_buildings <- st_read(dsn = "data/geospatial", 
-                 layer = "target_buildings")
+# Set up a 2x2 layout with reduced margins
+par(mfrow = c(2, 2), mar = c(2, 2, 2, 2))
+
+# Chart 1
+plot(density(edl_pg_ppp,
+             sigma = bw.CvL,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Punggol Desired Lines CvL")
+
+# Chart 2
+plot(density(edl_pg_ppp,
+             sigma = bw.scott,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Punggol Desired Lines scott")
+
+# Chart 3
+plot(density(edl_pg_ppp,
+             sigma = bw.diggle,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Punggol Desired Lines diggle")
+
+# Chart 4
+plot(density(edl_pg_ppp,
+             sigma = bw.ppl,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Punggol Desired Lines ppl")
 ```
 
 ```{r}
-#| eval: false
-st_crs(target_buildings)
+# Set up a 2x2 layout with reduced margins
+par(mfrow = c(2, 2), mar = c(2, 2, 2, 2))
+
+# Chart 1
+plot(density(edl_amk_ppp,
+             sigma = bw.CvL,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Ang Mo Kio Desired Lines CvL")
+
+# Chart 2
+plot(density(edl_amk_ppp,
+             sigma = bw.scott,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Ang Mo Kio Desired Lines scott")
+
+# Chart 3
+plot(density(edl_amk_ppp,
+             sigma = bw.diggle,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Ang Mo Kio Desired Lines diggle")
+
+# Chart 4
+plot(density(edl_amk_ppp,
+             sigma = bw.ppl,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Ang Mo Kio Desired Lines ppl")
 ```
 
 ```{r}
-#| eval: false
-tb_cat <- target_buildings["Categorize"]
+
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+pg_landuse_map <- tm_shape(pg_landuse) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_landuse_map
 ```
 
 ```{r}
-#| eval: false
-plot(tb_cat, key.width = lcm(6.32))
-```
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+amk_landuse_map <- tm_shape(amk_landuse) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
 
-```{r}
-#| eval: false
-mpsz <- st_read(dsn = "data/geospatial/MPSZ", layer = "MPSZ-2019")
-```
-
-```{r}
-#| eval: false
-st_crs(mpsz)
-```
-
-```{r}
-#| eval: false
-mpsz3414 <- st_transform(mpsz, 3414)
-```
-
-```{r}
-#| eval: false
-st_crs(mpsz3414)
-```
-
-```{r}
-#| eval: false
-plot(mpsz3414)
-```
-
-```{r}
-#| eval: false
-plot(st_geometry(mpsz3414))
-```
-
-```{r}
-#| eval: false
-plot(mpsz3414["PLN_AREA_N"])
-```
-
-```{r}
-#| eval: false
-mpsz2 <- as_Spatial(mpsz3414)
-```
-
-extracting study areas:
-
-```{r}
-#| eval: false
-pg = mpsz2[mpsz2@data$PLN_AREA_N == "PUNGGOL",]
-amk = mpsz2[mpsz2@data$PLN_AREA_N == "ANG MO KIO",]
-```
-
-```{r}
-#| eval: false
-par(mfrow=c(2,2), mar = c(4, 4, 2, 1))
-plot(pg, main = "Punggol")
-plot(amk, main = "Ang Mo Kio")
-```
-
-```{r}
-#| eval: false
-st_crs(pg)
-```
-
-```{r}
-#| eval: false
-pg_sp = as(pg, "SpatialPolygons")
-amk_sp = as(amk, "SpatialPolygons")
-```
-
-```{r}
-#| eval: false
-pg_owin = as(pg_sp, "owin")
-amk_owin = as(amk_sp, "owin")
+# View the map
+amk_landuse_map
 ```

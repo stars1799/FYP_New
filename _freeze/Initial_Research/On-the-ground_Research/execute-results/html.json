@@ -1,0 +1,14 @@
+{
+  "hash": "d67d8717e55db963f72706fd6ab7b35a",
+  "result": {
+    "markdown": "---\ntitle: \"On-the-ground Research\"\ndate: \"2024-02-24\"\nformat: html\nexecute: \n  message: false\n  warning: false\n  freeze: true\neditor: visual\n---\n\n\nThrough comprehensive on-the-ground research and interviews with residents, we have gathered valuable insights into the pedestrian experience and connectivity within these vibrant communities. Our analysis aims to delve into various aspects such as amenities, walking experience and transportation accessibility to identify areas for improvement and innovation.\n\nBelow, we will summarize our findings and analysis for Ang Mo Kio and Punggol, offering valuable insights into their current walkability status and potential avenues for enhancement. Stay tuned as we uncover key trends and opportunities to create more pedestrian-friendly and livable neighborhoods in Ang Mo Kio and Punggol.\n\n# Ang Mo Kio\n\nClick [here](AMK.html) to find about more!\n\n![](amk.jpg){fig-align=\"center\"}\n\n# Punggol\n\nClick [here](PG.html) to find about more!\n\n![](our-towns-punggol-3.png){fig-align=\"center\"}\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
