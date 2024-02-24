@@ -642,6 +642,8 @@ amk_landuse_map <- tm_shape(amk_landuse) +
 amk_landuse_map
 ```
 
+From the land use map of Ang Mo Kio, a clear distinction emerges between residential areas, with private houses represented by small polygons, and public housing estates depicted as larger polygons. This straightforward visualization aids in comprehending the land use distribution within our study area, offering valuable insights into urban planning and development.
+
 # Isotope Areas on Key Amenities
 
 ## Study on Punggol Area Key Amenities
