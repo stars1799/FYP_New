@@ -21,6 +21,12 @@ Total No. of desired lines found: 7
 
 ![](images/clipboard-94001109.png)
 
+### Reasons for choosing this area: 
+
+-   a majority of HDB blocks are built in 1980s
+
+-   has a good range of amenities
+
 +---------------------------------------+------------------------------------+
 | ### Locational Characteristic:        | ### Key Amenities:                 |
 +---------------------------------------+------------------------------------+
@@ -35,15 +41,15 @@ Total No. of desired lines found: 7
 
 ### Examples:
 
-+-------------------------------------+------------------------------------+
-| Discription                         | Photos                             |
-+=====================================+====================================+
-| Commonly found nearby road crossing | ![](images/clipboard-60905207.png) |
-+-------------------------------------+------------------------------------+
-|                                     |                                    |
-+-------------------------------------+------------------------------------+
-|                                     |                                    |
-+-------------------------------------+------------------------------------+
++-------------------------------------+--------------------------------------+
+| Discription                         | Photos                               |
++=====================================+======================================+
+| Commonly found nearby road crossing | ![](images/clipboard-60905207.png)   |
+|                                     |                                      |
+|                                     | ![](images/clipboard-1009673196.png) |
++-------------------------------------+--------------------------------------+
+| Commonly found nearby carpark       | ![](images/clipboard-1598676609.png) |
++-------------------------------------+--------------------------------------+
 
 # 2nd On-the-ground Research: AMK Hub
 
@@ -51,9 +57,15 @@ Conducted on: 21/2/2024
 
 Members: James, Karina, Shanelle, Yao Quan, Alvin
 
-Total No. of desired lines found: ??
+Total No. of desired lines found: 21
 
 ![](images/IMG_0329.PNG)
+
+### Reasons for choosing this area: 
+
+-   central part of the Ang Mo Kio region
+
+-   has a good range of amentities
 
 +---------------------------------------+----------------------------------------------------------------------------------------------------+
 | ### Locational Characteristic:        | ### Key Amenities:                                                                                 |
@@ -77,6 +89,8 @@ Total No. of desired lines found: ??
 | Commonly found near road crossing | ![](images/clipboard-1756411319.png) |
 |                                   |                                      |
 |                                   | ![](images/clipboard-41294998.png)   |
+|                                   |                                      |
+|                                   | ![](images/clipboard-716426334.png)  |
 +-----------------------------------+--------------------------------------+
 | Commonly found near carparks      | ![](images/clipboard-1190717585.png) |
 |                                   |                                      |
@@ -121,4 +135,4 @@ Before going to AMK, our group assumed that there would be quite a lot of desire
 
 -   Reachable in walking distances within 5-10 minutes 
 
--   Low variety of amenities within the neighborhood: lack of parks/ recreational facilities 
+-   Lack of parks/ recreational facilities: mostly are residential buildings
