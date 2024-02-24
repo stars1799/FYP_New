@@ -133,7 +133,6 @@ pa_mpsz <- mpsz3414["PLN_AREA_N"]
 mpsz2 <- as_Spatial(pa_mpsz)
 ```
 
-
 ```{r}
 pg = mpsz2[mpsz2@data$PLN_AREA_N == "PUNGGOL",]
 amk = mpsz2[mpsz2@data$PLN_AREA_N == "ANG MO KIO",]
@@ -362,14 +361,29 @@ amk_food <- st_intersection(valid_amk, food_amk_sf)
 amk_smarket <- st_intersection(valid_amk, smarket_amk_sf)
 ```
 
-# Punggol Buildings Chart
+# Buildings Chart
+
+These 2 maps visually represents the categorization of buildings based on color codes, providing insights into the distribution and diversity of building types within the area of interest.
+
+## Punggol Buildings Chart
 
 ```{r}
 pg_b_cat <- pg_buildings["Categorize"]
 plot(pg_b_cat, key.width = lcm(6.32))
 ```
 
-# Punggol Buildings Chart on OSM Layer
+## Ang Mo Kio Buildings Chart
+
+```{r}
+amk_b_cat <- amk_buildings["Categorize"]
+plot(amk_b_cat, key.width = lcm(6.32))
+```
+
+# Buildings Chart on OSM Layer
+
+These 2 maps overlays color-coded building categorization onto an OpenStreetMap (OSM) layer, enabling users to explore both the geographical distribution of buildings and their respective categories while retaining the ability to zoom in for detailed views and identification of individual building names.
+
+## Punggol Buildings Chart on OSM Layer
 
 ```{r}
 tmap_mode('view')
@@ -388,14 +402,7 @@ pg_b_cat_map2 <- tm_shape(pg_b_cat) +
 pg_b_cat_map2
 ```
 
-# Ang Mo Kio Buildings Chart
-
-```{r}
-amk_b_cat <- amk_buildings["Categorize"]
-plot(amk_b_cat, key.width = lcm(6.32))
-```
-
-# Ang Mo Kio Buildings Chart on OSM Layer
+## Ang Mo Kio Buildings Chart on OSM Layer
 
 ```{r}
 # Plot pg_b_cat over OpenStreetMap basemap with color categorization and legend
@@ -409,7 +416,11 @@ amk_b_cat_map <- tm_shape(amk_b_cat) +
 amk_b_cat_map
 ```
 
-# Punggol Walkway Lines + Desired Lines on OSM Layer
+# Walkway Lines on OSM Layer
+
+These 2 maps overlays the walkways onto an OpenStreetMap (OSM) layer, enabling users to explore both the designed walkways and their respective categories while retaining the ability to zoom in for detailed views.
+
+## Punggol Walkway Lines on OSM Layer
 
 ```{r}
 tmap_mode('view')
@@ -428,7 +439,7 @@ dl_map <- osm_basemap +
 dl_map
 ```
 
-# Ang Mo Kio Walkway Lines + Desired Lines on OSM Layer
+## Ang Mo Kio Walkway Lines on OSM Layer
 
 ```{r}
 a_dl_class <- amk_wdl["desired_li"]
@@ -448,7 +459,11 @@ dl_map <- osm_basemap +
 dl_map
 ```
 
-# Punggol Desired Lines vs Walkway Lines
+# Desired Lines vs Walkway Lines
+
+These 2 maps aid in identifying potential problem areas within the estate by highlighting where desired lines intersect or deviate from the existing walkway network, facilitating targeted interventions or improvements.
+
+## Punggol Desired Lines vs Walkway Lines
 
 ```{r}
 # Define colors based on the value of the "fclass" column
@@ -460,7 +475,7 @@ dl_class <- pg_wdl["desired_li"]
 plot(dl_class, col = line_colors, main = "Desired Lines in Punggol")
 ```
 
-# Ang Mo Kio Desired Lines vs Walkway Lines
+## Ang Mo Kio Desired Lines vs Walkway Lines
 
 ```{r}
 # Define colors based on the value of the "fclass" column
@@ -472,7 +487,11 @@ a_dl_class <- amk_wdl["desired_li"]
 plot(a_dl_class, col = line_colors, main = "Desired Lines in Ang Mo Kio")
 ```
 
-# Punggol Desired Lines on OSM Layer
+# Desired Lines on OSM Layer
+
+These 2 maps pinpoints the locations of desired Lines within the urban landscape, shedding light on nearby facilities and potential factors influencing the emergence of these patterns.
+
+## Punggol Desired Lines on OSM Layer
 
 ```{r}
 tmap_mode('view')
@@ -491,7 +510,11 @@ dl_map <- osm_basemap +
 dl_map
 ```
 
-# Ang Mo Kio Desired Lines on OSM Layer
+In the map showcasing Punggol's desired lines on an OSM Layer, a notable observation that the main concentration of desired lines occur mainly at the main road infrastructure. In addition, areas with a higher occurrence of desired lines are typically found below HDB blocks as shown in the map. Through our on-the-ground scouting, we've noted that many of these designated lines lead to playgrounds, exercise corners, or roundabouts.
+
+This method of visual representation helped us to easily pinpoint and showcase the areas that have a heightened potential for desired line occurrences. This allows us to also direct more attention to these specific locations, enabling a more focused investigation into preventive measures aimed at mitigating the emergence of desired lines.
+
+## Ang Mo Kio Desired Lines on OSM Layer
 
 ```{r}
 tmap_mode('view')
@@ -510,7 +533,13 @@ dl_map_amk <- osm_basemap +
 dl_map_amk
 ```
 
-# Punggol Kernel Density Estimation Graphs
+Compared to the Punggol graph, the Ang Mo Kio graph depicts fewer and more dispersed desired lines. While the majority of desired lines are still situated along roads, their frequency is notably lower and more evenly distributed. Moreover, within the HDB estate itself, there is a noticeable absence of desired lines.
+
+# Kernel Density Estimation Graphs
+
+Kernel Density Estimation (KDE) is a technique employed to quantify the intensity of a point distribution. Utilizing KDE, we aim to assess the intensity of the desired line distribution and examine its spatial distribution across the area of interest.
+
+## Punggol Kernel Density Estimation Graphs
 
 ```{r}
 # Set up a 2x2 layout with reduced margins
@@ -545,7 +574,7 @@ plot(density(edl_pg_ppp,
      main = "Punggol Desired Lines ppl")
 ```
 
-# Ang Mo Kio Kernel Density Estimation Graphs
+## Ang Mo Kio Kernel Density Estimation Graphs
 
 ```{r}
 # Set up a 2x2 layout with reduced margins
@@ -580,7 +609,11 @@ plot(density(edl_amk_ppp,
      main = "Ang Mo Kio Desired Lines ppl")
 ```
 
-# Punggol Landuse on OSM Layer
+# Landuse on OSM Layer
+
+These 2 maps offers an insightful overview of the land use patterns across the area, allowing for a comprehensive understanding of how different spaces are utilized within the our area of study.
+
+## Punggol Landuse on OSM Layer
 
 ```{r}
 
@@ -595,7 +628,7 @@ pg_landuse_map <- tm_shape(pg_landuse) +
 pg_landuse_map
 ```
 
-# Ang Mo Kio Landuse on OSM Layer
+## Ang Mo Kio Landuse on OSM Layer
 
 ```{r}
 # Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
@@ -609,7 +642,11 @@ amk_landuse_map <- tm_shape(amk_landuse) +
 amk_landuse_map
 ```
 
-# Punggol Isotope Areas of Parks on OSM Layer (Key Amenities)
+# Isotope Areas on Key Amenities
+
+## Study on Punggol Area Key Amenities
+
+### Punggol Isotope Areas of Parks on OSM Layer (Key Amenities)
 
 ```{r}
 # Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
@@ -623,7 +660,7 @@ pg_parks_map <- tm_shape(pg_parks) +
 pg_parks_map
 ```
 
-# Punggol Isotope Areas of Healthcare on OSM Layer (Key Amenities)
+### Punggol Isotope Areas of Healthcare on OSM Layer (Key Amenities)
 
 ```{r}
 # Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
@@ -637,7 +674,7 @@ pg_healthcare_map <- tm_shape(pg_healthcare) +
 pg_healthcare_map
 ```
 
-# Punggol Isotope Areas of Food Places on OSM Layer (Key Amenities)
+### Punggol Isotope Areas of Food Places on OSM Layer (Key Amenities)
 
 ```{r}
 # Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
@@ -651,7 +688,7 @@ pg_food_map <- tm_shape(pg_food) +
 pg_food_map
 ```
 
-# Punggol Isotope Areas of Supermarkets on OSM Layer (Key Amenities)
+### Punggol Isotope Areas of Supermarkets on OSM Layer (Key Amenities)
 
 ```{r}
 # Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
@@ -665,7 +702,13 @@ pg_smarket_map <- tm_shape(pg_smarket) +
 pg_smarket_map
 ```
 
-# Ang Mo Kio Isotope Areas of Parks on OSM Layer (Key Amenities)
+Hawker centres in Punggol are generally sparse in Punggol, and is especially the case for areas which are further away from shopping malls and transport hubs like bus interchanges or MRT stations, which makes it a problem for elderly people who wish to find food places that are near to their residences. This is further supported by the network analysis of Punggol and our subsequent on-the-ground research in selected subzones in Punggol.
+
+However, other key amenities (i.e. polyclinics, supermarkets, and parks) are relatively more accessible, and there are sufficient supermarkets that cover residential areas within a 5 minute walking time. Elderly people who needs frequent healthcare checkups wouldn’t need to worry about a lack of polyclinics, as the walkways in the area facilitates more direct access to polyclinics.
+
+## Study on Ang Mo Kio Area Key Amenities
+
+### Ang Mo Kio Isotope Areas of Parks on OSM Layer (Key Amenities)
 
 ```{r}
 # Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
@@ -679,7 +722,7 @@ amk_parks_map <- tm_shape(amk_parks) +
 amk_parks_map
 ```
 
-# Ang Mo Kio Isotope Areas of Healthcare on OSM Layer (Key Amenities)
+### Ang Mo Kio Isotope Areas of Healthcare on OSM Layer (Key Amenities)
 
 ```{r}
 # Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
@@ -693,7 +736,7 @@ amk_healthcare_map <- tm_shape(amk_healthcare) +
 amk_healthcare_map
 ```
 
-# Ang Mo Kio Isotope Areas of Supermarkets on OSM Layer (Key Amenities)
+### Ang Mo Kio Isotope Areas of Supermarkets on OSM Layer (Key Amenities)
 
 ```{r}
 # Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
@@ -707,7 +750,7 @@ amk_smarket_map <- tm_shape(amk_smarket) +
 amk_smarket_map
 ```
 
-# Ang Mo Kio Isotope Areas of Food Places on OSM Layer (Key Amenities)
+### Ang Mo Kio Isotope Areas of Food Places on OSM Layer (Key Amenities)
 
 ```{r}
 # Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
@@ -721,8 +764,32 @@ amk_food_map <- tm_shape(amk_food) +
 amk_food_map
 ```
 
+The purpose of conducting this network analysis on Ang Mo Kio is to analyze the accessibility of key amenities for residents staying in the estate. We asked the question: for each key amenity, how many residential buildings are within 10 minutes walking time, and what proportion of those residential blocks are within a walking time of 5 minutes? Network analysis on were conducted on these key amenities:
 
+-   Food places (i.e. hawker centres)
 
+-   Healthcare facilities (i.e. polyclinics)
 
+-   Parks
 
+-   Supermarkets (e.g. NTUC Fairprice, Sheng Siong, etc)
 
+These 4 categories of amenities are prioritized for URA’s Land Use planning. Therefore, we utilized OpenStreetMap data to retrieve GIS road layers (i.e. walkable paths in Singapore), locations of key amenities, & locations of residential buildings to conduct this analysis. We then utilized the Iso-Area as Polygon algorithm from the QGIS Network Analysis Toolbox 3 (QNEAT3) library to generate the polygons. The critical parameters for the algorithm were set as follows:
+
+-   Selecting the paths that are walkable in the Vector layer representing network
+
+-   Start Points: For each category of key amenities, select 1 at random, which will be the start point of the polygon
+
+-   Size of Iso-Area: Time-based. For this project, we are study walking times of up to 10 minutes, which is equal to 600 seconds.
+
+-   Contour Interval: Time-based. For the purpose of our analysis, we are using time intervals of 2.5 mins, which is equal to 150 seconds.
+
+-   Path type to calculate: Fastest Path (time optimization).
+
+-   Setting the Default Speed as 4.44km/h, which is the average walking speed of Singaporeans.
+
+-   The rest of the parameters are left as their default values.
+
+For each category of amenities, we ran the algorithm for a total of 5 times, with the amenities chosen at random as start points for each iteration of the algorithm. This was done to investigate the accessibility of hawker centres in general and to ensure consistency in our network analysis. To further ensure consistency, each hawker centre were chosen as far apart from each other as possible, without any prior knowledge of its surrounding buildings, where is it situated, and its proximity to other residential buildings.
+
+From the network analysis, hawker centres in Ang Mo Kio cover a sufficient amount of residential buildings within a 5 minutes walking time. In our first example, this can be seen by the total number of residential buildings that are within the 2 innermost polygons, which is a total of 13 residential buildings. Repeated iterations of the algorithm showed similar results, which implied that most residents living in Ang Mo Kio will have little trouble finding eateries in their neighborhood. However, it is likely that the walking speed of most elderly people is slower than the average of 4.44km/h, which means that there are lesser residential areas that can be covered by food centres within a 5 minutes walking time. When considering Ang Mo Kio is geographically hilly in nature and has an aging population, it exacerbates the problem for the elderly in the area. Similar results can also be seen with supermarkets, parks, and polyclinics in Ang Mo Kio.
