@@ -130,14 +130,14 @@
     "href": "Analysis/Demographic Analysis/demo.html#hypothesis-4",
     "title": "Population Demographic Analysis",
     "section": "Hypothesis 4",
-    "text": "Hypothesis 4\n\nOver the years, there is an increase in the number of households which results in the ratio of people in a household to fall\n\n\nPurpose of Dashboard\nThis dashboard aims to provide a comprehensive overview by looking at the relationship between average household size and the total number of households.\n\nOverall Dashboard\nThe dashboard showcases the scatter plot of average household size and the total number of households. A trend line plotted has a p-value of <0.0001 which signifies that there is a real relationship between average household size and the total number of households. This is further supported by the line chart where we can see that over the years from 1981-2022 there is an increase in total number of households while the average household size, reflected by the colour of the line, becomes lighter, which implies that it is decreasing over the years."
+    "text": "Hypothesis 4\n\nOver the years, there is an increase in the number of households which results in the ratio of people in a household to fall\n\n\nPurpose of Dashboard\nThis dashboard aims to provide a comprehensive overview by looking at the relationship between average household size and the total number of households.\n\nOverall Dashboard\nThe dashboard showcases the scatter plot of average household size and the total number of households. A trend line plotted has a p-value of &lt;0.0001 which signifies that there is a real relationship between average household size and the total number of households. This is further supported by the line chart where we can see that over the years from 1981-2022 there is an increase in total number of households while the average household size, reflected by the colour of the line, becomes lighter, which implies that it is decreasing over the years."
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "Meet Our Team Members",
     "section": "",
-    "text": "James\n\n\nKarina\n\n\nShanelle\n\n\nAmanda\n\n\nYao Quan\n\n\nAlvin"
+    "text": "We are a dynamic team with 6 Information System students from SMU. Our team comprised of 3 students from 2 different majors: Business Analytics and Smart-City Management Technology.\n\nJames\n\n\nKarina\n\n\nShanelle\n\n\nAmanda\n\n\nYao Quan\n\n\nAlvin"
   },
   {
     "objectID": "Proposal/fyp_proposal.html",
@@ -194,5 +194,26 @@
     "title": "On-the-ground Research",
     "section": "",
     "text": "Below, we will summarize our findings and analysis for Ang Mo Kio and Punggol, offering valuable insights into their current walkability status and potential avenues for enhancement. Stay tuned as we uncover key trends and opportunities to create more pedestrian-friendly and livable neighborhoods in Ang Mo Kio and Punggol.\n\nAng Mo Kio\nClick here to find about more!\n\n\n\n\n\n\n\nPunggol\nClick here to find about more!"
+  },
+  {
+    "objectID": "Analysis/Demographic Analysis/demo.html#hypotheses-1-2",
+    "href": "Analysis/Demographic Analysis/demo.html#hypotheses-1-2",
+    "title": "Population Demographic Analysis",
+    "section": "",
+    "text": "Has there been a change in the demographic composition across age groups in Ang Mo Kio over the past decade?\nHas there been a change in the demographic composition across age groups in Punggol over the past decade?\n\n\n\nThis dashboard aims to provide a comprehensive overview by looking at factors such as age groups, gender, years etc for each area respectively.\n\n\nOverall, the trends suggest a shift in the demographic composition across age groups of child, middle aged and young adults in Ang Mo Kio. With a decrease in children and young adults, a steady increase in the elderly population, and a decline in the middle-aged population over the past decade. In terms of age group distribution in AMK, the highest population is in the age group 55-59, while the lowest is in the age group 85 and over. \nIn the age group trend of the nested group, the graph suggests a decreasing trend in the combined population of children and young adults, while the combined population of middle-aged and elderly individuals shows a slight increase with some fluctuations over the years. Generally, the male and female populations tend to be comparable, but there are a few age groups where one gender may slightly outnumber the other. The gender distribution appears relatively balanced in the younger age groups. As individuals age, the gender ratio may exhibit some variations, but in general, there is no significant skew toward one gender. In the older age groups, there is a trend of more females than males, especially in the 85 and over category.\n\n\n\nBased on the Age Group Trend chart in Punggol, there has been a notable change in the demographic composition across age groups in Punggol over the past decade with significant increases across all age groups over the past decade, suggesting a transformation in the demographic composition of the area. The highest population is in the age group 35-39 with 199,160 individuals, followed by the age group 30-34, with a total of 182,410 individuals. These age groups represent the peak working-age population. Overall, the chart indicates a substantial working-age population and a decreasing trend in older age groups. \nIn the nested chart, both groups, “Child + Young Adults” and “Middle Aged + Elderly,” experience significant population growth over the years, indicating demographic changes in these age categories. The overall trend indicates an increasing population in Punggol, with both younger and older age groups contributing to this growth. Lastly, the data suggests a generally balanced gender distribution across age groups, with some variations in specific age brackets. In the working-age groups, there are variations, with some age groups having more females (25-34), and others having more males (40-49)."
+  },
+  {
+    "objectID": "Analysis/Demographic Analysis/demo.html#hypothesis-5-6",
+    "href": "Analysis/Demographic Analysis/demo.html#hypothesis-5-6",
+    "title": "Population Demographic Analysis",
+    "section": "Hypothesis 5 & 6",
+    "text": "Hypothesis 5 & 6\n\nPurpose of Dashboard\nThis dashboard enables interactive exploration of the contingency table results to gain initial insights into relationships between age groups and dwelling types across Punggol and Ang Mo Kio. It enables users to interactively explore the contingency table results to gain initial insights into relationships between age groups and dwelling types across the two locations."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "23/24 T2 FYP - 32_Step_Ahead_Solutions",
+    "section": "",
+    "text": "Welcome to Our Final Year Project Website!\n\nGreetings and welcome to our final year project website!\nWe are a dynamic interdisciplinary team from Singapore Management University (SMU), comprising talented individuals from both the Business Analytics (BA) and Smart-City Management Technology (SMT) majors. Together, we are collaborating with the Urban Redevelopment Authority (URA) to revolutionize urban walkability within Singapore’s estates."
   }
 ]
