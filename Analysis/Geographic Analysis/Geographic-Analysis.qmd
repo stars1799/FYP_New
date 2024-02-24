@@ -133,7 +133,6 @@ pa_mpsz <- mpsz3414["PLN_AREA_N"]
 mpsz2 <- as_Spatial(pa_mpsz)
 ```
 
-extracting study areas:
 
 ```{r}
 pg = mpsz2[mpsz2@data$PLN_AREA_N == "PUNGGOL",]
@@ -306,6 +305,63 @@ pg_landuse <- st_intersection(valid_pg, landuse_pg_sf)
 amk_landuse <- st_intersection(valid_amk, landuse_amk_sf)
 ```
 
+```{r}
+parks_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_parks_PG")
+parks_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_parks_AMK")
+healthcare_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_healthcare_PG")
+healthcare_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_healthcare_AMK")
+food_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_foodplaces_PG")
+food_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_foodplaces_AMK")
+smarket_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_smarket_PG")
+smarket_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_smarket_AMK")
+```
+
+```{r}
+plot(food_pg)
+```
+
+```{r}
+parks_pg_sf <- st_as_sf(parks_pg)
+parks_amk_sf <- st_as_sf(parks_amk)
+healthcare_pg_sf <- st_as_sf(healthcare_pg)
+#healthcare_amk_sf <- st_as_sf(healthcare_amk)
+food_pg_sf <- st_as_sf(food_pg)
+food_amk_sf <- st_as_sf(food_amk)
+smarket_pg_sf <- st_as_sf(smarket_pg)
+smarket_amk_sf <- st_as_sf(smarket_amk)
+```
+
+```{r}
+parks_pg_sf <- st_make_valid(parks_pg_sf)
+parks_amk_sf <- st_make_valid(parks_amk_sf)
+healthcare_pg_sf <- st_make_valid(healthcare_pg_sf)
+#healthcare_amk_sf <- st_make_valid(healthcare_amk_sf)
+food_pg_sf <- st_make_valid(food_pg_sf)
+food_amk_sf <- st_make_valid(food_amk_sf)
+smarket_pg_sf <- st_make_valid(smarket_pg_sf)
+smarket_amk_sf <- st_make_valid(smarket_amk_sf)
+```
+
+```{r}
+pg_parks <- st_intersection(valid_pg, parks_pg_sf)
+pg_healthcare <- st_intersection(valid_pg, healthcare_pg_sf)
+pg_food <- st_intersection(valid_pg, food_pg_sf)
+pg_smarket <- st_intersection(valid_pg, smarket_pg_sf)
+
+amk_parks <- st_intersection(valid_amk, parks_amk_sf)
+#amk_healthcare <- st_intersection(valid_amk, healthcare_amk_sf)
+amk_food <- st_intersection(valid_amk, food_amk_sf)
+amk_smarket <- st_intersection(valid_amk, smarket_amk_sf)
+```
+
 # Punggol Buildings Chart
 
 ```{r}
@@ -454,6 +510,8 @@ dl_map_amk <- osm_basemap +
 dl_map_amk
 ```
 
+# Punggol Kernel Density Estimation Graphs
+
 ```{r}
 # Set up a 2x2 layout with reduced margins
 par(mfrow = c(2, 2), mar = c(2, 2, 2, 2))
@@ -487,26 +545,28 @@ plot(density(edl_pg_ppp,
      main = "Punggol Desired Lines ppl")
 ```
 
+# Ang Mo Kio Kernel Density Estimation Graphs
+
 ```{r}
 # Set up a 2x2 layout with reduced margins
 par(mfrow = c(2, 2), mar = c(2, 2, 2, 2))
 
 # Chart 1
-plot(density(edl_amk_ppp,
+plot(density(edl_a_ppp,
              sigma = bw.CvL,
              edge = TRUE,
              kernel = "gaussian"),
      main = "Ang Mo Kio Desired Lines CvL")
 
 # Chart 2
-plot(density(edl_amk_ppp,
+plot(density(edl_a_ppp,
              sigma = bw.scott,
              edge = TRUE,
              kernel = "gaussian"),
      main = "Ang Mo Kio Desired Lines scott")
 
 # Chart 3
-plot(density(edl_amk_ppp,
+plot(density(edl_a_ppp,
              sigma = bw.diggle,
              edge = TRUE,
              kernel = "gaussian"),
@@ -519,6 +579,8 @@ plot(density(edl_amk_ppp,
              kernel = "gaussian"),
      main = "Ang Mo Kio Desired Lines ppl")
 ```
+
+# Punggol Landuse on OSM Layer
 
 ```{r}
 
@@ -533,6 +595,8 @@ pg_landuse_map <- tm_shape(pg_landuse) +
 pg_landuse_map
 ```
 
+# Ang Mo Kio Landuse on OSM Layer
+
 ```{r}
 # Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
 amk_landuse_map <- tm_shape(amk_landuse) +
@@ -544,3 +608,107 @@ amk_landuse_map <- tm_shape(amk_landuse) +
 # View the map
 amk_landuse_map
 ```
+
+# Punggol Isotope Areas of Parks on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+pg_parks_map <- tm_shape(pg_parks) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Parks", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_parks_map
+```
+
+# Punggol Isotope Areas of Healthcare on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+pg_healthcare_map <- tm_shape(pg_healthcare) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Healthcare", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_healthcare_map
+```
+
+# Punggol Isotope Areas of Healthcare on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+pg_food_map <- tm_shape(pg_food) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Healthcare", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_food_map
+```
+
+# Punggol Isotope Areas of Supermarkets on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+pg_smarket_map <- tm_shape(pg_smarket) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Supermarkets", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_smarket_map
+```
+
+# Ang Mo Kio Isotope Areas of Parks on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+amk_parks_map <- tm_shape(amk_parks) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Parks", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+amk_parks_map
+```
+
+# Ang Mo Kio Isotope Areas of Supermarkets on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+amk_smarket_map <- tm_shape(amk_smarket) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Supermarkets", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+amk_smarket_map
+```
+
+# Ang Mo Kio Isotope Areas of Food Places on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+amk_food_map <- tm_shape(amk_food) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Food Places", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+amk_food_map
+```
+
+
+
+
+
+
