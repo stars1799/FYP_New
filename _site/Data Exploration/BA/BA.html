@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>32_Step_Ahead_Solutions - Data Exploration</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">32_Step_Ahead_Solutions</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-proposal" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Proposal</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-proposal">    
+        <li>
+    <a class="dropdown-item" href="../../Proposal/fyp_proposal.html" rel="" target="">
+ <span class="dropdown-text">Our Proposal</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-research" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Research</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-research">    
+        <li>
+    <a class="dropdown-item" href="../../Initial_Research/Literature_Review.html" rel="" target="">
+ <span class="dropdown-text">Literature Review</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Initial_Research/On-the-ground_Research.html" rel="" target="">
+ <span class="dropdown-text">On-the-ground Research</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Initial_Research/AMK.html" rel="" target="">
+ <span class="dropdown-text">Ang Mo Kio</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Initial_Research/PG.html" rel="" target="">
+ <span class="dropdown-text">Punggol</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-data-exploration" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Data Exploration</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-data-exploration">    
+        <li>
+    <a class="dropdown-item" href="../../Data Exploration/BA/BA.html" rel="" target="">
+ <span class="dropdown-text">BA</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Data Exploration/SMT/SMT.html" rel="" target="">
+ <span class="dropdown-text">SMT</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-analysis" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+ <span class="menu-text">Analysis</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-analysis">    
+        <li>
+    <a class="dropdown-item" href="../../Analysis/Demographic Analysis/demo.html" rel="" target="">
+ <span class="dropdown-text">Demographics Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../Analysis/Geographic Analysis/Geographic-Analysis.html" rel="" target="">
+ <span class="dropdown-text">Geospatial Analysis</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#datasets" id="toc-datasets" class="nav-link active" data-scroll-target="#datasets">Datasets</a></li>
+  <li><a href="#eda" id="toc-eda" class="nav-link" data-scroll-target="#eda">EDA</a></li>
+  <li><a href="#list-of-hypotheses-formulated-after-eda" id="toc-list-of-hypotheses-formulated-after-eda" class="nav-link" data-scroll-target="#list-of-hypotheses-formulated-after-eda">List of hypotheses formulated after EDA</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data Exploration</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="datasets" class="level2">
+<h2 class="anchored" data-anchor-id="datasets">Datasets</h2>
+<ul>
+<li><p><strong>Type of Dwelling Data 19-01-2024 (Ver 1.0) / Total Type of Dwelling Data 20-01-2024 (Ver 1.0)</strong></p>
+<p><em>Source: <a href="https://www.singstat.gov.sg/-/media/files/publications/population/excel/geospatial-data2023.ashx" class="uri">https://www.singstat.gov.sg/-/media/files/publications/population/excel/geospatial-data2023.ashx</a></em></p></li>
+<li><p><strong>Added Household Data 20-01-2024 (Ver 1.0)</strong></p>
+<p><em>Source: <a href="https://www.singstat.gov.sg/-/media/files/find_data/population/statistical_tables/hsetod2023.ashx" class="uri">https://www.singstat.gov.sg/-/media/files/find_data/population/statistical_tables/hsetod2023.ashx</a></em></p></li>
+<li><p><strong>Yearly Population Data 24-01-2024 (Ver 1.0)</strong></p>
+<ul>
+<li><p>Household Data 29-01-2024 (Ver 1.0)</p></li>
+<li><p>Age Grp, Gender, Race Data 29-01-2024 (Ver 1.0)</p></li>
+<li><p>Specific Age Data 29-01-2024 (Ver 1.0)</p></li>
+<li><p>Age Group and Dwelling 29-01-2024 (Ver 1.0)</p></li>
+</ul>
+<p><em>Source: <a href="https://tablebuilder.singstat.gov.sg/statistical-tables/downloadMultiple/ZMUaefcb400I0QjaMl60CQ" class="uri">https://tablebuilder.singstat.gov.sg/statistical-tables/downloadMultiple/ZMUaefcb400I0QjaMl60CQ</a></em></p></li>
+</ul>
+</section>
+<section id="eda" class="level2">
+<h2 class="anchored" data-anchor-id="eda">EDA</h2>
+<section id="dataset-type-of-dwelling-data-19-01-2024-ver-1.0" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-type-of-dwelling-data-19-01-2024-ver-1.0">Dataset: Type of Dwelling Data 19-01-2024 (Ver 1.0)</h4>
+<ul>
+<li><p><strong>Chi Square Test</strong></p>
+<ul>
+<li><p><strong>Used for:</strong></p>
+<ul>
+<li><p>Planning Area and Age Group - AMK</p></li>
+<li><p>Planning Area and Age Group - Punggol</p></li>
+<li><p>Dwelling Type and Age Group in Planning Area (AMK)</p></li>
+<li><p>Dwelling Type and Age Group in Planning Area (Punggol)</p></li>
+</ul></li>
+<li><p><strong>Why it was chosen:</strong></p>
+<ul>
+<li><p><strong>Categorical Variables:</strong> Planning Area, Age Group and Dwelling Type are categorical variables. Planning Area represents different areas in Singapore, Age Group categorises individuals into different age ranges, while Dwelling Type categorises the different types of flats.</p></li>
+<li><p><strong>Independence Testing:</strong> The chi-square test assesses whether there is a significant association or independence between the selected categorical variables. One example would be, it helps determine whether there is a relationship between the Planning Area and Age Group categories or if they are independent of each other.</p></li>
+</ul></li>
+<li><p><strong>An example of the result:</strong></p>
+<p><img src="images/chisquare.png" class="img-fluid"></p></li>
+</ul></li>
+<li><p><strong>Correlation Heatmap</strong></p>
+<ul>
+<li><p><strong>Used for:</strong></p>
+<ul>
+<li><p>Based on Type of Dwelling - AMK</p></li>
+<li><p>Based on Type of Dwelling - Punggol</p></li>
+<li><p>Based on Type of Dwelling - AMK &amp; Punggol</p></li>
+</ul></li>
+<li><p><strong>Why it was chosen:</strong></p>
+<ul>
+<li><p><strong>Mixed Data Types:</strong> The dataset contains a mix of numerical data (‘Total Number of Households in 2023’) and categorical data (‘Type of Dwelling’). A correlation heatmap is suitable for assessing relationships between these types of variables.</p></li>
+<li><p><strong>Understanding Relationships:</strong> The goal is likely to understand how different types of dwellings are related to the total number of households. A correlation heatmap visually display the strength and direction of these relationships, helping to identify patterns.</p></li>
+<li><p><strong>Identifying Correlations:</strong> The heatmap helps in identifying which types of dwellings show a significant positive or negative correlation with the total number of households. This is crucial for understanding housing patterns in ‘Ang Mo Kio’ (or other planning areas).</p></li>
+<li><p><strong>Insights into Housing Trends:</strong> The correlation heatmap is likely used to gain insights into housing trends in ‘Ang Mo Kio’ (or other planning areas). For example, it may reveal whether certain types of dwellings are associated with larger or smaller numbers of households.</p></li>
+</ul></li>
+<li><p><strong>An example of the result:</strong></p>
+<p><img src="images/corr.png" class="img-fluid"></p></li>
+</ul></li>
+<li><p><strong>Linear - One Hot Encoded Set</strong></p>
+<ul>
+<li><p><strong>Used for:</strong></p>
+<ul>
+<li>All features</li>
+</ul></li>
+<li><p><strong>Why it was chosen:</strong></p>
+<ul>
+<li><p><strong>Continuous Target Variable:</strong> Regression models are well-suited for predicting continuous target variables. In this case, the target variable is the “Total Number of Households in 2023,” which is a continuous numerical variable.</p></li>
+<li><p><strong>Linear Relationship:</strong> Regression models assume a linear relationship between the independent and dependent variables. If the relationship between the features and the total number of households is approximately linear, a regression model can effectively capture and represent this relationship.</p></li>
+<li><p><strong>Feature Importance:</strong> It allows for the identification of significant features. The coefficients associated with each feature help in understanding how changes in a particular feature affect the predicted total number of households.</p></li>
+</ul></li>
+<li><p><strong>An example of the result:</strong></p>
+<p><img src="images/regression.png" class="img-fluid"></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="dataset-total-type-of-dwelling-data-20-01-2024-ver-1.0" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-total-type-of-dwelling-data-20-01-2024-ver-1.0">Dataset: Total Type of Dwelling Data 20-01-2024 (Ver 1.0)</h4>
+<ul>
+<li><p><strong>Correlation Heatmap</strong></p>
+<ul>
+<li><p><strong>Used for:</strong></p>
+<ul>
+<li><p>Based on Subzones - AMK</p></li>
+<li><p>Based on Subzones - Punggol</p></li>
+</ul></li>
+<li><p><strong>Why it was chosen:</strong></p>
+<ul>
+<li><p><strong>Multiple Variables:</strong> The dataset involves multiple subzones, and a correlation heatmap efficiently displays the correlation coefficients for each pair of subzones with the target variable (“Number of Households in 2023”).&nbsp;</p></li>
+<li><p><strong>Strength and Direction of Relationships:</strong> The heatmap can not only show the presence of a relationship but also indicates the strength and direction of the correlation. This provides insights into which subzones are positively or negatively associated with the total number of households.</p></li>
+<li><p><strong>Comparative Analysis:</strong> It allows for a quick comparison between different subzones. Thus, one can easily identify which areas have a stronger or weaker relationship with the total number of households, aiding in decision-making or further investigation.</p></li>
+</ul></li>
+<li><p><strong>An example of the result:</strong></p>
+<p><img src="images/pg.png" class="img-fluid"></p></li>
+</ul></li>
+<li><p><strong>KDE for NORMALISED age distribution in Planning Area - Subzones</strong></p>
+<ul>
+<li><p><strong>Used for:</strong></p>
+<ul>
+<li><p>Distribution of number of households in Punggol</p></li>
+<li><p>Distribution of number of households in Ang Mo Kio</p></li>
+</ul></li>
+<li><p><strong>Why it was chosen:</strong></p>
+<ul>
+<li><p><strong>Compare multiple subzones:</strong> The plots allow easy comparison of age distribution patterns across different subzones within each planning area. This helps identify similarities and differences. Ultimately, I was thinking along the lines of let us try to look at the Subzone that most resembles the total distribution(make up) of the specific Planning Area.&nbsp;</p></li>
+<li><p><strong>Normalise values:</strong> Calculating the density (share of total households) rather than raw counts normalises the data across subzones of different sizes. This facilitates comparison.</p></li>
+<li><p><strong>Overlay lines on same plot:</strong> Plotting the data for multiple subzones together on the same axes enables visual evaluation of relative peaks and troughs across age groups.</p></li>
+<li><p><strong>Line plot is intuitive:</strong> The line plot format provides an intuitive and clear way to visualise trends in household distribution by age. No need for advanced chart knowledge to interpret patterns.</p></li>
+</ul></li>
+<li><p><strong>An example of the result:</strong></p>
+<p><img src="images/kde.png" class="img-fluid"></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="dataset-household-data-29-01-2024-ver-1.0" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-household-data-29-01-2024-ver-1.0"><strong>Dataset: Household Data 29-01-2024 (Ver 1.0)</strong></h4>
+<ul>
+<li><p><strong>Correlation Heatmap</strong></p>
+<ul>
+<li><p><strong>Used for:</strong></p>
+<ul>
+<li>All features&nbsp;</li>
+</ul></li>
+<li><p><strong>Why it was chosen:</strong></p>
+<ul>
+<li><p><strong>Multiple Variables:</strong> The dataset involves mainly two types of features (number of households that contain a certain number of people and the average number of people living in different types of dwellings), therefore a correlation heatmap aids in displaying any relationships between the two types of features.&nbsp;</p></li>
+<li><p><strong>Strength and Direction of Relationships:</strong> The heatmap can identify the presence of a relationship and also the strength and direction of said correlation. This would greatly help to provide insights into any relationship between the two features, which could warrant further investigation into said relationship.&nbsp;&nbsp;</p></li>
+<li><p><strong>Correlation Analysis:</strong> It allows for a quick comparison between the average number of people in the varying HDB flats as well as the number of households that contain a certain number of people. This would greatly allow one to identify any relationship between the two types of features that might prompt further analysis for the team.</p></li>
+</ul></li>
+<li><p><strong>An example of the result:</strong></p>
+<p><img src="images/householddata.png" class="img-fluid"></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="dataset-age-grp-gender-race-data-29-01-2024-ver-1.0" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-age-grp-gender-race-data-29-01-2024-ver-1.0"><strong>Dataset: Age Grp, Gender, Race Data 29-01-2024 (Ver 1.0)</strong></h4>
+<ul>
+<li><p><strong>Population Pyramid</strong></p>
+<ul>
+<li><p><strong>Used for:</strong></p>
+<ul>
+<li><p>Total Male Residents</p></li>
+<li><p>Total Female Residents&nbsp;</p></li>
+</ul></li>
+<li><p><strong>Why it was chosen:</strong></p>
+<ul>
+<li><p><strong>Two Variables:</strong> The dataset involves the change in population for males and females from 1957 to 2023 so a Population Pyramid would be suitable to compare and contrast the population of the genders over the years.&nbsp;</p></li>
+<li><p><strong>Showcasing Trends:</strong> The Pyramid can clearly showcase the overall population growth trend over the years while also showing the differences in population between both genders at a glance.&nbsp;</p></li>
+<li><p><strong>Population Analysis:</strong> It allows us to recognise the overall trend both in the general population as well as with both genders so we can determine if this trend would persist with the inclusion of another feature like age or race.&nbsp;</p></li>
+</ul></li>
+<li><p><strong>An example of the result:</strong></p>
+<p><img src="images/pyramid.png" class="img-fluid"></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="dataset-specific-age-data-29-01-2024-ver-1.0.csv" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-specific-age-data-29-01-2024-ver-1.0.csv"><strong>Dataset: Specific Age Data 29-01-2024 (Ver 1.0).csv</strong></h4>
+<ul>
+<li><p><strong>Percentage Change Line Chart</strong></p>
+<ul>
+<li><p><strong>Used for:</strong></p>
+<ul>
+<li>Based on the age data for Singapore Residents&nbsp;&nbsp;</li>
+</ul></li>
+<li><p><strong>Why it was chosen:</strong></p>
+<ul>
+<li><p><strong>Multiple Variables:</strong> The dataset contains the age group data of the population from 1957 to 2023 so this line chart allows one to compare and contrast between the percentage changes of different age groups over the years.</p></li>
+<li><p><strong>Showcasing Changes:</strong> The chart clearly displays any significant change in population for a specific age group over the years and this allows us to gain insights from the data.&nbsp;</p></li>
+<li><p><strong>Population Analysis:</strong> It allows us to recognise significant changes in the population structure of Singapore and narrow down specific demographics that might require further analysis.&nbsp;</p></li>
+</ul></li>
+<li><p><strong>An example of the result:</strong></p>
+<p><img src="images/percentage.png" class="img-fluid"></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="dataset-age-group-and-dwelling-29-01-2024-ver-1.0" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-age-group-and-dwelling-29-01-2024-ver-1.0"><strong>Dataset: Age Group and Dwelling 29-01-2024 (Ver 1.0)</strong></h4>
+<ul>
+<li><p><strong>Stacked Bar Chart</strong></p>
+<ul>
+<li><p><strong>Used for:</strong></p>
+<ul>
+<li>All features&nbsp;&nbsp;</li>
+</ul></li>
+<li><p><strong>Why it was chosen:</strong></p>
+<ul>
+<li><p><strong>Multiple Variables:</strong> The dataset contains the age group dwelling type data of the population from 1957 to 2023 so this stacked bar chart would allow us to compare and contrast the dwelling data for different age groups over the years.</p></li>
+<li><p><strong>Showcasing Changes:</strong> The chart clearly displays differences in dwelling type for different age groups through the years as well as the total number of residents in that age group in that year.&nbsp;</p></li>
+<li><p><strong>Dwelling Type Analysis:</strong> It allows notice shifts in dwelling type for a specific age group over the years, which could help us gather insights for further analysis.&nbsp;</p></li>
+</ul></li>
+<li><p><strong>An example of the result:</strong></p>
+<p><img src="images/stackedbarchart.png" class="img-fluid"></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="dataset-added-household-data-20-01-2024-ver-1.0" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-added-household-data-20-01-2024-ver-1.0"><strong>Dataset: Added Household Data 20-01-2024 (Ver 1.0)</strong></h4>
+<ul>
+<li><p><strong>Bar Chart/Stacked Bar Charts</strong></p>
+<ul>
+<li><p><strong>Used for:</strong></p>
+<ul>
+<li>Displaying the number of households in a straightforward manner, where different levels of details are captured (less, for bar chart, more for stacked bar chart)</li>
+</ul></li>
+<li><p><strong>Why it was chosen:</strong></p>
+<ul>
+<li><p><strong>Compare multiple groups:</strong> The bar plot allows for an effective visual comparison of the new household figures across multiple sub-zones within two separate planning areas. This helps identify patterns and outliers.</p></li>
+<li><p><strong>Showcase trend at sub-zone level</strong>: Aggregating and plotting the data at the sub-zone level provides a more granular view of projections, beyond just looking at overall planning area figures. It reveals intra-area differences. Similarly, different types of dwelling added can be fairly interesting, especially if we compare within a time period.</p></li>
+<li><p><strong>Identify high growth/decline areas</strong>: The visualised data immediately highlights which specific sub-zones saw major increase.&nbsp;</p></li>
+</ul></li>
+<li><p><strong>Both results:</strong></p>
+<p><img src="images/barchart.png" class="img-fluid"></p>
+<p><img src="images/householdtableau.png" class="img-fluid"></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="dataset-yearly-population-data-24-01-2024-ver-1.0" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-yearly-population-data-24-01-2024-ver-1.0"><strong>Dataset: Yearly Population Data 24-01-2024 (Ver 1.0)</strong></h4>
+<ul>
+<li><p><strong>Correlation Heatmap</strong></p>
+<ul>
+<li><p><strong>Used for:</strong></p>
+<ul>
+<li>Checking strength of correlations across the number of variables less the following variables: Total Population (Number), Resident Population (Number), Singapore Citizen Population (Number), Permanent Resident Population (Number), Non-Resident Population (Number) across the datasets&nbsp;</li>
+</ul></li>
+<li><p><strong>Why it was chosen:</strong></p>
+<ul>
+<li><p><strong>Focus on potentially insightful ratios:</strong> Ratios like share of citizens, PRs etc. provide normalised perspectives that can reveal new insights compared to raw numbers. These were prioritised for initial exploratory analysis.</p></li>
+<li><p><strong>Allow comparisons across many pairs simultaneously:</strong> A heatmap allows visually scanning all variable relationships at once, rather than testing correlations one pair at a time. This facilitates identification of overall patterns.</p></li>
+</ul></li>
+<li><p><strong>An example of the result:</strong></p>
+<ul>
+<li><p>Here, to cut the noise: Only strong correlations +-&gt;0.70 are shown, and excludes ‘counting itself’ which explains the masked boxes in the correlation heatmap.&nbsp;</p>
+<p><img src="images/yearlypop.png" class="img-fluid"></p></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="list-of-hypotheses-formulated-after-eda" class="level2">
+<h2 class="anchored" data-anchor-id="list-of-hypotheses-formulated-after-eda">List of hypotheses formulated after EDA</h2>
+<p><em>*Those bolded are the ones we have decided to explore further</em></p>
+<ol type="1">
+<li><p>‘There is no significant relationship between the ’Age Group’ and ‘Planning Area’ in ‘Ang Mo Kio’.’</p></li>
+<li><p>‘There is no significant relationship between the ’Age Group’ and ‘Planning Area’ in ‘Punggol’.’</p></li>
+<li><p><strong>‘There is no significant relationship between the ’Age Group’ and ‘Dwelling Type’ in ‘Ang Mo Kio’.’</strong></p></li>
+<li><p><strong>‘There is no significant relationship between the ’Age Group’ and ‘Dwelling Type’ in ‘Punggol’.’</strong></p></li>
+<li><p>‘An increase in the number of 3-room flats is associated with an increase in the total number of households.’</p></li>
+<li><p>‘As the total number of households increases, the presence of ’Others’ in the type of dwelling tends to decrease.’</p></li>
+<li><p>‘An increase in the number of 4-room flats and 5-room and executive flats is associated with an increase in the total number of households.’</p></li>
+<li><p>‘As the total number of households increases, the presence of ’Others’ and landed properties in the type of dwelling tends to decrease.’</p></li>
+<li><p>‘This suggests that as the number of households increases, the proportion of certain types of dwellings decreases.’</p></li>
+<li><p><strong>‘Find out whether there is a strong relationship between the features and the target variable (total number of households in 2023).’</strong></p></li>
+<li><p>‘As the number of households decreases in these specific subzones, there is a tendency for an increase in the total number of households in Ang Mo Kio / Punggol.’</p></li>
+<li><p><strong>‘Over the years, there is an increase in the number of households which results in the ratio of people in a household to fall .’</strong></p></li>
+<li><p><strong>‘Despite an increase in population of both males and females over the years, there could be a fall in their numbers when looking at specific age groups of the genders.’</strong></p></li>
+<li><p>‘Any significant change in growth rate for a specific age group will have a knock on effect as this age group ages.’</p></li>
+<li><p><strong>‘Younger demographics tend to live in larger households while older demographics tend to live in smaller ones.’</strong></p></li>
+<li><p>‘Areas with an increase of higher SES dwelling over the years will have lesser incidence of desire lines forming.’</p></li>
+<li><p><strong>‘Areas with higher population densities at the subzone level will have a higher incidence of desired lines forming.’</strong></p></li>
+<li><p><strong>‘Has there been a change in the demographic composition across age groups in Ang Mo Kio over the past decade?’</strong></p></li>
+<li><p><strong>‘Has there been a change in the demographic composition across age groups in Punggol over the past decade?’</strong></p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
