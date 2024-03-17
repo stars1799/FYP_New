@@ -88,7 +88,7 @@ tb_cat <- target_buildings["Categorize"]
 
 ```{r}
 #| echo: false
-plot(tb_cat, key.width = lcm(6.32))
+plot(tb_cat, key.width = 12.5)
 ```
 
 ```{r}
@@ -254,13 +254,13 @@ amk_buildings <- st_intersection(amk_sf, tb_cat)
 ```{r}
 #| echo: false
 pg_b_cat <- pg_buildings["Categorize"]
-plot(pg_b_cat, key.width = lcm(6.32))
+plot(pg_b_cat, key.width = 12.64)
 ```
 
 ```{r}
 #| echo: false
 amk_b_cat <- amk_buildings["Categorize"]
-plot(amk_b_cat, key.width = lcm(6.32))
+plot(amk_b_cat, key.width = 12.64)
 ```
 
 ```{r}
@@ -369,14 +369,14 @@ These 2 maps visually represents the categorization of buildings based on color 
 
 ```{r}
 pg_b_cat <- pg_buildings["Categorize"]
-plot(pg_b_cat, key.width = lcm(6.32))
+plot(pg_b_cat, key.width = 12.64)
 ```
 
 ## Ang Mo Kio Buildings Chart
 
 ```{r}
 amk_b_cat <- amk_buildings["Categorize"]
-plot(amk_b_cat, key.width = lcm(6.32))
+plot(amk_b_cat, key.width = 12.64)
 ```
 
 # Buildings Chart on OSM Layer

@@ -1,0 +1,106 @@
+---
+title: "On-the-ground Research: Punggol"
+date: "`r Sys.Date()`"
+format: html
+execute: 
+  message: false
+  warning: false
+  freeze: true
+editor: visual
+---
+
+# 1st On-the-ground Research: Punggol West & Punggol Shore
+
+Conducted on: 30/1/2024
+
+Members: James, Karina, Shanelle
+
+Total No. of desired lines found: 39
+
++--------------------------------------+-------------------------------------+
+| ## Punggol West                      | ## Punggol Shore                    |
++======================================+=====================================+
+| ![](images/clipboard-1420105062.png) | ![](images/clipboard-924838719.png) |
++--------------------------------------+-------------------------------------+
+
+### Reasons for choosing this area:
+
+-   has a good range of amenities
+
++------------------------------------------------+-------------------------------------------------+
+| ### Locational Characteristic:                 | ### Key Amenities:                              |
++------------------------------------------------+-------------------------------------------------+
+| -   Northern eastern part of Singapore         | -   Punggol MRT Station                         |
+|                                                |                                                 |
+| -   A relatively new neighbourhood/ HDB estate | -   Punggol/ Soo Teck/ Damai/ Oasis LRT station |
+|                                                |                                                 |
+| -   Most HDB buildings built in 2010s          | -   Punggol Bus Interchange                     |
+|                                                |                                                 |
+|                                                | -   Punggol PolyClinic                          |
+|                                                |                                                 |
+|                                                | -   Shopping Mall: Oasis Terrace                |
++------------------------------------------------+-------------------------------------------------+
+
+### Desired Lines
+
+### Examples
+
++----------------------------------------------------+--------------------------------------+
+| Description                                        | Photos                               |
++====================================================+======================================+
+| Commonly found near internal car-based streets     | ![](images/clipboard-2965123620.png) |
+|                                                    |                                      |
+|                                                    | ![](images/clipboard-4042708500.png) |
+|                                                    |                                      |
+|                                                    | ![](images/clipboard-3788489660.png) |
++----------------------------------------------------+--------------------------------------+
+| Commonly found near the playgorunds/ exercise area | ![](images/clipboard-3160906997.png) |
+|                                                    |                                      |
+|                                                    | ![](images/clipboard-2507447476.png) |
++----------------------------------------------------+--------------------------------------+
+| Commonly found near roundabouts                    | ![](images/clipboard-4014182519.png) |
+|                                                    |                                      |
+|                                                    | ![](images/clipboard-2918582552.png) |
+|                                                    |                                      |
+|                                                    | ![](images/clipboard-150381246.png)  |
++----------------------------------------------------+--------------------------------------+
+
+## Interviewing with Residents
+
++--------------------------------------------------+---------------------------------+-----------------------------------------------------------------------------------------------------+
+| Demographics                                     | **Overall Walking Experience:** | **Things to be improved:**                                                                          |
++==================================================+=================================+=====================================================================================================+
+| ![](images/clipboard-2289798628.png){width="97"} | Pleasure but more can be done   | -   The cover of sheltered walkways are insufficient: has to go a whole big round when it’s raining |
+|                                                  |                                 |                                                                                                     |
+| 60+ years old couple, retired                    |                                 | -   Fitness facilities within the estate is lack of maintenance                                     |
++--------------------------------------------------+---------------------------------+-----------------------------------------------------------------------------------------------------+
+| ![](images/clipboard-2021368073.png){width="97"} | So far so good                  | -   Slippery pathway from MRT station when raining due to the exterior design of MRT station        |
+|                                                  |                                 |                                                                                                     |
+| 60 years old man, semi-retired                   |                                 | -   Sidewalks seldom have conflicts between pedestrians and cyclists                                |
++--------------------------------------------------+---------------------------------+-----------------------------------------------------------------------------------------------------+
+| ![](images/clipboard-1483797230.png){width="97"} | So far so good                  | -   NIL                                                                                             |
+|                                                  |                                 |                                                                                                     |
+| 34 years old woman, housewife with 1 child       |                                 |                                                                                                     |
++--------------------------------------------------+---------------------------------+-----------------------------------------------------------------------------------------------------+
+
+# Observations
+
+[**In terms of walkability:**]{.underline}
+
+-   Desired paths are commonly found near car-based street and carparks
+
+    Assumption: HDB’s internal car-based streets → not walking-friendly to residents 
+
+-   Sheltered walkways are commonly found
+
+    E.g. From Punggol MRT/ Bus interchange to nearby estates  
+
+    Assumption: Consideration of the tropical weather in Singapore
+
+[**In terms of amenities:**]{.underline}
+
+-   Eateries are usually located below the the HDB blocks 
+
+-   Reachable in walking distances within 5-10 minutes 
+
+-   Sufficient parks/ recreational facilities but lack of maintenance
