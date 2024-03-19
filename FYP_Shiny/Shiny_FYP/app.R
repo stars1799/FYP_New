@@ -10,12 +10,8 @@
 
 library(shiny)
 library(shinydashboard)
-library(sf)
-library(tmap)
-library(tidyverse)
+library(markdown)
 
-mpsz <- st_read(dsn = "data/geospatial", 
-                layer = "MP14_SUBZONE_WEB_PL")
 
 ui <- dashboardPage(
   dashboardHeader(title = "Step Ahead Solutions Dashboard", 
@@ -25,54 +21,45 @@ ui <- dashboardPage(
     sidebarMenu(
       sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
                         label = "Search..."),
-      menuItem("Dashboards", tabName = "dashboard", icon = icon("dashboard")),
-      menuItem("Ang Mo Kio", tabName = "AngMoKio", icon = icon("th")),
-      menuItem("Punngol", tabName = "Punngol", icon = icon("th"))
+      menuItem("Home", tabName = "home", icon = icon("home")),
+      menuItem("Demographics", tabName = "demographics", icon = icon("stats", lib = "glyphicon")),
+      menuItem("Ang Mo Kio", tabName = "amk", icon = icon("map marked alt")),
+      menuItem("Punngol", tabName = "pg", icon = icon("map marked alt"))
     )
     
   ),
   dashboardBody(
     tabItems(
       # First tab content
-      tabItem(tabName = "dashboard",
-              fluidRow(
-                box(title = "Demographics", "This are the demographics of ...")
-              ),
-              
-              fluidRow(
-                box(plotOutput("plot1", height = 250)),
-                
-                box(
-                  title = "Controls",
-                  sliderInput("slider", "Number of observations:", 1, 100, 50)
-                ), 
-                
-                column(width = 3,
-                       box(width = NULL, status = "warning",
-                           uiOutput("routeSelect"),
-                           checkboxGroupInput("directions", "Show",
-                                              choices = c(
-                                                Northbound = 4,
-                                                Southbound = 1,
-                                                Eastbound = 2,
-                                                Westbound = 3
-                                              ),
-                                              selected = c(1, 2, 3, 4)
-                           )
-                       )
-                )
-              )
+      tabItem(tabName = "home",
+              includeMarkdown("home.md")
       ),
       
       # Second tab content
-      tabItem(tabName = "AngMoKio",
+      tabItem(tabName = "demographics",
+              h2("Tableau Dashboard"),
+              fluidRow(
+                tags$iframe(src = "https://public.tableau.com/views/PopulationDemographicAnalysis/Dashboard12?:language=en-US&:sid=&:display_count=n&:origin=viz_share_link?:showVizHome=no&:embed=true",
+                            width = "100%",
+                            height = "700px",
+                            frameborder = "0")
+              )
+      ),
+      
+      
+      
+      
+      # Third tab content
+      tabItem(tabName = "amk",
               h2("Analysis on Ang Mo Kio"),
               plotOutput("mapPlot"),
               DT::dataTableOutput(outputId = "szTable")
       ),
-      # Third tab content
-      tabItem(tabName = "Punngol",
+      # Fourth tab content
+      tabItem(tabName = "pg",
               h2("Analysis on Punngol")
+            
+              
       )
     )
   )
@@ -106,4 +93,4 @@ server <- function(input, output) {
   }
 }
 
-shinyApp(ui, server)
+shinyApp(ui = ui, server = server)

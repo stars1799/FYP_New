@@ -1,0 +1,173 @@
+---
+title: "Untitled"
+output: html_document
+date: "2024-03-19"
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This R Markdown document is made interactive using Shiny. Unlike the more traditional workflow of creating static reports, you can now create documents that allow your readers to change the assumptions underlying your analysis and see the results immediately.
+
+To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
+
+## Inputs and Outputs
+
+You can embed Shiny inputs and outputs in your document. Outputs are automatically updated whenever inputs change. This demonstrates how a standard R plot can be made interactive by wrapping it in the Shiny `renderPlot` function. The `selectInput` and `sliderInput` functions create the input widgets used to drive the plot.
+
+```{r eruptions, echo=FALSE}
+inputPanel(
+  selectInput("n_breaks", label = "Number of bins:",
+              choices = c(10, 20, 35, 50), selected = 20),
+  
+  sliderInput("bw_adjust", label = "Bandwidth adjustment:",
+              min = 0.2, max = 2, value = 1, step = 0.2)
+)
+
+renderPlot({
+  hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
+       xlab = "Duration (minutes)", main = "Geyser eruption duration")
+  
+  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
+  lines(dens, col = "blue")
+})
+```
+
+## Embedded Application
+
+It's also possible to embed an entire Shiny application within an R Markdown document using the `shinyAppDir` function. This example embeds a Shiny application located in another directory:
+
+```{r tabsets, echo=FALSE}
+shinyAppDir(
+  system.file("examples/06_tabsets", package = "shiny"),
+  options = list(
+    width = "100%", height = 550
+  )
+)
+```
+
+Note the use of the `height` parameter to determine how much vertical space the embedded application should occupy.
+
+You can also use the `shinyApp` function to define an application inline rather then in an external directory.
+
+In all of R code chunks above the `echo = FALSE` attribute is used. This is to prevent the R code within the chunk from rendering in the document alongside the Shiny components.
+
+```{r}
+library(sf)
+library(tmap)
+library(arrow)
+library(maptools)
+library(lubridate)
+library(tidyverse)
+library(sp)
+library(raster)
+library(spatstat)
+library(classInt)
+library(viridis)
+library(spNetwork)
+
+
+
+
+pg_wdl <- st_read(dsn = "data/geospatial", 
+                  layer = "pg_wdl")
+amk_wdl <- st_read(dsn = "data/geospatial", 
+                   layer = "wdl_amk")
+
+
+mpsz <- st_read(dsn = "data/geospatial/MPSZ", layer = "MPSZ-2019")
+mpsz3414 <- st_transform(mpsz, 3414)
+pa_mpsz <- mpsz3414["PLN_AREA_N"]
+mpsz2 <- as_Spatial(pa_mpsz)
+
+target_buildings <- st_read(dsn = "data/geospatial", 
+                            layer = "target_buildings")
+tb_cat <- target_buildings["Categorize"]
+
+pg = mpsz2[mpsz2@data$PLN_AREA_N == "PUNGGOL",]
+amk = mpsz2[mpsz2@data$PLN_AREA_N == "ANG MO KIO",]
+
+pg_sp = as(pg, "SpatialPolygons")
+amk_sp = as(amk, "SpatialPolygons")
+
+pg_owin = as(pg_sp, "owin")
+amk_owin = as(amk_sp, "owin")
+
+pg_sf <- st_as_sf(pg)
+amk_sf <- st_as_sf(amk)
+
+pg_buildings <- st_intersection(pg_sf, tb_cat)
+amk_buildings <- st_intersection(amk_sf, tb_cat)
+
+
+landuse_pg <- st_read(dsn = "data/geospatial", 
+                      layer = "FYP_target_landuse_PG")
+landuse_amk <- st_read(dsn = "data/geospatial", 
+                       layer = "FYP_target_landuse_AMK")
+
+osm_basemap <- tm_basemap(server = "OpenStreetMap.HOT")
+imagery_basemap <- tm_basemap(server = "Esri.WorldImagery")
+
+
+
+landuse_pg_sf <- st_as_sf(landuse_pg)
+landuse_amk_sf <- st_as_sf(landuse_amk)
+
+landuse_pg_sf <- st_make_valid(landuse_pg_sf)
+valid_pg <- st_make_valid(pg_sf)
+valid_amk <- st_make_valid(amk_sf)
+
+pg_landuse <- st_intersection(valid_pg, landuse_pg_sf)
+amk_landuse <- st_intersection(valid_amk, landuse_amk_sf)
+
+parks_pg <- st_read(dsn = "data/geospatial", 
+                    layer = "FYP_walkingtime_parks_PG")
+parks_amk <- st_read(dsn = "data/geospatial", 
+                     layer = "FYP_walkingtime_parks_AMK")
+healthcare_pg <- st_read(dsn = "data/geospatial", 
+                         layer = "FYP_walkingtime_healthcare_PG")
+healthcare_amk <- st_read(dsn = "data/geospatial", 
+                          layer = "FYP_walkingtime_healthcare_AMK_1")
+food_pg <- st_read(dsn = "data/geospatial", 
+                   layer = "FYP_walkingtime_foodplaces_PG")
+food_amk <- st_read(dsn = "data/geospatial", 
+                    layer = "FYP_walkingtime_foodplaces_AMK")
+smarket_pg <- st_read(dsn = "data/geospatial", 
+                      layer = "FYP_walkingtime_smarket_PG")
+smarket_amk <- st_read(dsn = "data/geospatial", 
+                       layer = "FYP_walkingtime_smarket_AMK")
+
+
+parks_pg_sf <- st_as_sf(parks_pg)
+parks_amk_sf <- st_as_sf(parks_amk)
+healthcare_pg_sf <- st_as_sf(healthcare_pg)
+healthcare_amk_sf <- st_as_sf(healthcare_amk)
+food_pg_sf <- st_as_sf(food_pg)
+food_amk_sf <- st_as_sf(food_amk)
+smarket_pg_sf <- st_as_sf(smarket_pg)
+smarket_amk_sf <- st_as_sf(smarket_amk)
+
+
+parks_pg_sf <- st_make_valid(parks_pg_sf)
+parks_amk_sf <- st_make_valid(parks_amk_sf)
+healthcare_pg_sf <- st_make_valid(healthcare_pg_sf)
+healthcare_amk_sf <- st_make_valid(healthcare_amk_sf)
+food_pg_sf <- st_make_valid(food_pg_sf)
+food_amk_sf <- st_make_valid(food_amk_sf)
+smarket_pg_sf <- st_make_valid(smarket_pg_sf)
+smarket_amk_sf <- st_make_valid(smarket_amk_sf)
+
+pg_parks <- st_intersection(valid_pg, parks_pg_sf)
+pg_healthcare <- st_intersection(valid_pg, healthcare_pg_sf)
+pg_food <- st_intersection(valid_pg, food_pg_sf)
+pg_smarket <- st_intersection(valid_pg, smarket_pg_sf)
+
+amk_parks <- st_intersection(valid_amk, parks_amk_sf)
+amk_healthcare <- st_intersection(valid_amk, healthcare_amk_sf)
+amk_food <- st_intersection(valid_amk, food_amk_sf)
+amk_smarket <- st_intersection(valid_amk, smarket_amk_sf)
+
+pg_b_cat <- pg_buildings["Categorize"]
+```
