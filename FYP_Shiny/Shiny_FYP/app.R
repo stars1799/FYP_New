@@ -1,5 +1,169 @@
+######## Loading of Packages ########
 library(shiny)
+library(sf)
+library(tmap)
+library(arrow)
+library(lubridate)
+library(tidyverse)
+library(sp)
+library(raster)
+library(spatstat)
+library(classInt)
+library(viridis)
+library(spNetwork)
+library(spatstat)
+library(ggplot2)
+#install.packages("ggmap")
+library(ggmap)
 
+
+
+
+######### Loading of Data ##########
+
+pg_wdl <- st_read(dsn = "data/geospatial", 
+                  layer = "pg_wdl")
+amk_wdl <- st_read(dsn = "data/geospatial", 
+                   layer = "wdl_amk")
+dl_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "pg_dl")
+dl_amk <- st_read(dsn = "data/geospatial", 
+                  layer = "dl_amk")
+
+target_buildings <- st_read(dsn = "data/geospatial", 
+                            layer = "target_buildings")
+tb_cat <- target_buildings["Categorize"]
+
+
+
+mpsz <- st_read(dsn = "data/geospatial/MPSZ", layer = "MPSZ-2019")
+mpsz3414 <- st_transform(mpsz, 3414)
+pa_mpsz <- mpsz3414["PLN_AREA_N"]
+mpsz2 <- as_Spatial(pa_mpsz)
+
+
+
+pg = mpsz2[mpsz2@data$PLN_AREA_N == "PUNGGOL",]
+amk = mpsz2[mpsz2@data$PLN_AREA_N == "ANG MO KIO",]
+
+pg_sp = as(pg, "SpatialPolygons")
+amk_sp = as(amk, "SpatialPolygons")
+
+#pg_owin <- as.owin(pg_sp)
+#amk_owin <- as.owin(amk_sp)
+
+pg_sf <- st_as_sf(pg)
+amk_sf <- st_as_sf(amk)
+
+pg_buildings <- st_intersection(pg_sf, tb_cat)
+amk_buildings <- st_intersection(amk_sf, tb_cat)
+
+
+landuse_pg <- st_read(dsn = "data/geospatial", 
+                      layer = "FYP_target_landuse_PG")
+landuse_amk <- st_read(dsn = "data/geospatial", 
+                       layer = "FYP_target_landuse_AMK")
+
+osm_basemap <- tm_basemap(server = "OpenStreetMap.HOT")
+imagery_basemap <- tm_basemap(server = "Esri.WorldImagery")
+
+
+
+landuse_pg_sf <- st_as_sf(landuse_pg)
+landuse_amk_sf <- st_as_sf(landuse_amk)
+
+landuse_pg_sf <- st_make_valid(landuse_pg_sf)
+valid_pg <- st_make_valid(pg_sf)
+valid_amk <- st_make_valid(amk_sf)
+
+pg_landuse <- st_intersection(valid_pg, landuse_pg_sf)
+amk_landuse <- st_intersection(valid_amk, landuse_amk_sf)
+
+parks_pg <- st_read(dsn = "data/geospatial", 
+                    layer = "FYP_walkingtime_parks_PG")
+parks_amk <- st_read(dsn = "data/geospatial", 
+                     layer = "FYP_walkingtime_parks_AMK")
+healthcare_pg <- st_read(dsn = "data/geospatial", 
+                         layer = "FYP_walkingtime_healthcare_PG")
+healthcare_amk <- st_read(dsn = "data/geospatial", 
+                          layer = "FYP_walkingtime_healthcare_AMK_1")
+food_pg <- st_read(dsn = "data/geospatial", 
+                   layer = "FYP_walkingtime_foodplaces_PG")
+food_amk <- st_read(dsn = "data/geospatial", 
+                    layer = "FYP_walkingtime_foodplaces_AMK")
+smarket_pg <- st_read(dsn = "data/geospatial", 
+                      layer = "FYP_walkingtime_smarket_PG")
+smarket_amk <- st_read(dsn = "data/geospatial", 
+                       layer = "FYP_walkingtime_smarket_AMK")
+
+
+parks_pg_sf <- st_as_sf(parks_pg)
+parks_amk_sf <- st_as_sf(parks_amk)
+healthcare_pg_sf <- st_as_sf(healthcare_pg)
+healthcare_amk_sf <- st_as_sf(healthcare_amk)
+food_pg_sf <- st_as_sf(food_pg)
+food_amk_sf <- st_as_sf(food_amk)
+smarket_pg_sf <- st_as_sf(smarket_pg)
+smarket_amk_sf <- st_as_sf(smarket_amk)
+
+
+parks_pg_sf <- st_make_valid(parks_pg_sf)
+parks_amk_sf <- st_make_valid(parks_amk_sf)
+healthcare_pg_sf <- st_make_valid(healthcare_pg_sf)
+healthcare_amk_sf <- st_make_valid(healthcare_amk_sf)
+food_pg_sf <- st_make_valid(food_pg_sf)
+food_amk_sf <- st_make_valid(food_amk_sf)
+smarket_pg_sf <- st_make_valid(smarket_pg_sf)
+smarket_amk_sf <- st_make_valid(smarket_amk_sf)
+
+pg_parks <- st_intersection(valid_pg, parks_pg_sf)
+pg_healthcare <- st_intersection(valid_pg, healthcare_pg_sf)
+pg_food <- st_intersection(valid_pg, food_pg_sf)
+pg_smarket <- st_intersection(valid_pg, smarket_pg_sf)
+
+amk_parks <- st_intersection(valid_amk, parks_amk_sf)
+amk_healthcare <- st_intersection(valid_amk, healthcare_amk_sf)
+amk_food <- st_intersection(valid_amk, food_amk_sf)
+amk_smarket <- st_intersection(valid_amk, smarket_amk_sf)
+
+pg_b_cat <- pg_buildings["Categorize"]
+
+a_dl_class <- amk_wdl["desired_li"]
+
+## Landuse map 
+
+
+
+
+######### Global Parameters ########
+
+#Area of Study (drop-down)
+studyarea <- c(
+  "Ang Mo Kio", 
+  "Punggol"
+)
+
+#Buildings Categories (multi-select)
+buildingcat <- c(
+  "All", 
+  "Educational Facilities", 
+  "Industrial", 
+  "Multi-Purpose Halls", 
+  "Offices", 
+  "Other", 
+  "Parking", 
+  "Public Transport", 
+  "Religious Buildings", 
+  "Residential", 
+  "Road",
+  "Sport Facilities", 
+  "Water Body"
+)
+
+#
+
+
+#######ui
 ui <- fluidPage(
   tags$head(
     tags$style(
@@ -10,6 +174,13 @@ ui <- fluidPage(
           background-color: #FAE9DC; /* Set navbar background color */
           border-color: #ddd; /* Set navbar border color */
         }
+        
+        /* Main content padding for better alignment */
+        .container-fluid {
+          padding-right: 50px;
+          padding-left: 50px;
+        }
+        
         "
       )
     )
@@ -17,20 +188,13 @@ ui <- fluidPage(
   
   # Navbar
   navbarPage(
-    title = div(
-      img(
-        src = "images/homepage.png",
-        height = 40, # Adjusted height
-        width = 120  # Original width
-      ),
+    title = src='images/top_logo.png',
       "STEP AHEAD SOLUTIONS",
       onclick = "window.location.href='#home'"
     ),
     
-    tabPanel("Home", 
-             div(
-               div(style = "text-align: center;", 
-                   imageOutput("logo")), 
+    tabPanel("Home",
+               div(style = "text-align: center;", imageOutput("logo")), 
                br(),
                hr(),
                br(),
@@ -44,8 +208,7 @@ ui <- fluidPage(
                br(),
                h4(strong("Challenge Statement")), 
                p("To reduce the disparity between urban plans and community preferences, improving accessibility for residents in HDB estates by reducing desired pedestrian lines.")
-             )
-    ),
+             ),
     
     navbarMenu("Research Insights",
                tabPanel("Demographics Analysis Insights",
@@ -191,10 +354,12 @@ ui <- fluidPage(
                                    div(style = "background-color: #f2f2f2; padding: 10px; text-align: center;",
                                        h4(style = "margin-top: 0; margin-bottom: 8px; text-align: center;", 
                                           strong("Interactive Map")),  # Wrap with strong tag
-                                       div(style = "text-align: center;",
-                                           HTML('Interactive Map')
-                                       )
-                                   ),
+                                       fluidRow(
+                                         column(8, # Map takes up 8/12 of the width
+                                                tmapOutput("dl_amk")),
+                                         column(4, # Selection panel takes up 4/12 of the width
+                                                selectInput("mapSelection", "Select a Location:", choices = studyarea))
+                                   )),
                                    br(), 
                                    br(), 
                                    p(strong("Description: "), "These 2 maps pinpoint the locations of desired lines within the urban landscape in Ang Mo Kio and Punggol. Which represent mature and non-mature estates respectively."),
@@ -208,11 +373,10 @@ ui <- fluidPage(
                                    p("Though we recognise that it is important to acknowledge that numerous mature estates have already undergone retrofitting processes to meet the resident’s needs. Which meant that, the recorded
                                      number of desired lines in our study may not entirely reflect the original situation accurately. Nevertheless, this insight spurred further research into the potential disparities between 
                                      infrastructure design and the preferences of demographics in mature and non-mature estates.")
-                          )
                                    )
                           
-               )
-    ),
+                          )
+    )),
     
     tabPanel("Framework", 
              div(br())
@@ -222,23 +386,86 @@ ui <- fluidPage(
              div(br())
     )
   )
-)
 
 
-server <- function(input, output, session){
+
+server <- function(input, output, session) {
   
-  ##################### images ######################
-
+  ##################### Images ######################
+  
   ### Home Page banner  
   output$logo <- renderImage({
     list(src = "images/homepage.png",
          width = 1250,
          height = 435,
-         style="display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;") # Add margin-top and margin-bottom to 0px
+         style = "display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
   }, deleteFile = FALSE)
   
-  ###################################################  
+  
+  ###################################################
+  tmap_mode("view")
+  
+  map_loading <- eventReactive(input$studyarea, {
+    data <- NULL  # Initialize to NULL to ensure data has a default state
+    if (!is.null(input$studyarea)) {
+      if (input$studyarea == "Punggol") {
+        data <- pg_landuse
+      } else {
+        data <- a_dl_class
+      }
+    }
+    
+    if (!is.null(data)) {
+      return(dl_map <- osm_basemap +
+               tm_shape(a_dl_class) +
+               tm_lines(col = "red", lwd = 2) +  # Adjust line color and width as needed
+               tmap_options(check.and.fix = TRUE))
+    }
+  }, ignoreNULL = FALSE)  # Use this to decide whether to ignore the initial NULL state
+  
+  # Ensure you render the map correctly in the UI
+  output$landuseMap <- renderTmap({
+    map_loading()  # This will now call and render the map generated by map_loading
+  })
+  
+  output$dl_map_2 <- renderTmap({
+    
+    tmap_mode("view")
+    # Check the selection and prepare the respective map
+    if (input$studyarea == "Ang Mo Kio") {
+      dl_map <- osm_basemap +
+        tm_shape(a_dl_class) +  # Assuming 'a_dl_class' is your spatial object for AMK
+        tm_lines(col = "red", lwd = 2) +
+        tmap_options(check.and.fix = TRUE)
+    } else {
+      # Prepare another map for 'other_map' selection
+      # This is just a placeholder, replace with actual code for the other map
+      dl_map <- osm_basemap +
+        tm_shape(dl_class) +  # Replace 'other_spatial_object' with the actual data
+        tm_lines(col = "blue", lwd = 2) +  # Example styling
+        tmap_options(check.and.fix = TRUE)
+    } 
+    return(dl_map)
+  })
+  
+  output$dl_amk <- renderTmap({
+    
+    dl_map <- tm_basemap(server = "OpenStreetMap") +  # Use tm_basemap to specify the basemap
+      tm_shape(mpsz[mpsz$PLN_AREA_N=="ANG MO KIO", ]) + #Replace by studyarea choices
+      tm_borders()+
+      tm_shape(dl_amk)+ #replace by combining the map of dl_amk & dl_pg
+      tm_lines(col = "red", lwd = 2) +  # Adjust line color and width as needed
+      tmap_options(check.and.fix = TRUE)
+    
+    dl_map  # Return the map for rendering
+  })
   
 }
 
+
+
+
+
+
 shinyApp(ui = ui, server = server)
+

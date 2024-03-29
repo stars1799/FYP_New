@@ -58,7 +58,6 @@ In all of R code chunks above the `echo = FALSE` attribute is used. This is to p
 library(sf)
 library(tmap)
 library(arrow)
-library(maptools)
 library(lubridate)
 library(tidyverse)
 library(sp)
@@ -243,8 +242,8 @@ shinyApp(ui = ui, server = server)
 
 ```
 
+#2nd Version
 
-#2nd Version  
 ```{r}
 ui <- dashboardPage(
   dashboardHeader(title = "Step Ahead Solutions Dashboard", 
@@ -315,4 +314,3 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 
 ```
-

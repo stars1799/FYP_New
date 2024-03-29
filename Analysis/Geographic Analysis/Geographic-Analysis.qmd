@@ -9,7 +9,7 @@ code: false
 # Data Analysis
 
 ```{r}
-pacman::p_load(arrow, lubridate, maptools, sp, sf, raster, spatstat, tmap, classInt, viridis, tidyverse, spNetwork)
+pacman::p_load(arrow, lubridate, sp, sf, raster, spatstat, tmap, classInt, viridis, tidyverse, spNetwork)
 ```
 
 Reading shapefiles that were exported from our qgis geopackage:
@@ -148,11 +148,12 @@ plot(amk, main = "Ang Mo Kio")
 ```{r}
 pg_sp = as(pg, "SpatialPolygons")
 amk_sp = as(amk, "SpatialPolygons")
+
 ```
 
 ```{r}
-pg_owin = as(pg_sp, "owin")
-amk_owin = as(amk_sp, "owin")
+pg_owin <- as.owin(pg_sp)
+amk_owin <- as.owin(amk_sp)
 ```
 
 ```{r}
