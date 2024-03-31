@@ -173,13 +173,23 @@ ui <- fluidPage(
         .navbar-default {
           background-color: #FAE9DC; /* Set navbar background color */
           border-color: #ddd; /* Set navbar border color */
+           height: 50px;
+        
         }
         
         /* Main content padding for better alignment */
         .container-fluid {
           padding-right: 50px;
           padding-left: 50px;
+          height: 50px; 
         }
+        
+        .navbar-brand {
+          position: absolute;
+          margin-top: -395px;
+          left: 100px;
+        }
+        
         
         "
       )
@@ -187,11 +197,16 @@ ui <- fluidPage(
   ),
   
   # Navbar
-  navbarPage(
-    title = src='images/top_logo.png',
-      "STEP AHEAD SOLUTIONS",
-      onclick = "window.location.href='#home'"
-    ),
+  div(class = "navbar navbar-default",
+      div(class = "container-fluid",
+          imageOutput("top_logo"),
+          a(class = "navbar-brand", "STEP AHEAD SOLUTIONS")
+      )
+  )
+
+
+  
+,
     
     tabPanel("Home",
                div(style = "text-align: center;", imageOutput("logo")), 
@@ -400,6 +415,12 @@ server <- function(input, output, session) {
          height = 435,
          style = "display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
   }, deleteFile = FALSE)
+  
+  output$top_logo <- renderImage(
+    list(src = "images/top_logo.png",
+         width = 50,
+         height = 40,
+         onclick = "window.location.href='#home'"), deleteFile = FALSE)
   
   
   ###################################################
