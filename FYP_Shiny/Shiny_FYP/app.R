@@ -418,8 +418,8 @@ server <- function(input, output, session) {
   
   output$top_logo <- renderImage(
     list(src = "images/top_logo.png",
-         width = 50,
-         height = 40,
+         width = 60,
+         height = 45,
          onclick = "window.location.href='#home'"), deleteFile = FALSE)
   
   
