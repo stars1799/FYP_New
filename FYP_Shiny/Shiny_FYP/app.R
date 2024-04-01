@@ -229,17 +229,13 @@ ui <- fluidPage(
     
     tabPanel("Home",
                div(style = "text-align: center;", imageOutput("logo")), 
-               br(),
                hr(),
-               br(),
                h4("Welcome to our framework designed to address the discrepancies between current urban plans and community preferences within HDB estates. Our framework aims to enhance accessibility for residents by identifying and mitigating desired pedestrian lines. Navigate through the various sections to explore our research insights, demographic analyses, and proposed solutions."),
                br(),
                h4(strong("Objective Framework")),
                p("Our objective is to develop a comprehensive framework that identifies and mitigates discrepancies between the current urban plans and community preferences, specifically targeting desired pedestrian lines, thereby enhancing accessibility for residents in HDB estates."),
-               br(),
                h4(strong("Link to Sponsor")),
-               p("By providing a comprehensive framework, our project empowers urban planners to align infrastructure development with the actual movement patterns and preferences of residents. This ensures that current urban layouts of the walkways accurately reflect the community's needs, enhancing convenience, effectiveness, and ultimately improving the overall quality of life within HDB estates."), 
-               br(),
+               p("By providing a comprehensive framework, our project empowers urban planners to align infrastructure development with the actual movement patterns and preferences of residents. This ensures that current urban layouts of the walkways accurately reflect the community's needs, enhancing convenience, effectiveness, and ultimately improving the overall quality of life within HDB estates."),
                h4(strong("Challenge Statement")), 
                p("To reduce the disparity between urban plans and community preferences, improving accessibility for residents in HDB estates by reducing desired pedestrian lines.")
              ),
@@ -281,7 +277,6 @@ ui <- fluidPage(
                                    p(strong("Purpose of Sub-Challenge:")),
                                    p(strong("1. Many desired lines in Punggol (non-mature estates) are often found in areas beneath HDB blocks, often leading to pick-up points and 
                                             recreational spots like playgrounds and exercise corners.")), 
-                                   br(), 
                                    p("Our observations of desired lines in Punggol reveal a clustering effect beneath HDB blocks, suggesting a natural emergence influenced by the 
                                      convenience of crossing road infrastructure and accessibility to amenities like roundabouts, playgrounds, and exercise corners. This led us to 
                                      infer that desired lines naturally emerge based on the accessibility to amenities such as roundabouts, playgrounds, and exercise corners. This 
@@ -401,8 +396,46 @@ ui <- fluidPage(
                             )
                         ),
                         br(),
-                        br()
-               ), tabPanel(strong("Key Actionable 4"),
+                        br(),
+                        tabsetPanel(
+                          tabPanel(strong("Sub-Challenge"),
+                                   div(style = "background-color: #f2f2f2; padding: 10px;",
+                                       h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Sub-Challenge")),
+                                       div(style = "text-align: center;",
+                                           HTML("<h4>Does the layout of the HDB estate influence the emergence of desired lines?</h4>")
+                                       ), 
+                                   ),
+                                   br(), 
+                                   p(strong("Purpose of Sub-Challenge:")),
+                                   p(strong("1. Ang Mo Kio (mature estates) have fewer and more dispersed desired lines, and within the HDB estate itself, there is a noticeable 
+                                            absence of desired lines.")), 
+                                   p("This can be seen through the comparison of the desired lines in Ang Mo Kio and Punggol, where Ang Mo Kio has fewer and more dispersed desired 
+                                     lines. While the desired lines still emerge predominantly along the road infrastructure, the count is still notably lower compared to Punggol. 
+                                     Additionally, within the HDB estate of Ang Mo Kio, there is a noticeable absence of desired lines."), 
+                                   br(),
+                                   div(style = "text-align: center;", imageOutput("dl_dashboard_amk")),
+                                   p("Though we recognise that it is important to acknowledge that numerous mature estates have already undergone retrofitting processes to meet the 
+                                     resident’s needs. Which meant that, the recorded number of desired lines in our study may not entirely reflect the original situation accurately. 
+                                     Nevertheless, this insight spurred further research into the potential disparities between infrastructure design and the preferences of demographics 
+                                     in mature and non-mature estates.")
+                                   ),
+                          tabPanel(
+                            strong('Evidence'), 
+                            br(),
+                            p(strong("Supporting Evidence")),
+                            p("Through our research on walkway data, we found that residents are more inclined to adhere to constructed paths if they are straight and intuitive, as opposed 
+                              to the winding routes often found in non-mature estates. Unlike non-mature estates, mature estates have simplified layouts that enable residents to navigate a 
+                              long direct and intuitive pathways with ease."),
+                            p("Additionally, the complex design of the newer HDB estates has led to less intuitive walking pavements. Therefore, residents often resort to walking along the 
+                              main roads to reach their destination within the estate before creating a desired line to reconnect with the designated walking pavements."),
+                            #<insert map showing the walking data>
+                            #<insert on-the-ground research – Karina’s video & picture showing people walking on car-based roads>
+                            div(style = "text-align: center;", imageOutput("otg_pg_dl")),
+                            p("Therefore, in more complex HDB layouts, our findings suggest that residents are more inclined to create their own pathways. These custom routes serve to simplify 
+                              their journey, allowing them to effortlessly traverse the HDB estate and reach their destination."),
+                          ))),
+                        
+                tabPanel(strong("Key Actionable 4"),
                            br(), 
                            div(style = "background-color: #f2f2f2; padding: 10px;",
                                h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
@@ -413,7 +446,7 @@ ui <- fluidPage(
                            ),
                            br(),
                            br()
-               )
+                        )
                         )),
     
     tabPanel("Desired Lines Calculator ", 
@@ -600,11 +633,10 @@ server <- function(input, output, session) {
   ### Home Page banner  
   output$logo <- renderImage({
     list(src = "images/homepage.png",
-         width = 1250,
-         height = 435,
-         style = "display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
+         style = "max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
   }, deleteFile = FALSE)
   
+  ### Top-Logo
 
   output$top_logo <- renderImage(
     list(src = "images/top_logo.png",
@@ -650,6 +682,18 @@ server <- function(input, output, session) {
   },deleteFile = FALSE)
   
   
+  ### Framework 3 DL Dashboard
+  output$dl_dashboard_amk <- renderImage({
+    list(src = "images/DL_amk_dashboard_A3.jpg",
+         style = "max-width: 50%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 3 OTG Punggol_Karina 
+  output$otg_pg_dl <- renderImage({
+    list(src = "images/OTG_pg_A3.jpg",
+         style = "max-width: 50%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
   
   
   ###################################################
