@@ -190,10 +190,31 @@ ui <- fluidPage(
         
         /* Main content padding for better alignment */
         .container-fluid {
+
           padding-right: 50px;
           padding-left: 50px;
         }
       
+
+          padding-right: 30px;
+          padding-left: 30px;
+          height: 50px; 
+        }
+      
+        
+       #top_logo {
+          height: 50px;
+          margin-top: -10px;
+          margin-left: -36px;
+          margin-right: 120px; /* Add margin to separate image and text */
+        }
+
+        .navbar-text{
+        margin-left: 36px;
+        margin-top: -50px;
+        z-index: 100000;
+        position: absolute; /* Ensure the z-index works properly */
+        }
         
         "
       )
@@ -201,6 +222,7 @@ ui <- fluidPage(
   ),
   
   # Navbar
+
   navbarPage(
     windowTitle = "STEP AHEAD SOLUTIONS", # Explicitly set the window title
     title = span(tags$img(src = "images/top_logo.png", height = "30px"), " STEP AHEAD SOLUTIONS"),
@@ -528,14 +550,14 @@ server <- function(input, output, session) {
          style = "display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
   }, deleteFile = FALSE)
   
-  
-  ### Navigation Bar Logo   
-  output$top_logo <- renderImage({
+
+  output$top_logo <- renderImage(
     list(src = "images/top_logo.png",
-         width = 40,
-         height = 40,
-         style = "display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
-  }, deleteFile = FALSE)
+         width = 50,
+         height = 45,
+         onclick = "window.location.load()"), deleteFile = FALSE)
+  
+
   
   
   ### Framework 1 EDA - James 
