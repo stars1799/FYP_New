@@ -302,7 +302,11 @@ ui <- fluidPage(
                                    strong("On a scale of 1 to 10, how likely are you to instinctively take the shortest path to the following amenities?")),
                                 selectInput("column_select_distPlot2", "Select an amenity:", 
                                             choices = amenities),
-                                plotOutput("distPlot2", width= "1000px", height = "600px"),
+                                fluidRow(
+                                  column(offset = 2, width = 8, # Adjust the offset and width as needed
+                                         plotOutput("distPlot2", height = "600px")
+                                  )
+                                ),
                             ),
                             br(), 
                             p("Our survey findings also revealed the importance of convenience in residents' decision-making regarding their walking routes for daily activities. With 
@@ -316,13 +320,15 @@ ui <- fluidPage(
                               significance among the young adult population compared to the other demographic groups. This insight holds particular significance as our research also highlighted 
                               a trend of increasing young adult population in non-mature estates over the years. This demographic shift suggests an increasing need to cater to the needs and 
                               preferences of this demographic segment. Thus emphasizing on the increasing need to prioritize convenience when designing built paths. "), 
-                            div(style = "text-align: center;", imageOutput("eda_convenience")), 
-                            p("   "), 
-                            div(style = "text-align: center;", imageOutput("pg_dashboard")),
+                            fluidRow(
+                              column(6, div(style = "text-align: center;", imageOutput("eda_convenience"))),
+                              column(6, div(style = "text-align: center;", imageOutput("pg_dashboard")))
+                            ),
                               )
                             )
                           ), 
                tabPanel(strong("Key Actionable 2"),
+                        
                         br(), 
                         div(style = "background-color: #f2f2f2; padding: 10px;",
                             h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
@@ -332,10 +338,59 @@ ui <- fluidPage(
                         ),
                         br(),
                         br(),
-                        h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", 
-                           strong("How likely are you to alter your planned route within your residential estate due to adverse weather conditions (e.g., rain, sunny)?")), 
-                        plotOutput("distPlot6",  width= "1000px", height = "600px")
-               ), 
+                        tabsetPanel(
+                          tabPanel(strong("Sub-Challenge"),
+                                   div(style = "background-color: #f2f2f2; padding: 10px;",
+                                       h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Sub-Challenge")),
+                                       div(style = "text-align: center;",
+                                           HTML("<h4>How can we enhance & improve pedestrian walkways within HDB estates to encourage higher utilisation of built paths?</h4>")
+                                       ), 
+                                   ),
+                                   br(), 
+                                   p(strong("Purpose of Sub-Challenge:")),
+                                   p(strong("1. Built paths are sometimes under-utilised due to a lack of directness of sheltered paths, which forces residents to take long detours 
+                                            to their intended destination in the event of inclement weather conditions. ")), 
+                                   p(strong("2. In our interview with residents during our on-the-ground research in Punggol, residents indicated that sheltered walkways often do 
+                                            not provide the most direct routes to facilities such as MRT stations or eateries, even though they’re useful during adverse weather. 
+                                            They need to detour around to reach the nearest sheltered path. Therefore, these paths are typically utilised only during poor weather 
+                                            conditions, as they are not the shortest path to such amenities. ")), 
+                                   p((strong("3. In our interview with a resident in Punggol, he mentioned the drainage system from the pathway of Punggol MRT to the nearby HDB estate 
+                                             is poor, especially during adverse weather. The water is flooded on the pathway which makes it very slippery.")),
+                                   br(),
+                          )),
+                          tabPanel(
+                            strong('Evidence'), 
+                            br(),
+                            p(strong("Supporting Evidence")),
+                            p("Using sentiment analysis, we have discovered that shelters significantly impact an individual’s sentiment and preference regarding their choice of 
+                              walkways. Through word cloud analysis, it has revealed that many residents are expressing dissatisfaction with the lack of shelter in their estate. Upon 
+                              further investigation into the data, we have discovered that this feedback extends to concerns about excessive detours along paths and sudden interruptions 
+                              in sheltered routes. Therefore, many residents express a desire for more direct sheltered paths that do not compromise on convenience."),
+                            br(), 
+                            fluidRow(
+                              column(6, div(style = "text-align: center;", imageOutput("dislike_bigram"))),
+                              column(6, div(style = "text-align: center;", imageOutput("dislike_unigram")))
+                            ),
+                            p("Furthermore, our data analysis revealed that adverse weather conditions, such as intense sunlight and rainfall, significantly influence residents to alter 
+                              their routes. This would suggest a natural inclination among people to seek sheltered paths to avoid exposure to the sun, which is prevalent in Singapore’s 
+                              climate."),
+                            br(), 
+                            h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", 
+                               strong("How likely are you to alter your planned route within your residential estate due to adverse weather conditions (e.g., rain, sunny)?")), 
+                            fluidRow(
+                              column(offset = 2, width = 8, # Adjust the offset and width as needed
+                                     plotOutput("distPlot6", height = "600px")
+                              )
+                            ),
+                            p("On the flipside, heavy rain may result in ponding in sections of sheltered walkways, which renders these walkways slippery and unsafe to use. This could be
+                              due to poor drainage systems on sections of these walkways, which includes leaking of water from the roof of shelters or overflowing of water from the roads
+                              to the walkways. In our survey, a few of our residents also reported that walkway shelters do not adequately protect against heavy rain due to sustained wind
+                              or narrowly-built shelters, which contributes to the overall decrease of safety on these walkways."),
+                            p("Thus, reinforcing the recommendation to prioritise the construction of more direct built paths with adequate shelter. Hence, indicating that residents would 
+                              be more inclined to use a sheltered direct built path as their route.")
+                          )
+                          )
+                        ), 
                tabPanel(strong("Key Actionable 3"),
                         br(), 
                         div(style = "background-color: #f2f2f2; padding: 10px;",
@@ -571,19 +626,28 @@ server <- function(input, output, session) {
   ### Framework 1 EDA - Amanda Convenience  
   output$eda_convenience <- renderImage({
     list(src = "images/EDA_A1_convenience.png",
-         width = 815,
-         height = 470,
-         style = "display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
+         style = "max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto;")
   }, deleteFile = FALSE)
   
   ### Framework 1 EDA - Punggol Dashboard 
   output$pg_dashboard <- renderImage({
     list(src = "images/Punggol_dashboard.jpg",
-         width = 594,
-         height = 361,
-         style = "display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
-  }, deleteFile = FALSE)
+         style = "max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
   
+  
+  ### Framework 2 Word Cloud - bigram
+  output$dislike_bigram <- renderImage({
+    list(src = "images/dislike_bigram_A2.jpg",
+         style = "max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 2 Word Cloud - unigram
+  output$dislike_unigram <- renderImage({
+    list(src = "images/dislike_unigram_A2.jpg",
+         style = "max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
   
   
   
