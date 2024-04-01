@@ -13,7 +13,6 @@ library(viridis)
 library(spNetwork)
 library(spatstat)
 library(ggplot2)
-#install.packages("ggmap")
 library(ggmap)
 
 
@@ -21,6 +20,12 @@ library(ggmap)
 
 ######### Loading of Data ##########
 
+###### EDA Data ##### 
+
+Data <- read.csv("data/aspatial/Cleaned Data (Ver 2.0).csv")
+
+
+###### Geospatial ######
 pg_wdl <- st_read(dsn = "data/geospatial", 
                   layer = "pg_wdl")
 amk_wdl <- st_read(dsn = "data/geospatial", 
@@ -160,7 +165,15 @@ buildingcat <- c(
   "Water Body"
 )
 
-#
+#Choices for EDA(Amanda) Framework #1 
+amenities <- c(
+  "Eateries Or Hawker Centres" = "EateriesOrHawkerCentres",
+  "Supermarkets" = "Supermarkets",
+  "Parks" = "Parks",
+  "Polyclinics Or Medical Clinics" = "PolyclinicsOrMedicalClinics",
+  "Drop-Off Points Or Bus Stops" = "DropOffPointsOrBusStops"
+  )
+
 
 
 #######ui
@@ -180,6 +193,7 @@ ui <- fluidPage(
           padding-right: 50px;
           padding-left: 50px;
         }
+      
         
         "
       )
@@ -188,10 +202,8 @@ ui <- fluidPage(
   
   # Navbar
   navbarPage(
-    title = src='images/top_logo.png',
-      "STEP AHEAD SOLUTIONS",
-      onclick = "window.location.href='#home'"
-    ),
+    windowTitle = "STEP AHEAD SOLUTIONS", # Explicitly set the window title
+    title = span(tags$img(src = "images/eda_choices.png", height = "30px"," STEP AHEAD SOLUTIONS")),
     
     tabPanel("Home",
                div(style = "text-align: center;", imageOutput("logo")), 
@@ -210,7 +222,128 @@ ui <- fluidPage(
                p("To reduce the disparity between urban plans and community preferences, improving accessibility for residents in HDB estates by reducing desired pedestrian lines.")
              ),
     
-    navbarMenu("Research Insights",
+    tabPanel("Framework", 
+             div(style = "background-color: #f2f2f2; padding: 10px;",
+                 h4(style = "margin-top: 0; margin-bottom: 10px;", strong("Key Actionables")),
+                 HTML("<ol>
+                             <li>Constructing direct paths that are easily accessible for residents to reduce the walking time and to facilitate easier access to 
+                                     transport, roundabouts, supermarkets and eateries, reducing the necessity for residents to resort to creating unofficial shortcuts.</li>
+                             <li>To construct more direct sheltered built paths with better drainage systems in order to incentivize their usage.</li>
+                             <li>Develop simple HDB layouts that ensure direct and intuitive pathways for residents, in order to prevent residents from needing to
+                                create desired paths in order to prevent the use of the long-winding routes within the HDB estate.</li>
+                             <li>TBC</li>
+                             </ol>")
+             ),
+             br(), 
+             tabsetPanel(
+               tabPanel(strong("Key Actionable 1"),
+                        br(), 
+                        div(style = "background-color: #f2f2f2; padding: 10px;",
+                            h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
+                            div(style = "text-align: center;",
+                                HTML("<h4>Constructing direct paths that are easily accessible for residents to reduce the walking time and to facilitate easier access to 
+                                     transport, roundabouts, supermarkets and eateries, reducing the necessity for residents to resort to creating unofficial shortcuts.</h4>")
+                            )
+                        ),
+                        br(),
+                        br(), 
+                        tabsetPanel(
+                          tabPanel(strong("Sub-Challenge"),
+                                   div(style = "background-color: #f2f2f2; padding: 10px;",
+                                       h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Sub-Challenge")),
+                                       div(style = "text-align: center;",
+                                           HTML("<h4>Which specific amenities contribute to the emergence of desired lines, and what are the underlying reasons driving this?</h4>")
+                                       ), 
+                                   ),
+                                   br(), 
+                                   p(strong("Purpose of Sub-Challenge:")),
+                                   p(strong("1. Many desired lines in Punggol (non-mature estates) are often found in areas beneath HDB blocks, often leading to pick-up points and 
+                                            recreational spots like playgrounds and exercise corners.")), 
+                                   br(), 
+                                   p("Our observations of desired lines in Punggol reveal a clustering effect beneath HDB blocks, suggesting a natural emergence influenced by the 
+                                     convenience of crossing road infrastructure and accessibility to amenities like roundabouts, playgrounds, and exercise corners. This led us to 
+                                     infer that desired lines naturally emerge based on the accessibility to amenities such as roundabouts, playgrounds, and exercise corners. This 
+                                     allowed us to direct more attention to these amenities."),
+                                   br() 
+                                   ),
+                          tabPanel(
+                            strong('Evidence'), 
+                            br(),
+                            p(strong("Supporting Evidence")),
+                            p("Our survey findings indicate that bus stops, supermarkets, and eateries are the top amenities for which respondents strongly prefer shorter walking times, 
+                                thus considering them more convenient. Additionally, these same amenities constitute the top three amenities for which respondents are inclined to take 
+                                desired paths or shortcuts."),
+                            br(), 
+                            column(
+                                width = 12,
+                                h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", 
+                                   strong("On a scale of 1 to 10, how likely are you to instinctively take the shortest path to the following amenities?")),
+                                selectInput("column_select_distPlot2", "Select an amenity:", 
+                                            choices = amenities),
+                                plotOutput("distPlot2", width= "1000px", height = "600px"),
+                            ),
+                            br(), 
+                            p("Our survey findings also revealed the importance of convenience in residents' decision-making regarding their walking routes for daily activities. With 
+                              convenience ranking as the primary factor influencing their choice of route, it becomes evident that residents prioritise efficiency when accessing amenities 
+                              within their neighbourhoods."),
+                            br(), 
+                            div(style = "text-align: center;", imageOutput("eda_choices")),
+                            p("Additionally, the subsequent top-ranking factors—short walking distance and accessibility—further brings out the aspects needed to create this path. This further
+                              emphasises the need to create the most accessible and direct routes possible, minimising travel time."), 
+                            p("Upon further exploration of our top-ranking factor of convenience through demographic segmentation, our findings reveal that convenience holds the highest 
+                              significance among the young adult population compared to the other demographic groups. This insight holds particular significance as our research also highlighted 
+                              a trend of increasing young adult population in non-mature estates over the years. This demographic shift suggests an increasing need to cater to the needs and 
+                              preferences of this demographic segment. Thus emphasizing on the increasing need to prioritize convenience when designing built paths. "), 
+                            div(style = "text-align: center;", imageOutput("eda_convenience")), 
+                            p("   "), 
+                            div(style = "text-align: center;", imageOutput("pg_dashboard")),
+                              )
+                            )
+                          ), 
+               tabPanel(strong("Key Actionable 2"),
+                        br(), 
+                        div(style = "background-color: #f2f2f2; padding: 10px;",
+                            h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
+                            div(style = "text-align: center;",
+                                HTML("<h4>To construct more direct sheltered built paths with better drainage systems in order to incentivize their usage.</h4>")
+                            )
+                        ),
+                        br(),
+                        br(),
+                        h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", 
+                           strong("How likely are you to alter your planned route within your residential estate due to adverse weather conditions (e.g., rain, sunny)?")), 
+                        plotOutput("distPlot6",  width= "1000px", height = "600px")
+               ), 
+               tabPanel(strong("Key Actionable 3"),
+                        br(), 
+                        div(style = "background-color: #f2f2f2; padding: 10px;",
+                            h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
+                            div(style = "text-align: center;",
+                                HTML("<h4>Develop simple HDB layouts that ensure direct and intuitive pathways for residents, in order to prevent residents from needing to
+                                create desired paths in order to prevent the use of the long-winding routes within the HDB estate.</h4>")
+                            )
+                        ),
+                        br(),
+                        br()
+               ), tabPanel(strong("Key Actionable 4"),
+                           br(), 
+                           div(style = "background-color: #f2f2f2; padding: 10px;",
+                               h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
+                               div(style = "text-align: center;",
+                                   HTML("<h4>Constructing direct paths that are easily accessible for residents to reduce the walking time and to facilitate easier access to 
+                                     transport, roundabouts, supermarkets and eateries, reducing the necessity for residents to resort to creating unofficial shortcuts.</h4>")
+                               )
+                           ),
+                           br(),
+                           br()
+               )
+                        )),
+    
+    tabPanel("Desired Lines Calculator ", 
+             div(br())
+    ),
+    
+    navbarMenu("Appendix",
                tabPanel("Demographics Analysis Insights",
                         div(style = "background-color: #f2f2f2; padding: 10px;",
                             h4(style = "margin-top: 0; margin-bottom: 10px;", strong("Key Insights")),
@@ -376,16 +509,10 @@ ui <- fluidPage(
                                    )
                           
                           )
-    )),
-    
-    tabPanel("Framework", 
-             div(br())
-    ),
-    
-    tabPanel("Conclusion", 
-             div(br())
-    )
-  )
+    ))
+)
+)
+
 
 
 
@@ -402,31 +529,44 @@ server <- function(input, output, session) {
   }, deleteFile = FALSE)
   
   
+  ### Navigation Bar Logo   
+  output$top_logo <- renderImage({
+    list(src = "images/top_logo.png",
+         width = 40,
+         height = 40,
+         style = "display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
+  }, deleteFile = FALSE)
+  
+  
+  ### Framework 1 EDA - James 
+  output$eda_choices <- renderImage({
+    list(src = "images/EDA_A1_choices.png",
+         width = 646,
+         height = 376,
+         style = "display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
+  }, deleteFile = FALSE)
+  
+  ### Framework 1 EDA - Amanda Convenience  
+  output$eda_convenience <- renderImage({
+    list(src = "images/EDA_A1_convenience.png",
+         width = 815,
+         height = 470,
+         style = "display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
+  }, deleteFile = FALSE)
+  
+  ### Framework 1 EDA - Punggol Dashboard 
+  output$pg_dashboard <- renderImage({
+    list(src = "images/Punggol_dashboard.jpg",
+         width = 594,
+         height = 361,
+         style = "display: block; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px;")
+  }, deleteFile = FALSE)
+  
+  
+  
+  
+  
   ###################################################
-  tmap_mode("view")
-  
-  map_loading <- eventReactive(input$studyarea, {
-    data <- NULL  # Initialize to NULL to ensure data has a default state
-    if (!is.null(input$studyarea)) {
-      if (input$studyarea == "Punggol") {
-        data <- pg_landuse
-      } else {
-        data <- a_dl_class
-      }
-    }
-    
-    if (!is.null(data)) {
-      return(dl_map <- osm_basemap +
-               tm_shape(a_dl_class) +
-               tm_lines(col = "red", lwd = 2) +  # Adjust line color and width as needed
-               tmap_options(check.and.fix = TRUE))
-    }
-  }, ignoreNULL = FALSE)  # Use this to decide whether to ignore the initial NULL state
-  
-  # Ensure you render the map correctly in the UI
-  output$landuseMap <- renderTmap({
-    map_loading()  # This will now call and render the map generated by map_loading
-  })
   
   output$dl_map_2 <- renderTmap({
     
@@ -460,6 +600,63 @@ server <- function(input, output, session) {
     dl_map  # Return the map for rendering
   })
   
+  ###################################################
+  
+  ###### EDA (Amanda) for Framework #1 ######
+  
+  output$distPlot2 <- renderPlot({
+    # Get the selected column from dropdown
+    selected_column <- input$column_select_distPlot2
+    # Extract the column data
+    column_data <- Data[[selected_column]]
+    # Check if the column data is numeric
+    if (!is.numeric(column_data)) {
+      stop("The selected column data is not numeric.")
+    }
+    
+    # Create a bar plot of the frequency of values
+    freq_counts <- table(column_data) + 5
+    
+    max_freq <- max(freq_counts)
+    ylim_max <- max_freq + 5
+    
+    barplot(freq_counts, 
+            main = paste("Frequency of Values in", selected_column, "(1- Least likely, 10- Most likely)"),
+            xlab = "Value", ylab = "Frequency", ylim = c(0, ylim_max))
+    
+    # Calculate the x-coordinates for the labels (center of each bar)
+    bar_centers <- barplot(freq_counts, plot = FALSE, ylim = c(0, ylim_max))
+    
+    label_positions <- freq_counts + max_freq * 0.05
+    
+    # Add labels on the bars
+    text(x = bar_centers, y = label_positions, labels = freq_counts, pos = 3, col = "blue")
+  })
+  
+  output$distPlot6 <- renderPlot({
+    # Get the selected column from dropdown
+    selected_column <- input$column_select
+    
+    # Extract the column data
+    column_data <- Data$AdverseWeatherConditions
+    
+    # Calculate frequency counts for all unique values
+    freq_counts <- table(column_data)
+    
+    # Sort the frequency counts in ascending order
+    freq_counts_sorted <- sort(freq_counts)
+    
+    # Create a bar plot of the frequency of values, now in ascending order
+    bp <- barplot(freq_counts_sorted, main = "Frequency of Values in Adverse Weather Conditions",
+                  xlab = "AdverseWeatherConditions", ylab = "Frequency",
+                  col = "lightblue", border = "black",
+                  ylim = c(0, max(freq_counts_sorted) * 1.1))  # Set finite y-axis limits
+    
+    # Add labels on the bars, using the sorted data
+    text(x = bp, y = freq_counts_sorted, labels = freq_counts_sorted, pos = 3, col = "blue")
+  })
+
+
 }
 
 
