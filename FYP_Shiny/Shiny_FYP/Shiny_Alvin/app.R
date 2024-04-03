@@ -173,7 +173,7 @@ amenities <- c(
   "Parks" = "Parks",
   "Polyclinics Or Medical Clinics" = "PolyclinicsOrMedicalClinics",
   "Drop-Off Points Or Bus Stops" = "DropOffPointsOrBusStops"
-  )
+)
 
 
 
@@ -218,7 +218,7 @@ ui <- fluidPage(
       )
     )
   ),
-        tags$script('
+  tags$script('
         $(document).ready(function() {
           // Function to adjust iframe width based on container width
           function adjustIframeWidth() {
@@ -236,39 +236,39 @@ ui <- fluidPage(
         });
       '),
   # Navbar
-
+  
   navbarPage(
     
     column(
       width = 2,
       imageOutput("top_logo")
     ),
-
-tags$p(class = "navbar-text", "STEP AHEAD SOLUTIONS"),
-
+    
+    tags$p(class = "navbar-text", "STEP AHEAD SOLUTIONS"),
+    
     
     tabPanel("Home",
-               div(style = "text-align: center;", imageOutput("logo")), 
-               br(),
-               hr(),
-               br(),
-               h4("Welcome to our framework designed to address the discrepancies between current urban plans and community preferences within HDB estates. Our framework aims to enhance accessibility for residents by identifying and mitigating desired pedestrian lines. Navigate through the various sections to explore our research insights, demographic analyses, and proposed solutions."),
-               br(),
-               h4(strong("Objective Framework")),
-               p("Our objective is to develop a comprehensive framework that identifies and mitigates discrepancies between the current urban plans and community preferences, specifically targeting desired pedestrian lines, thereby enhancing accessibility for residents in HDB estates."),
-               br(),
-               h4(strong("Link to Sponsor")),
-               p("By providing a comprehensive framework, our project empowers urban planners to align infrastructure development with the actual movement patterns and preferences of residents. This ensures that current urban layouts of the walkways accurately reflect the community's needs, enhancing convenience, effectiveness, and ultimately improving the overall quality of life within HDB estates."), 
-               br(),
-               h4(strong("Challenge Statement")), 
-               p("To reduce the disparity between urban plans and community preferences, improving accessibility for residents in HDB estates by reducing desired pedestrian lines.")
-             ),
+             div(style = "text-align: center;", imageOutput("logo")), 
+             br(),
+             hr(),
+             br(),
+             h4("Welcome to our framework designed to address the discrepancies between current urban plans and community preferences within HDB estates. Our framework aims to enhance accessibility for residents by identifying and mitigating desired pedestrian lines. Navigate through the various sections to explore our research insights, demographic analyses, and proposed solutions."),
+             br(),
+             h4(strong("Objective Framework")),
+             p("Our objective is to develop a comprehensive framework that identifies and mitigates discrepancies between the current urban plans and community preferences, specifically targeting desired pedestrian lines, thereby enhancing accessibility for residents in HDB estates."),
+             br(),
+             h4(strong("Link to Sponsor")),
+             p("By providing a comprehensive framework, our project empowers urban planners to align infrastructure development with the actual movement patterns and preferences of residents. This ensures that current urban layouts of the walkways accurately reflect the community's needs, enhancing convenience, effectiveness, and ultimately improving the overall quality of life within HDB estates."), 
+             br(),
+             h4(strong("Challenge Statement")), 
+             p("To reduce the disparity between urban plans and community preferences, improving accessibility for residents in HDB estates by reducing desired pedestrian lines.")
+    ),
     
     tabPanel("Framework", 
              div(style = "background-color: #f2f2f2; padding: 10px;",
                  h4(style = "margin-top: 0; margin-bottom: 10px;", strong("Key Actionables")),
                  HTML("<ol>
-                             <li>Constructing direct paths that are easily accessible for residents to reduce the walking time and to facilitate easier access to 
+                             <li>Co                     anstructing direct paths that are easily accessible for residents to reduce the walking time and to facilitate easier access to 
                                      transport, roundabouts, supermarkets and eateries, reducing the necessity for residents to resort to creating unofficial shortcuts.</li>
                              <li>To construct more direct sheltered built paths with better drainage systems in order to incentivize their usage.</li>
                              <li>Develop simple HDB layouts that ensure direct and intuitive pathways for residents, in order to prevent residents from needing to
@@ -301,13 +301,12 @@ tags$p(class = "navbar-text", "STEP AHEAD SOLUTIONS"),
                                    p(strong("Purpose of Sub-Challenge:")),
                                    p(strong("1. Many desired lines in Punggol (non-mature estates) are often found in areas beneath HDB blocks, often leading to pick-up points and 
                                             recreational spots like playgrounds and exercise corners.")), 
-                                   br(), 
                                    p("Our observations of desired lines in Punggol reveal a clustering effect beneath HDB blocks, suggesting a natural emergence influenced by the 
                                      convenience of crossing road infrastructure and accessibility to amenities like roundabouts, playgrounds, and exercise corners. This led us to 
                                      infer that desired lines naturally emerge based on the accessibility to amenities such as roundabouts, playgrounds, and exercise corners. This 
                                      allowed us to direct more attention to these amenities."),
                                    br() 
-                                   ),
+                          ),
                           tabPanel(
                             strong('Evidence'), 
                             br(),
@@ -317,12 +316,16 @@ tags$p(class = "navbar-text", "STEP AHEAD SOLUTIONS"),
                                 desired paths or shortcuts."),
                             br(), 
                             column(
-                                width = 12,
-                                h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", 
-                                   strong("On a scale of 1 to 10, how likely are you to instinctively take the shortest path to the following amenities?")),
-                                selectInput("column_select_distPlot2", "Select an amenity:", 
-                                            choices = amenities),
-                                plotOutput("distPlot2", width= "1000px", height = "600px"),
+                              width = 12,
+                              h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", 
+                                 strong("On a scale of 1 to 10, how likely are you to instinctively take the shortest path to the following amenities?")),
+                              selectInput("column_select_distPlot2", "Select an amenity:", 
+                                          choices = amenities),
+                              fluidRow(
+                                column(offset = 2, width = 8, # Adjust the offset and width as needed
+                                       plotOutput("distPlot2", height = "600px")
+                                )
+                              ),
                             ),
                             br(), 
                             p("Our survey findings also revealed the importance of convenience in residents' decision-making regarding their walking routes for daily activities. With 
@@ -336,13 +339,15 @@ tags$p(class = "navbar-text", "STEP AHEAD SOLUTIONS"),
                               significance among the young adult population compared to the other demographic groups. This insight holds particular significance as our research also highlighted 
                               a trend of increasing young adult population in non-mature estates over the years. This demographic shift suggests an increasing need to cater to the needs and 
                               preferences of this demographic segment. Thus emphasizing on the increasing need to prioritize convenience when designing built paths. "), 
-                            div(style = "text-align: center;", imageOutput("eda_convenience")), 
-                            p("   "), 
-                            div(style = "text-align: center;", imageOutput("pg_dashboard")),
-                              )
-                            )
-                          ), 
+                            fluidRow(
+                              column(6, div(style = "text-align: center;", imageOutput("eda_convenience"))),
+                              column(6, div(style = "text-align: center;", imageOutput("pg_dashboard")))
+                            ),
+                          )
+                        )
+               ), 
                tabPanel(strong("Key Actionable 2"),
+                        
                         br(), 
                         div(style = "background-color: #f2f2f2; padding: 10px;",
                             h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
@@ -352,9 +357,58 @@ tags$p(class = "navbar-text", "STEP AHEAD SOLUTIONS"),
                         ),
                         br(),
                         br(),
-                        h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", 
-                           strong("How likely are you to alter your planned route within your residential estate due to adverse weather conditions (e.g., rain, sunny)?")), 
-                        plotOutput("distPlot6",  width= "1000px", height = "600px")
+                        tabsetPanel(
+                          tabPanel(strong("Sub-Challenge"),
+                                   div(style = "background-color: #f2f2f2; padding: 10px;",
+                                       h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Sub-Challenge")),
+                                       div(style = "text-align: center;",
+                                           HTML("<h4>How can we enhance & improve pedestrian walkways within HDB estates to encourage higher utilisation of built paths?</h4>")
+                                       ), 
+                                   ),
+                                   br(), 
+                                   p(strong("Purpose of Sub-Challenge:")),
+                                   p(strong("1. Built paths are sometimes under-utilised due to a lack of directness of sheltered paths, which forces residents to take long detours 
+                                            to their intended destination in the event of inclement weather conditions. ")), 
+                                   p(strong("2. In our interview with residents during our on-the-ground research in Punggol, residents indicated that sheltered walkways often do 
+                                            not provide the most direct routes to facilities such as MRT stations or eateries, even though they’re useful during adverse weather. 
+                                            They need to detour around to reach the nearest sheltered path. Therefore, these paths are typically utilised only during poor weather 
+                                            conditions, as they are not the shortest path to such amenities. ")), 
+                                   p((strong("3. In our interview with a resident in Punggol, he mentioned the drainage system from the pathway of Punggol MRT to the nearby HDB estate 
+                                             is poor, especially during adverse weather. The water is flooded on the pathway which makes it very slippery.")),
+                                     br(),
+                                   )),
+                          tabPanel(
+                            strong('Evidence'), 
+                            br(),
+                            p(strong("Supporting Evidence")),
+                            p("Using sentiment analysis, we have discovered that shelters significantly impact an individual’s sentiment and preference regarding their choice of 
+                              walkways. Through word cloud analysis, it has revealed that many residents are expressing dissatisfaction with the lack of shelter in their estate. Upon 
+                              further investigation into the data, we have discovered that this feedback extends to concerns about excessive detours along paths and sudden interruptions 
+                              in sheltered routes. Therefore, many residents express a desire for more direct sheltered paths that do not compromise on convenience."),
+                            br(), 
+                            fluidRow(
+                              column(6, div(style = "text-align: center;", imageOutput("dislike_bigram"))),
+                              column(6, div(style = "text-align: center;", imageOutput("dislike_unigram")))
+                            ),
+                            p("Furthermore, our data analysis revealed that adverse weather conditions, such as intense sunlight and rainfall, significantly influence residents to alter 
+                              their routes. This would suggest a natural inclination among people to seek sheltered paths to avoid exposure to the sun, which is prevalent in Singapore’s 
+                              climate."),
+                            br(), 
+                            h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", 
+                               strong("How likely are you to alter your planned route within your residential estate due to adverse weather conditions (e.g., rain, sunny)?")), 
+                            fluidRow(
+                              column(offset = 2, width = 8, # Adjust the offset and width as needed
+                                     plotOutput("distPlot6", height = "600px")
+                              )
+                            ),
+                            p("On the flipside, heavy rain may result in ponding in sections of sheltered walkways, which renders these walkways slippery and unsafe to use. This could be
+                              due to poor drainage systems on sections of these walkways, which includes leaking of water from the roof of shelters or overflowing of water from the roads
+                              to the walkways. In our survey, a few of our residents also reported that walkway shelters do not adequately protect against heavy rain due to sustained wind
+                              or narrowly-built shelters, which contributes to the overall decrease of safety on these walkways."),
+                            p("Thus, reinforcing the recommendation to prioritise the construction of more direct built paths with adequate shelter. Hence, indicating that residents would 
+                              be more inclined to use a sheltered direct built path as their route.")
+                          )
+                        )
                ), 
                tabPanel(strong("Key Actionable 3"),
                         br(), 
@@ -366,20 +420,58 @@ tags$p(class = "navbar-text", "STEP AHEAD SOLUTIONS"),
                             )
                         ),
                         br(),
-                        br()
-               ), tabPanel(strong("Key Actionable 4"),
-                           br(), 
-                           div(style = "background-color: #f2f2f2; padding: 10px;",
-                               h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
-                               div(style = "text-align: center;",
-                                   HTML("<h4>Constructing direct paths that are easily accessible for residents to reduce the walking time and to facilitate easier access to 
+                        br(),
+                        tabsetPanel(
+                          tabPanel(strong("Sub-Challenge"),
+                                   div(style = "background-color: #f2f2f2; padding: 10px;",
+                                       h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Sub-Challenge")),
+                                       div(style = "text-align: center;",
+                                           HTML("<h4>Does the layout of the HDB estate influence the emergence of desired lines?</h4>")
+                                       ), 
+                                   ),
+                                   br(), 
+                                   p(strong("Purpose of Sub-Challenge:")),
+                                   p(strong("1. Ang Mo Kio (mature estates) have fewer and more dispersed desired lines, and within the HDB estate itself, there is a noticeable 
+                                            absence of desired lines.")), 
+                                   p("This can be seen through the comparison of the desired lines in Ang Mo Kio and Punggol, where Ang Mo Kio has fewer and more dispersed desired 
+                                     lines. While the desired lines still emerge predominantly along the road infrastructure, the count is still notably lower compared to Punggol. 
+                                     Additionally, within the HDB estate of Ang Mo Kio, there is a noticeable absence of desired lines."), 
+                                   br(),
+                                   div(style = "text-align: center;", imageOutput("dl_dashboard_amk")),
+                                   p("Though we recognise that it is important to acknowledge that numerous mature estates have already undergone retrofitting processes to meet the 
+                                     resident’s needs. Which meant that, the recorded number of desired lines in our study may not entirely reflect the original situation accurately. 
+                                     Nevertheless, this insight spurred further research into the potential disparities between infrastructure design and the preferences of demographics 
+                                     in mature and non-mature estates.")
+                          ),
+                          tabPanel(
+                            strong('Evidence'), 
+                            br(),
+                            p(strong("Supporting Evidence")),
+                            p("Through our research on walkway data, we found that residents are more inclined to adhere to constructed paths if they are straight and intuitive, as opposed 
+                              to the winding routes often found in non-mature estates. Unlike non-mature estates, mature estates have simplified layouts that enable residents to navigate a 
+                              long direct and intuitive pathways with ease."),
+                            p("Additionally, the complex design of the newer HDB estates has led to less intuitive walking pavements. Therefore, residents often resort to walking along the 
+                              main roads to reach their destination within the estate before creating a desired line to reconnect with the designated walking pavements."),
+                            #<insert map showing the walking data>
+                            #<insert on-the-ground research – Karina’s video & picture showing people walking on car-based roads>
+                            div(style = "text-align: center;", imageOutput("otg_pg_dl")),
+                            p("Therefore, in more complex HDB layouts, our findings suggest that residents are more inclined to create their own pathways. These custom routes serve to simplify 
+                              their journey, allowing them to effortlessly traverse the HDB estate and reach their destination."),
+                          ))),
+               
+               tabPanel(strong("Key Actionable 4"),
+                        br(), 
+                        div(style = "background-color: #f2f2f2; padding: 10px;",
+                            h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
+                            div(style = "text-align: center;",
+                                HTML("<h4>Constructing direct paths that are easily accessible for residents to reduce the walking time and to facilitate easier access to 
                                      transport, roundabouts, supermarkets and eateries, reducing the necessity for residents to resort to creating unofficial shortcuts.</h4>")
-                               )
-                           ),
-                           br(),
-                           br()
+                            )
+                        ),
+                        br(),
+                        br()
                )
-                        )),
+             )),
     
     tabPanel("Desired Lines Calculator ", 
              div(style = "background-color: #f2f2f2; padding: 10px;",
@@ -405,10 +497,10 @@ Simply enter the following parametrs then click the “Predict” button to crea
                  textOutput("predictionText"),
                  textOutput("confidenceText")
                )
-    ),
-            
-    
-    
+             ),
+             
+             
+             
     ),
     
     navbarMenu("Appendix",
@@ -559,7 +651,7 @@ Simply enter the following parametrs then click the “Predict” button to crea
                                                 uiOutput("dynamicMap")),
                                          column(4, # Selection panel takes up 4/12 of the width
                                                 selectInput("mapSelection", "Select a Location:", choices = studyarea))
-                                   )),
+                                       )),
                                    br(), 
                                    br(), 
                                    p(strong("Description: "), "These 2 maps pinpoint the locations of desired lines within the urban landscape in Ang Mo Kio and Punggol. Which represent mature and non-mature estates respectively."),
@@ -573,7 +665,7 @@ Simply enter the following parametrs then click the “Predict” button to crea
                                    p("Though we recognise that it is important to acknowledge that numerous mature estates have already undergone retrofitting processes to meet the resident’s needs. Which meant that, the recorded
                                      number of desired lines in our study may not entirely reflect the original situation accurately. Nevertheless, this insight spurred further research into the potential disparities between 
                                      infrastructure design and the preferences of demographics in mature and non-mature estates.")
-                                   ),
+                          ),
                           tabPanel(strong("Key Insight 3"),
                                    br(),
                                    div(style = "background-color: #f2f2f2; padding: 10px;",
@@ -599,14 +691,14 @@ Simply enter the following parametrs then click the “Predict” button to crea
                                    p(strong("Description: "), "These 2 maps overlay color-coded building categorization onto an OpenStreetMap (OSM) layer, enabling users to explore both the geographical distribution of buildings and their respective categories while retaining the ability to zoom in for detailed views and identification of individual building names."),
                                    p(strong("Analysis:"), "Key insight 3 can be seen through the comparison of the comparison of the building layout in Ang Mo Kio and Punggol. Which suggests that non-mature estates and mature estates feature distinct HDB layouts. In mature estates, the focus is often on basic, functional designs aimed at optimising space utilization. Conversely, non-mature estates typically boast more contemporary layouts tailored to foster a conducive environment for community interaction."), 
                                    
-                                         )
-                                         )
-                                       )
+                          )
+                        )
+               )
+    )
+    
+  )
+  
 )
-                                   
-                          )
-                          
-                          )
 
 
 
@@ -614,7 +706,7 @@ Simply enter the following parametrs then click the “Predict” button to crea
 
 server <- function(input, output, session) {
   
-  ##################### Images ######################
+  ##################### Dashboard Width Auto Adjustment ######################
   output$tableauDashboard <- renderUI({
     # Define initial width
     initial_width <- 800  # Set an initial width
@@ -672,22 +764,50 @@ server <- function(input, output, session) {
   }, deleteFile = FALSE)
   
   
+  ### Framework 2 Word Cloud - bigram
+  output$dislike_bigram <- renderImage({
+    list(src = "images/dislike_bigram_A2.jpg",
+         style = "max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
   
+  
+  ### Framework 2 Word Cloud - unigram
+  output$dislike_unigram <- renderImage({
+    list(src = "images/dislike_unigram_A2.jpg",
+         style = "max-width: 100%; height: auto; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 3 DL Dashboard
+  output$dl_dashboard_amk <- renderImage({
+    list(src = "images/DL_amk_dashboard_A3.jpg",
+         style = "max-width: 50%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 3 OTG Punggol_Karina 
+  output$otg_pg_dl <- renderImage({
+    list(src = "images/OTG_pg_A3.jpg",
+         style = "max-width: 50%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ###################################################
   
   
   ###################################################
   
   output$amk_landuse_map <- renderTmap(tm_shape(amk_landuse) +
+                                         tm_borders() +  # Plot borders of the polygons
+                                         tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
+                                         tm_layout(legend.show = TRUE) +  # Show legend
+                                         osm_basemap  )# Add basemap
+  
+  output$pg_landuse_map <- renderTmap(tm_shape(pg_landuse) +
                                         tm_borders() +  # Plot borders of the polygons
                                         tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
                                         tm_layout(legend.show = TRUE) +  # Show legend
                                         osm_basemap  )# Add basemap
-  
-  output$pg_landuse_map <- renderTmap(tm_shape(pg_landuse) +
-    tm_borders() +  # Plot borders of the polygons
-    tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
-    tm_layout(legend.show = TRUE) +  # Show legend
-    osm_basemap  )# Add basemap
   
   
   output$dl_amk <- renderTmap({
@@ -785,7 +905,7 @@ server <- function(input, output, session) {
     # Add labels on the bars, using the sorted data
     text(x = bp, y = freq_counts_sorted, labels = freq_counts_sorted, pos = 3, col = "blue")
   })
-
+  
   ### Desire Line Calculator 
   # Initialize flag to track if data has been loaded
   is_loaded <- reactiveVal(FALSE)

@@ -14,6 +14,7 @@ library(spNetwork)
 library(spatstat)
 library(ggplot2)
 library(ggmap)
+library(tidymodels)
 
 
 
@@ -172,7 +173,9 @@ amenities <- c(
   "Parks" = "Parks",
   "Polyclinics Or Medical Clinics" = "PolyclinicsOrMedicalClinics",
   "Drop-Off Points Or Bus Stops" = "DropOffPointsOrBusStops"
-  )
+)
+
+
 
 
 
@@ -186,16 +189,12 @@ ui <- fluidPage(
         .navbar-default {
           background-color: #FAE9DC; /* Set navbar background color */
           border-color: #ddd; /* Set navbar border color */
+           height: 50px;
+        
         }
         
         /* Main content padding for better alignment */
         .container-fluid {
-
-          padding-right: 50px;
-          padding-left: 50px;
-        }
-      
-
           padding-right: 30px;
           padding-left: 30px;
           height: 50px; 
@@ -216,16 +215,24 @@ ui <- fluidPage(
         position: absolute; /* Ensure the z-index works properly */
         }
         
+        
         "
       )
     )
   ),
   
+  
+  
   # Navbar
 
   navbarPage(
-    windowTitle = "STEP AHEAD SOLUTIONS", # Explicitly set the window title
-    title = span(tags$img(src = "images/top_logo.png", height = "30px"), " STEP AHEAD SOLUTIONS"),
+    
+    column(
+      width = 2,
+      imageOutput("top_logo")
+    ),
+    
+    tags$p(class = "navbar-text", "STEP AHEAD SOLUTIONS"),
     
     tabPanel("Home",
                div(style = "text-align: center;", imageOutput("logo")), 
@@ -450,7 +457,33 @@ ui <- fluidPage(
                         )),
     
     tabPanel("Desired Lines Calculator ", 
-             div(br())
+             div(style = "background-color: #f2f2f2; padding: 10px;",
+                 h4(style = "margin-top: 0; margin-bottom: 10px;text-align: center", strong("Desired Lines Calculator")),
+                 p(
+                   "This calculator gives a prediction for how likely is one to walk on desire paths based on the given parameters in a logistic regression analysis.
+
+Simply enter the following parametrs then click the “Predict” button to create a prediction and a confidence level:"
+                 )),
+             br(),
+             sidebarLayout(
+               sidebarPanel(
+                 selectInput("input1", "Throughout the various times of the day, do you tend to use different routes when navigating through your residential estate?", choices = c("Yes", "No")),
+                 selectInput("input2", "Do well-lit walkways affect your choice of route when navigating through your residential estate?" , choices = c("Yes", "No")),
+                 selectInput("input3", "Does terrain elevation (e.g. hills/big slopes) affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No")),
+                 selectInput("input4", "Does convenience affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No")),
+                 numericInput("input5", "What is your age?", value = '25'),
+                 selectInput("input6", "What type of housing do you currently live in Singapore?", choices = c("HDB", "Condominium","Landed Property")),
+                 selectInput("input7", "How often do you walk in your immediate neighbourhood?",choices = c("Always", "Frequently","Sometimes","Seldom","Never")),
+                 actionButton("predictButton","Predict")
+               ),
+               mainPanel(
+                 textOutput("predictionText"),
+                 textOutput("confidenceText")
+               )
+             ),
+             
+             
+             
     ),
     
     navbarMenu("Appendix",
@@ -480,7 +513,9 @@ ui <- fluidPage(
                                        h4(style = "margin-top: 0; margin-bottom: 8px; text-align: center;", 
                                           strong("Tableau Dashboard")),  # Wrap with strong tag
                                        div(style = "text-align: center;",
-                                           HTML('<iframe src="https://public.tableau.com/views/Hypothesis25/Dashboard1?:language=en-GB&:embed=y&:display_count=n&:showVizHome=no" width="1200" height="800" frameborder="0"></iframe>')
+                                           HTML('<iframe id="tableauDashboard" src="https://public.tableau.com/views/Hypothesis25/Dashboard1?:language=en-GB&:embed=y&:display_count=n&:showVizHome=no" 
+              width="100%" height="800" frameborder="0"></iframe>')
+                                           
                                        )
                                    ),
                                    br(), 
@@ -545,7 +580,7 @@ ui <- fluidPage(
                                    div(style = "background-color: #f2f2f2; padding: 10px; text-align: center;",
                                        h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Tableau Dashboard")),
                                        div(style = "text-align: center;",
-                                           HTML('<iframe src="https://public.tableau.com/views/Hypothesis27new/Dashboard12?:embed=y&:showVizHome=no" width="1200" height="800" frameborder="0"></iframe>')
+                                           HTML('<iframe id="tableauDashboard" src="https://public.tableau.com/views/Hypothesis27new/Dashboard12?:embed=y&:showVizHome=no" width="100%" height="800" frameborder="0"></iframe>')
                                        )
                                    ),
                                    br(), 
@@ -571,7 +606,7 @@ ui <- fluidPage(
                             HTML("<ol>
                              <li>Desired lines in Punggol (non-mature estates) are often found near main road infrastructure and areas beneath HDB blocks, often leading to pick-up points and recreational spots like playgrounds and exercise corners.</li>
                              <li>Ang Mo Kio (mature estates) have fewer and more dispersed desired lines, and within the HDB estate itself, there is a noticeable absence of desired lines.</li>
-                             <li>/</li>
+                             <li>In non-mature estates, buildings often exhibit a smaller, squarish, and jagged design, whereas mature estates tend to feature a more rectangular building structure characterised by elongated corridors.</li>
                              <li>/</li>
                              </ol>")
                         ),
@@ -599,10 +634,10 @@ ui <- fluidPage(
                                           strong("Interactive Map")),  # Wrap with strong tag
                                        fluidRow(
                                          column(8, # Map takes up 8/12 of the width
-                                                tmapOutput("dl_amk")),
+                                                uiOutput("dynamicMap")),
                                          column(4, # Selection panel takes up 4/12 of the width
                                                 selectInput("mapSelection", "Select a Location:", choices = studyarea))
-                                   )),
+                                       )),
                                    br(), 
                                    br(), 
                                    p(strong("Description: "), "These 2 maps pinpoint the locations of desired lines within the urban landscape in Ang Mo Kio and Punggol. Which represent mature and non-mature estates respectively."),
@@ -632,10 +667,12 @@ ui <- fluidPage(
                                        h4(style = "margin-top: 0; margin-bottom: 8px; text-align: center;", 
                                           strong("Interactive Map")), 
                                        fluidRow(
-                                         column(8, 
-                                                tmapOutput("landuse_osm_pg"), # add in map 
-                                       )
-                                   )),
+                                         column(
+                                           8, uiOutput("dynamicMap2")),
+                                         column(
+                                           4,
+                                           selectInput("mapSelection2", "Select a Location:", choices = studyarea))
+                                       )),
                                    br(), 
                                    p(strong("Description:"), "overlay color-coded building categorization onto an OpenStreetMap (OSM) layer, enabling users to explore both the geographical distribution of buildings and their respective 
                                      categories while retaining the ability to zoom in for detailed views and identification of individual building names. "), 
@@ -655,6 +692,19 @@ ui <- fluidPage(
 
 
 server <- function(input, output, session) {
+  
+  output$tableauDashboard <- renderUI({
+    # Define initial width
+    initial_width <- 800  # Set an initial width
+    
+    # Add JavaScript to update width dynamically
+    session$onFlushed(function() {
+      runjs(paste0("
+        var dashboardWidth = Math.min(window.innerWidth, ", initial_width, ");
+        $('#tableauDashboard').width(dashboardWidth);
+      "))
+    })
+  })
   
   ##################### Images ######################
   
@@ -726,9 +776,22 @@ server <- function(input, output, session) {
   
   ###################################################
   
+  output$amk_landuse_map <- renderTmap(tm_shape(amk_landuse) +
+                                         tm_borders() +  # Plot borders of the polygons
+                                         tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
+                                         tm_layout(legend.show = TRUE) +  # Show legend
+                                         osm_basemap  )# Add basemap
+  
+  output$pg_landuse_map <- renderTmap(tm_shape(pg_landuse) +
+                                        tm_borders() +  # Plot borders of the polygons
+                                        tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
+                                        tm_layout(legend.show = TRUE) +  # Show legend
+                                        osm_basemap  )# Add basemap
+  
+  
   output$dl_amk <- renderTmap({
     
-    dl_map <- tm_basemap(server = "OpenStreetMap") +  # Use tm_basemap to specify the basemap
+    dl_map <- osm_basemap +  # Use tm_basemap to specify the basemap
       tm_shape(mpsz[mpsz$PLN_AREA_N=="ANG MO KIO", ]) + #Replace by studyarea choices
       tm_borders()+
       tm_shape(dl_amk)+ #replace by combining the map of dl_amk & dl_pg
@@ -738,16 +801,32 @@ server <- function(input, output, session) {
     dl_map  # Return the map for rendering
   })
   
-  output$landuse_osm_pg <- renderTmap({
+  output$dl_pg <- renderTmap({
     
-    dl_map <- tm_basemap(server = "OpenStreetMap") +  
-      tm_shape(mpsz[mpsz$PLN_AREA_N== "PUNGGOL", ]) +
+    dl_map <- osm_basemap +  # Use tm_basemap to specify the basemap
+      tm_shape(mpsz[mpsz$PLN_AREA_N=="PUNGGOL", ]) + #Replace by studyarea choices
       tm_borders()+
-      tm_shape(pg_landuse)+
-      tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
-      tm_layout(legend.show = TRUE) 
+      tm_shape(dl_pg)+ #replace by combining the map of dl_amk & dl_pg
+      tm_lines(col = "blue", lwd = 2) +  # Adjust line color and width as needed
+      tmap_options(check.and.fix = TRUE)
     
-    landuse_osm_pg  # Return the map for rendering
+    dl_map  # Return the map for rendering
+  })
+  
+  output$dynamicMap <- renderUI({
+    if (input$mapSelection == "Punggol") {
+      tmapOutput("dl_pg")
+    } else {
+      tmapOutput("dl_amk")
+    }
+  })
+  
+  output$dynamicMap2 <- renderUI({
+    if (input$mapSelection2 == "Punggol") {
+      tmapOutput("pg_landuse_map")
+    } else {
+      tmapOutput("amk_landuse_map")
+    }
   })
   
   ###################################################
@@ -806,6 +885,85 @@ server <- function(input, output, session) {
     text(x = bp, y = freq_counts_sorted, labels = freq_counts_sorted, pos = 3, col = "blue")
   })
 
+  ### Desire Line Calculator 
+  # Initialize flag to track if data has been loaded
+  is_loaded <- reactiveVal(FALSE)
+  
+  # Initialize trained model
+  trained_model <- reactiveVal(NULL)
+  
+  # Function to load data and train model
+  load_and_train <- function() {
+    file_path <- "LR_Data.csv"
+    df <- read.csv(file_path, header = TRUE)[,-1]
+    y <- df[[ncol(df)]]
+    X <- df[, -ncol(df)]
+    
+    fit <- logistic_reg(mixture = double(1), penalty = double(1)) %>%
+      set_engine("glmnet") %>%
+      set_mode("classification") %>%
+      fit(as.factor(y) ~ ., data = X)
+    trained_model(fit)
+    is_loaded(TRUE)
+  }
+  
+  # Make predictions
+  observeEvent(input$predictButton, {
+    # Load data and train model if not already loaded
+    if (!is_loaded()) {
+      load_and_train()
+    }
+    ave <- 35.19708
+    std <- 16.25660
+    scaled_input5 <- (as.numeric(input$input5)-ave)/std
+    # Use new_data for predictions
+    new_data <- data.frame(
+      input1 = input$input1,
+      input2 = input$input2,
+      input3 = input$input3,
+      input4 = input$input4,
+      input5 = scaled_input5,
+      input6 = input$input6,
+      input7 = input$input7,
+      fixed_var1 = 0.948905,
+      fixed_var2 = 0.948905,
+      fixed_var3 = 0.649635,
+      stringsAsFactors = TRUE
+    )
+    
+    
+    colnames(new_data) <- c("Throughout.the.various.times.of.the.day..do.you.tend.to.use.different.routes.when.navigating.through.your.residential.estate.", 
+                            "Do.well.lit.walkways.affect.your.choice.of.route.when.navigating.through.your.residential.estate.",
+                            "Does.terrain.elevation..e.g..hills.big.slopes..affect.your.choice.of.route.when.navigating.through.your.residential.estate.",
+                            "Does.convenience.affect.your.choice.of.route.when.navigating.through.your.residential.estate.", 
+                            "What.is.your.age.", 
+                            "What.type.of.housing.do.you.currently.live.in.Singapore.", 
+                            "How.often.do.you.walk.in.your.immediate.neighbourhood.", 
+                            "Q32_Encoded", "Q33_Encoded", "Q34_Encoded")
+    
+    # Make predictions
+    if (!is.null(trained_model())) {
+      prediction <- predict(trained_model(), new_data = new_data, type = "class")
+      
+      if (prediction == 1) {
+        confidence <- predict(trained_model(), new_data = new_data, type = "prob")[, 2]  # Probability of class 1
+        confidence_text <- paste("Confidence (Likely to walk on desire path):", round(confidence * 100, 2), "%")
+      } else {
+        confidence <- predict(trained_model(), new_data = new_data, type = "prob")[, 1]  # Probability of class 0
+        confidence_text <- paste("Confidence (Not likely to walk on desire path):", round(confidence * 100, 2), "%")
+      }
+      
+      # Convert prediction to desired format
+      prediction_text <- ifelse(prediction == 1, "Likely to walk on desire path", "Not likely to walk on desire path")
+      
+      output$predictionText <- renderText(paste("Prediction:", prediction_text))
+      output$confidenceText <- renderText(confidence_text)
+    } else {
+      output$predictionText <- renderText("Model not trained yet.")
+      output$confidenceText <- renderText("")
+    }
+    
+  })
 
 }
 
