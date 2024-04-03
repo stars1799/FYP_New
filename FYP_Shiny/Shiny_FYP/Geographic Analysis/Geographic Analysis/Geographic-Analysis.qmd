@@ -1,0 +1,1093 @@
+---
+title: "Geospatial Analysis using OneMap Data"
+execute: 
+  warning: false
+date: "`r Sys.Date()`"
+code: false
+---
+
+# Data Analysis
+
+```{r}
+pacman::p_load(arrow, lubridate, maptools, sp, sf, raster, spatstat, tmap, classInt, viridis, tidyverse, spNetwork)
+```
+
+Reading shapefiles that were exported from our qgis geopackage:
+
+```{r}
+pg_wdl <- st_read(dsn = "data/geospatial", 
+                 layer = "pg_wdl")
+amk_wdl <- st_read(dsn = "data/geospatial", 
+                 layer = "wdl_amk")
+```
+
+```{r}
+dl_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "pg_dl")
+dl_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "dl_amk")
+```
+
+```{r}
+#| echo: false
+plot(dl_amk)
+```
+
+```{r}
+#| echo: false
+edl_pg_points <- st_centroid(dl_pg, n = 10)
+plot(edl_pg_points)
+```
+
+```{r}
+#| echo: false
+edl_amk_points <- st_centroid(dl_amk, n = 10)
+plot(edl_amk_points)
+```
+
+```{r}
+#| echo: false
+# Define colors based on the value of the "fclass" column
+line_colors <- ifelse(pg_wdl$fclass == "dl", "red", "green")
+
+dl_class <- pg_wdl["desired_li"]
+
+# Plot with custom colors
+plot(dl_class, col = line_colors, main = "Desired Lines in Punggol")
+```
+
+```{r}
+library(ggplot2)
+#install.packages("ggmap")
+library(ggmap)
+```
+
+```{r}
+#dl_map2 <- osm_basemap +
+#  tm_shape(dl_class) +
+#  tm_lines(line_colors)
+#  tmap_options(check.and.fix = TRUE)
+
+# View the map
+#dl_map2
+```
+
+```{r}
+target_buildings <- st_read(dsn = "data/geospatial", 
+                 layer = "target_buildings")
+```
+
+```{r}
+#| echo: false
+st_crs(target_buildings)
+```
+
+```{r}
+tb_cat <- target_buildings["Categorize"]
+```
+
+```{r}
+#| echo: false
+plot(tb_cat, key.width = 12.5)
+```
+
+```{r}
+#| echo: false
+mpsz <- st_read(dsn = "data/geospatial/MPSZ", layer = "MPSZ-2019")
+```
+
+```{r}
+#| echo: false
+st_crs(mpsz)
+```
+
+```{r}
+mpsz3414 <- st_transform(mpsz, 3414)
+```
+
+```{r}
+#| echo: false
+st_crs(mpsz3414)
+```
+
+```{r}
+#| echo: false
+plot(mpsz3414)
+```
+
+```{r}
+#| echo: false
+plot(st_geometry(mpsz3414))
+```
+
+```{r}
+#| echo: false
+plot(mpsz3414["PLN_AREA_N"])
+```
+
+```{r}
+pa_mpsz <- mpsz3414["PLN_AREA_N"]
+```
+
+```{r}
+mpsz2 <- as_Spatial(pa_mpsz)
+```
+
+```{r}
+pg = mpsz2[mpsz2@data$PLN_AREA_N == "PUNGGOL",]
+amk = mpsz2[mpsz2@data$PLN_AREA_N == "ANG MO KIO",]
+```
+
+```{r}
+#| echo: false
+par(mfrow=c(2,2), mar = c(4, 4, 2, 1))
+plot(pg, main = "Punggol")
+plot(amk, main = "Ang Mo Kio")
+```
+
+```{r}
+pg_sp = as(pg, "SpatialPolygons")
+amk_sp = as(amk, "SpatialPolygons")
+```
+
+```{r}
+pg_owin = as(pg_sp, "owin")
+amk_owin = as(amk_sp, "owin")
+```
+
+```{r}
+edl_pg_points_sf <- st_as_sf(edl_pg_points)
+```
+
+```{r}
+edl_coords <- st_coordinates(edl_pg_points_sf)
+
+# Create an owin object from the coordinates
+edl_pg_owin <- owin(xrange = range(edl_coords[,1]), yrange = range(edl_coords[,2]))
+```
+
+```{r}
+edl_amk_points_sf <- st_as_sf(edl_amk_points)
+```
+
+```{r}
+amk_edl_coords <- st_coordinates(edl_amk_points_sf)
+
+# Create an owin object from the coordinates
+edl_amk_owin <- owin(xrange = range(amk_edl_coords[,1]), yrange = range(amk_edl_coords[,2]))
+```
+
+```{r}
+#| echo: false
+edl_pg_ppp <- as.ppp(st_coordinates(edl_pg_points_sf), st_bbox(edl_pg_points_sf))
+plot(edl_pg_ppp)
+```
+
+```{r}
+#| echo: false
+edl_amk_ppp <- as.ppp(st_coordinates(edl_amk_points_sf), st_bbox(edl_amk_points_sf))
+plot(edl_amk_ppp)
+```
+
+```{r}
+edl_pg_ppp = edl_pg_ppp[pg_owin]
+edl_a_ppp = edl_amk_ppp[amk_owin]
+```
+
+```{r}
+#| echo: false
+par(mfrow=c(2,2))
+par(mar = c(3,3,2,1))
+plot(edl_pg_ppp, main= "Desired Lines Punggol")
+```
+
+```{r}
+#| echo: false
+plot(density(edl_pg_ppp,
+             sigma=bw.CvL,
+             edge=TRUE,
+             kernel="gaussian"),
+             main="Punggol Desired Lines CvL")
+```
+
+```{r}
+#| echo: false
+plot(density(edl_pg_ppp,
+             sigma=bw.scott,
+             edge=TRUE,
+             kernel="gaussian"),
+             main="Punggol Desired Lines scott")
+```
+
+```{r}
+#| echo: false
+plot(density(edl_pg_ppp,
+             sigma=bw.diggle,
+             edge=TRUE,
+             kernel="gaussian"),
+             main="Punggol Desired Lines diggle")
+```
+
+```{r}
+#| echo: false
+plot(density(edl_pg_ppp,
+             sigma=bw.ppl,
+             edge=TRUE,
+             kernel="gaussian"),
+             main="Punggol Desired Lines ppl")
+```
+
+```{r}
+class(pg)
+```
+
+```{r}
+pg_sf <- st_as_sf(pg)
+amk_sf <- st_as_sf(amk)
+```
+
+```{r}
+pg_buildings <- st_intersection(pg_sf, tb_cat)
+amk_buildings <- st_intersection(amk_sf, tb_cat)
+```
+
+```{r}
+#| echo: false
+pg_b_cat <- pg_buildings["Categorize"]
+plot(pg_b_cat, key.width = 12.64)
+```
+
+```{r}
+#| echo: false
+amk_b_cat <- amk_buildings["Categorize"]
+plot(amk_b_cat, key.width = 12.64)
+```
+
+```{r}
+library(ggplot2)
+#install.packages("ggmap")
+library(ggmap)
+```
+
+```{r}
+landuse_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_target_landuse_PG")
+landuse_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_target_landuse_AMK")
+```
+
+```{r}
+landuse_pg_desc <- (landuse_pg["descriptio"])
+```
+
+```{r}
+plot(landuse_amk["descriptio"])
+```
+
+```{r}
+plot(landuse_pg_desc)
+```
+
+```{r}
+landuse_pg_sf <- st_as_sf(landuse_pg)
+landuse_amk_sf <- st_as_sf(landuse_amk)
+```
+
+```{r}
+landuse_pg_sf <- st_make_valid(landuse_pg_sf)
+valid_pg <- st_make_valid(pg_sf)
+valid_amk <- st_make_valid(amk_sf)
+```
+
+```{r}
+pg_landuse <- st_intersection(valid_pg, landuse_pg_sf)
+amk_landuse <- st_intersection(valid_amk, landuse_amk_sf)
+```
+
+```{r}
+parks_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_parks_PG")
+parks_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_parks_AMK")
+healthcare_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_healthcare_PG")
+healthcare_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_healthcare_AMK_1")
+food_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_foodplaces_PG")
+food_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_foodplaces_AMK")
+smarket_pg <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_smarket_PG")
+smarket_amk <- st_read(dsn = "data/geospatial", 
+                 layer = "FYP_walkingtime_smarket_AMK")
+```
+
+```{r}
+plot(food_pg)
+```
+
+```{r}
+parks_pg_sf <- st_as_sf(parks_pg)
+parks_amk_sf <- st_as_sf(parks_amk)
+healthcare_pg_sf <- st_as_sf(healthcare_pg)
+healthcare_amk_sf <- st_as_sf(healthcare_amk)
+food_pg_sf <- st_as_sf(food_pg)
+food_amk_sf <- st_as_sf(food_amk)
+smarket_pg_sf <- st_as_sf(smarket_pg)
+smarket_amk_sf <- st_as_sf(smarket_amk)
+```
+
+```{r}
+parks_pg_sf <- st_make_valid(parks_pg_sf)
+parks_amk_sf <- st_make_valid(parks_amk_sf)
+healthcare_pg_sf <- st_make_valid(healthcare_pg_sf)
+healthcare_amk_sf <- st_make_valid(healthcare_amk_sf)
+food_pg_sf <- st_make_valid(food_pg_sf)
+food_amk_sf <- st_make_valid(food_amk_sf)
+smarket_pg_sf <- st_make_valid(smarket_pg_sf)
+smarket_amk_sf <- st_make_valid(smarket_amk_sf)
+```
+
+```{r}
+pg_parks <- st_intersection(valid_pg, parks_pg_sf)
+pg_healthcare <- st_intersection(valid_pg, healthcare_pg_sf)
+pg_food <- st_intersection(valid_pg, food_pg_sf)
+pg_smarket <- st_intersection(valid_pg, smarket_pg_sf)
+
+amk_parks <- st_intersection(valid_amk, parks_amk_sf)
+amk_healthcare <- st_intersection(valid_amk, healthcare_amk_sf)
+amk_food <- st_intersection(valid_amk, food_amk_sf)
+amk_smarket <- st_intersection(valid_amk, smarket_amk_sf)
+```
+
+# Buildings Chart
+
+These 2 maps visually represents the categorization of buildings based on color codes, providing insights into the distribution and diversity of building types within the area of interest.
+
+## Punggol Buildings Chart
+
+```{r}
+pg_b_cat <- pg_buildings["Categorize"]
+plot(pg_b_cat, key.width = 12.64)
+```
+
+## Ang Mo Kio Buildings Chart
+
+```{r}
+amk_b_cat <- amk_buildings["Categorize"]
+plot(amk_b_cat, key.width = 12.64)
+```
+
+# Buildings Chart on OSM Layer
+
+These 2 maps overlays color-coded building categorization onto an OpenStreetMap (OSM) layer, enabling users to explore both the geographical distribution of buildings and their respective categories while retaining the ability to zoom in for detailed views and identification of individual building names.
+
+## Punggol Buildings Chart on OSM Layer
+
+```{r}
+tmap_mode('view')
+# Define basemaps
+osm_basemap <- tm_basemap(server = "OpenStreetMap.HOT")
+imagery_basemap <- tm_basemap(server = "Esri.WorldImagery")
+
+# Plot pg_b_cat over OpenStreetMap basemap with color categorization and legend
+pg_b_cat_map2 <- tm_shape(pg_b_cat) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "Categorize", title = "Building Category") +  # Color categorization
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_b_cat_map2
+```
+
+## Ang Mo Kio Buildings Chart on OSM Layer
+
+```{r}
+# Plot pg_b_cat over OpenStreetMap basemap with color categorization and legend
+amk_b_cat_map <- tm_shape(amk_b_cat) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "Categorize", title = "Building Category") +  # Color categorization
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+amk_b_cat_map
+```
+
+# Walkway Lines on OSM Layer
+
+These 2 maps overlays the walkways onto an OpenStreetMap (OSM) layer, enabling users to explore both the designed walkways and their respective categories while retaining the ability to zoom in for detailed views.
+
+## Punggol Walkway Lines on OSM Layer
+
+```{r}
+tmap_mode('view')
+
+# Define basemaps
+osm_basemap <- tm_basemap(server = "OpenStreetMap.HOT")
+imagery_basemap <- tm_basemap(server = "Esri.WorldImagery")
+
+# Plot dl_class over OpenStreetMap basemap
+dl_map <- osm_basemap +
+  tm_shape(dl_class) +
+  tm_lines(col = "red", lwd = 2) +  # Adjust line color and width as needed
+  tmap_options(check.and.fix = TRUE)
+
+# View the map
+dl_map
+```
+
+## Ang Mo Kio Walkway Lines on OSM Layer
+
+```{r}
+a_dl_class <- amk_wdl["desired_li"]
+tmap_mode('view')
+
+# Define basemaps
+osm_basemap <- tm_basemap(server = "OpenStreetMap.HOT")
+imagery_basemap <- tm_basemap(server = "Esri.WorldImagery")
+
+# Plot dl_class over OpenStreetMap basemap
+dl_map <- osm_basemap +
+  tm_shape(a_dl_class) +
+  tm_lines(col = "red", lwd = 2) +  # Adjust line color and width as needed
+  tmap_options(check.and.fix = TRUE)
+
+# View the map
+dl_map
+```
+
+# Desired Lines vs Walkway Lines
+
+These 2 maps aid in identifying potential problem areas within the estate by highlighting where desired lines intersect or deviate from the existing walkway network, facilitating targeted interventions or improvements.
+
+## Punggol Desired Lines vs Walkway Lines
+
+```{r}
+# Define colors based on the value of the "fclass" column
+line_colors <- ifelse(pg_wdl$fclass == "dl", "red", "green")
+
+dl_class <- pg_wdl["desired_li"]
+
+# Plot with custom colors
+plot(dl_class, col = line_colors, main = "Desired Lines in Punggol")
+```
+
+## Ang Mo Kio Desired Lines vs Walkway Lines
+
+```{r}
+# Define colors based on the value of the "fclass" column
+line_colors <- ifelse(amk_wdl$fclass == "dl", "red", "green")
+
+a_dl_class <- amk_wdl["desired_li"]
+
+# Plot with custom colors
+plot(a_dl_class, col = line_colors, main = "Desired Lines in Ang Mo Kio")
+```
+
+# Desired Lines on OSM Layer
+
+These 2 maps pinpoints the locations of desired Lines within the urban landscape, shedding light on nearby facilities and potential factors influencing the emergence of these patterns.
+
+## Punggol Desired Lines on OSM Layer
+
+```{r}
+tmap_mode('view')
+
+# Define basemaps
+osm_basemap <- tm_basemap(server = "OpenStreetMap.HOT")
+imagery_basemap <- tm_basemap(server = "Esri.WorldImagery")
+
+# Plot dl_class over OpenStreetMap basemap
+dl_map <- osm_basemap +
+  tm_shape(dl_pg) +
+  tm_lines(col = "red", lwd = 2) +  # Adjust line color and width as needed
+  tmap_options(check.and.fix = TRUE)
+
+# View the map
+dl_map
+```
+
+In the map showcasing Punggol's desired lines on an OSM Layer, a notable observation that the main concentration of desired lines occur mainly at the main road infrastructure. In addition, areas with a higher occurrence of desired lines are typically found below HDB blocks as shown in the map. Through our on-the-ground scouting, we've noted that many of these designated lines lead to playgrounds, exercise corners, or roundabouts.
+
+This method of visual representation helped us to easily pinpoint and showcase the areas that have a heightened potential for desired line occurrences. This allows us to also direct more attention to these specific locations, enabling a more focused investigation into preventive measures aimed at mitigating the emergence of desired lines.
+
+## Ang Mo Kio Desired Lines on OSM Layer
+
+```{r}
+tmap_mode('view')
+
+# Define basemaps
+osm_basemap <- tm_basemap(server = "OpenStreetMap.HOT")
+imagery_basemap <- tm_basemap(server = "Esri.WorldImagery")
+
+# Plot dl_class over OpenStreetMap basemap
+dl_map_amk <- osm_basemap +
+  tm_shape(dl_amk) +
+  tm_lines(col = "red", lwd = 2) +  # Adjust line color and width as needed
+  tmap_options(check.and.fix = TRUE)
+
+# View the map
+dl_map_amk
+```
+
+Compared to the Punggol graph, the Ang Mo Kio graph depicts fewer and more dispersed desired lines. While the majority of desired lines are still situated along roads, their frequency is notably lower and more evenly distributed. Moreover, within the HDB estate itself, there is a noticeable absence of desired lines.
+
+# Kernel Density Estimation Graphs
+
+Kernel Density Estimation (KDE) is a technique employed to quantify the intensity of a point distribution. Utilizing KDE, we aim to assess the intensity of the desired line distribution and examine its spatial distribution across the area of interest.
+
+## Punggol Kernel Density Estimation Graphs
+
+```{r}
+# Set up a 2x2 layout with reduced margins
+par(mfrow = c(2, 2), mar = c(2, 2, 2, 2))
+
+# Chart 1
+plot(density(edl_pg_ppp,
+             sigma = bw.CvL,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Punggol Desired Lines CvL")
+
+# Chart 2
+plot(density(edl_pg_ppp,
+             sigma = bw.scott,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Punggol Desired Lines scott")
+
+# Chart 3
+plot(density(edl_pg_ppp,
+             sigma = bw.diggle,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Punggol Desired Lines diggle")
+
+# Chart 4
+plot(density(edl_pg_ppp,
+             sigma = bw.ppl,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Punggol Desired Lines ppl")
+```
+
+## Ang Mo Kio Kernel Density Estimation Graphs
+
+```{r}
+# Set up a 2x2 layout with reduced margins
+par(mfrow = c(2, 2), mar = c(2, 2, 2, 2))
+
+# Chart 1
+plot(density(edl_a_ppp,
+             sigma = bw.CvL,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Ang Mo Kio Desired Lines CvL")
+
+# Chart 2
+plot(density(edl_a_ppp,
+             sigma = bw.scott,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Ang Mo Kio Desired Lines scott")
+
+# Chart 3
+plot(density(edl_a_ppp,
+             sigma = bw.diggle,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Ang Mo Kio Desired Lines diggle")
+
+# Chart 4
+plot(density(edl_a_ppp,
+             sigma = bw.ppl,
+             edge = TRUE,
+             kernel = "gaussian"),
+     main = "Ang Mo Kio Desired Lines ppl")
+```
+
+# Landuse on OSM Layer
+
+These 2 maps offers an insightful overview of the land use patterns across the area, allowing for a comprehensive understanding of how different spaces are utilized within the our area of study.
+
+## Punggol Landuse on OSM Layer
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+pg_landuse_map <- tm_shape(pg_landuse) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_landuse_map
+```
+
+## Ang Mo Kio Landuse on OSM Layer
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+amk_landuse_map <- tm_shape(amk_landuse) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+amk_landuse_map
+```
+
+From the land use map of Ang Mo Kio, a clear distinction emerges between residential areas, with private houses represented by small polygons, and public housing estates depicted as larger polygons. This straightforward visualization aids in comprehending the land use distribution within our study area, offering valuable insights into urban planning and development.
+
+# Isotope Areas on Key Amenities
+
+## Study on Punggol Area Key Amenities
+
+### Punggol Isotope Areas of Parks on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+pg_parks_map <- tm_shape(pg_parks) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Parks", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_parks_map
+```
+
+### Punggol Isotope Areas of Healthcare on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+pg_healthcare_map <- tm_shape(pg_healthcare) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Healthcare", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_healthcare_map
+```
+
+### Punggol Isotope Areas of Food Places on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+pg_food_map <- tm_shape(pg_food) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Food Places", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_food_map
+```
+
+### Punggol Isotope Areas of Supermarkets on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+pg_smarket_map <- tm_shape(pg_smarket) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Supermarkets", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+pg_smarket_map
+```
+
+Hawker centres in Punggol are generally sparse in Punggol, and is especially the case for areas which are further away from shopping malls and transport hubs like bus interchanges or MRT stations, which makes it a problem for elderly people who wish to find food places that are near to their residences. This is further supported by the network analysis of Punggol and our subsequent on-the-ground research in selected subzones in Punggol.
+
+However, other key amenities (i.e. polyclinics, supermarkets, and parks) are relatively more accessible, and there are sufficient supermarkets that cover residential areas within a 5 minute walking time. Elderly people who needs frequent healthcare checkups wouldn’t need to worry about a lack of polyclinics, as the walkways in the area facilitates more direct access to polyclinics.
+
+## Study on Ang Mo Kio Area Key Amenities
+
+### Ang Mo Kio Isotope Areas of Parks on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+amk_parks_map <- tm_shape(amk_parks) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Parks", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+amk_parks_map
+```
+
+### Ang Mo Kio Isotope Areas of Healthcare on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+amk_healthcare_map <- tm_shape(amk_healthcare) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Healthcare", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+amk_healthcare_map
+```
+
+### Ang Mo Kio Isotope Areas of Supermarkets on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+amk_smarket_map <- tm_shape(amk_smarket) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Supermarkets", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+amk_smarket_map
+```
+
+### Ang Mo Kio Isotope Areas of Food Places on OSM Layer (Key Amenities)
+
+```{r}
+# Plot pg_landuse over OpenStreetMap basemap with color categorization, legend, and lower opacity
+amk_food_map <- tm_shape(amk_food) +
+  tm_borders() +  # Plot borders of the polygons
+  tm_fill(col = "cost_level", title = "Isotope Areas of Food Places", alpha = 0.5) +  # Color categorization with lower opacity
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# View the map
+amk_food_map
+```
+
+The purpose of conducting this network analysis on Ang Mo Kio is to analyze the accessibility of key amenities for residents staying in the estate. We asked the question: for each key amenity, how many residential buildings are within 10 minutes walking time, and what proportion of those residential blocks are within a walking time of 5 minutes? Network analysis on were conducted on these key amenities:
+
+-   Food places (i.e. hawker centres)
+
+-   Healthcare facilities (i.e. polyclinics)
+
+-   Parks
+
+-   Supermarkets (e.g. NTUC Fairprice, Sheng Siong, etc)
+
+These 4 categories of amenities are prioritized for URA’s Land Use planning. Therefore, we utilized OpenStreetMap data to retrieve GIS road layers (i.e. walkable paths in Singapore), locations of key amenities, & locations of residential buildings to conduct this analysis. We then utilized the Iso-Area as Polygon algorithm from the QGIS Network Analysis Toolbox 3 (QNEAT3) library to generate the polygons. The critical parameters for the algorithm were set as follows:
+
+-   Selecting the paths that are walkable in the Vector layer representing network
+
+-   Start Points: For each category of key amenities, select 1 at random, which will be the start point of the polygon
+
+-   Size of Iso-Area: Time-based. For this project, we are study walking times of up to 10 minutes, which is equal to 600 seconds.
+
+-   Contour Interval: Time-based. For the purpose of our analysis, we are using time intervals of 2.5 mins, which is equal to 150 seconds.
+
+-   Path type to calculate: Fastest Path (time optimization).
+
+-   Setting the Default Speed as 4.44km/h, which is the average walking speed of Singaporeans.
+
+-   The rest of the parameters are left as their default values.
+
+For each category of amenities, we ran the algorithm for a total of 5 times, with the amenities chosen at random as start points for each iteration of the algorithm. This was done to investigate the accessibility of hawker centres in general and to ensure consistency in our network analysis. To further ensure consistency, each hawker centre were chosen as far apart from each other as possible, without any prior knowledge of its surrounding buildings, where is it situated, and its proximity to other residential buildings.
+
+From the network analysis, hawker centres in Ang Mo Kio cover a sufficient amount of residential buildings within a 5 minutes walking time. In our first example, this can be seen by the total number of residential buildings that are within the 2 innermost polygons, which is a total of 13 residential buildings. Repeated iterations of the algorithm showed similar results, which implied that most residents living in Ang Mo Kio will have little trouble finding eateries in their neighborhood. However, it is likely that the walking speed of most elderly people is slower than the average of 4.44km/h, which means that there are lesser residential areas that can be covered by food centres within a 5 minutes walking time. When considering Ang Mo Kio is geographically hilly in nature and has an aging population, it exacerbates the problem for the elderly in the area. Similar results can also be seen with supermarkets, parks, and polyclinics in Ang Mo Kio.
+
+```{r}
+
+# AMK data
+amk_res_block <- st_read(dsn = "data/geospatial2/HDB_Blocks", 
+                 layer = "temp1_amk_residential")
+amk_res_pge <- st_read(dsn = "data/geospatial2/Playground", 
+                 layer = "temp_amk_playground")
+amk_res_ww <- st_read(dsn = "data/geospatial2/Walkways", 
+                 layer = "temp_amk_walkway")
+amk_res_s1 <- st_read(dsn = "data/geospatial2/AMK_sp_dup", 
+                 layer = "amk_shortest_path_1_dup")
+amk_res_s2 <- st_read(dsn = "data/geospatial2/AMK_sp_dup", 
+                 layer = "amk_shortest_path_2_dup")
+amk_res_s3 <- st_read(dsn = "data/geospatial2/AMK_sp_dup", 
+                 layer = "amk_shortest_path_3_dup")
+
+# Punggol data
+pg_res_block <- st_read(dsn = "data/geospatial2/HDB_Blocks", 
+                 layer = "temp1_pg_residential")
+pg_res_pge <- st_read(dsn = "data/geospatial2/Playground", 
+                 layer = "temp_pg_playground")
+pg_res_ww <- st_read(dsn = "data/geospatial2/Walkways", 
+                 layer = "temp_pg_walkway")
+pg_res_s1 <- st_read(dsn = "data/geospatial2/PG_sp_dup", 
+                 layer = "pg_shortest_path_1_dup")
+pg_res_s2 <- st_read(dsn = "data/geospatial2/PG_sp_dup", 
+                 layer = "pg_shortest_path_2_dup")
+pg_res_s3 <- st_read(dsn = "data/geospatial2/PG_sp_dup", 
+                 layer = "pg_shortest_path_3_dup")
+```
+
+```{r}
+## insert symbols
+housesym <- tmap_icons("data/geospatial2/house.png")
+playgsym <- tmap_icons("data/geospatial2/playground.png")
+```
+
+```{r}
+amk_ep_route <- tm_shape(amk_res_block) +
+  tm_symbols(shape = housesym, size = 0.1, border.lwd = NA) +
+  #tm_symbols(col = "black", size = 0.5) +  # Plot geometry points with red color and smaller size
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# Adding the linestring from amk_res_ww
+amk_ep_route <- amk_ep_route +
+  tm_shape(amk_res_ww) +
+  tm_lines(lwd = 1, col = "red")
+
+# Adding the linestring from amk_res_shortcut
+amk_ep_route <- amk_ep_route +
+  tm_shape(amk_res_s1) +
+  tm_lines(lwd = 1, col = "green")
+amk_ep_route <- amk_ep_route +
+  tm_shape(amk_res_s2) +
+  tm_lines(lwd = 1, col = "green")
+amk_ep_route <- amk_ep_route +
+  tm_shape(amk_res_s3) +
+  tm_lines(lwd = 1, col = "green")
+
+# Adding the geometry points from amk_res_pge
+amk_ep_route <- amk_ep_route +
+  tm_shape(amk_res_pge) +
+  tm_symbols(shape = playgsym, size = 0.2, border.lwd = NA)
+
+# View the map
+amk_ep_route
+```
+
+```{r}
+pg_ep_route <- tm_shape(pg_res_block) +
+  tm_symbols(shape = housesym, size = 0.1, border.lwd = NA) +  # Plot geometry points with red color and smaller size
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+# Adding the linestring
+pg_ep_route <- pg_ep_route +
+  tm_shape(pg_res_ww) +
+  tm_lines(lwd = 1, col = "red")
+
+# Adding the linestring from pg_res_shortcut
+pg_ep_route <- pg_ep_route +
+  tm_shape(pg_res_s1) +
+  tm_lines(lwd = 1, col = "green")
+pg_ep_route <- pg_ep_route +
+  tm_shape(pg_res_s2) +
+  tm_lines(lwd = 1, col = "green")
+pg_ep_route <- pg_ep_route +
+  tm_shape(pg_res_s3) +
+  tm_lines(lwd = 1, col = "green")
+
+# Adding the geometry points
+pg_ep_route <- pg_ep_route +
+  tm_shape(pg_res_pge) +
+  tm_symbols(shape = playgsym, size = 0.2, border.lwd = NA)
+
+# View the map
+pg_ep_route
+```
+
+```{r}
+pg_sa_res <- st_read(dsn = "data/geospatial2/pg_special_analysis", 
+                 layer = "temp4_pg_residential")
+pg_sa_path <- st_read(dsn = "data/geospatial2/PG_sp_dup", 
+                 layer = "pg_shortest_path_4_dup")
+pg_sa_ww <- st_read(dsn = "data/geospatial2/PG_SA_2", 
+                 layer = "temp4_pg_walkway_dup")
+pg_sa_pg <- st_read(dsn = "data/geospatial2/PG_SA_2", 
+                 layer = "temp4_pg_playground")
+```
+
+```{r}
+pg_sa_route <- tm_shape(pg_sa_res) +
+  tm_symbols(shape = housesym, size = 0.1, border.lwd = NA) +  # Plot geometry points with red color and smaller size
+  tm_layout(legend.show = TRUE) +  # Show legend
+  osm_basemap  # Add basemap
+
+pg_sa_route <- pg_sa_route +
+  tm_shape(pg_sa_ww) +
+  tm_lines(lwd = 1, col = "red")
+
+# Adding the linestring from pg_res_shortcut
+pg_sa_route <- pg_sa_route +
+  tm_shape(pg_sa_path) +
+  tm_lines(lwd = 1, col = "green")
+
+pg_sa_route <- pg_sa_route +
+  tm_shape(pg_sa_pg) +
+  tm_symbols(shape = playgsym, size = 0.2, border.lwd = NA)
+
+pg_sa_route <- pg_sa_route +
+  tm_shape(dl_pg) +
+  tm_lines(col = "black", lwd = 2) +  # Adjust line color and width as needed
+  tmap_options(check.and.fix = TRUE)
+
+# View the map
+pg_sa_route
+```
+
+```{r}
+# Load required libraries
+library(plotly)
+library(dplyr)
+library(tidyr)
+
+# Read data
+data <- read.csv('data/aspatial/combined_data.csv')
+```
+
+```{r}
+library(ggpubr)
+library(factoextra)
+```
+
+```{r}
+head(data, 3)
+```
+
+```{r}
+# Compute k-means with k = 3
+set.seed(123)
+res.km <- kmeans(data[, -5], 3, nstart = 25)
+
+# K-means clusters showing the group of each individual
+res.km$cluster
+```
+
+```{r}
+df <- data
+```
+
+```{r}
+# Assuming df is your data frame
+fviz_cluster(res.km, data = df[, -5],
+             palette = c("#2E9FDF", "#00AFBB", "#E7B800"), 
+             geom = "point",
+             ellipse.type = "convex", 
+             ggtheme = theme_bw()
+             )
+```
+
+```{r}
+# Dimension reduction using PCA
+res.pca <- prcomp(df[, -5],  scale = TRUE)
+# Coordinates of individuals
+ind.coord <- as.data.frame(get_pca_ind(res.pca)$coord)
+# Add clusters obtained using the K-means algorithm
+ind.coord$cluster <- factor(res.km$cluster)
+# Add Species groups from the original data sett
+ind.coord$Species <- df$Species
+# Data inspection
+head(ind.coord)
+```
+
+# Hard Clustering Approaches
+
+```{r}
+hc_data<- data.frame(
+row.names = c("A", "B", "C"),
+time_if_the_day = c(0.453333, 0.302041, 0.707143),
+weather = c(0.376500, 0.600204, 0.585714),
+safety = c(0.275000, 0.605442, 0.666667),
+terrain_elevation = c(0.150000, 0.530612, 0.550000)
+)
+hc_data
+```
+
+```{r}
+library(tidyverse) 
+library(ggradar)  # Load the package without quotes
+hc_df <- hc_data %>% rownames_to_column("group")
+hc_df
+```
+
+```{r}
+ggradar(
+   hc_df, 
+   values.radar = c("0", "0.40", "0.80"),
+   grid.min = 0, grid.mid = 0.4, grid.max = 0.8,
+   # Polygons
+   group.line.width = 1, 
+   group.point.size = 3,
+   group.colours = c("#00AFBB", "#E7B800", "#FC4E07"),
+   background.circle.colour = "white",
+   gridline.mid.colour = "grey",
+   legend.position = "bottom"
+ )
+```
+
+# Soft Clustering Approaches
+
+```{r}
+sc_data1<- data.frame(
+row.names = c("A", "B", "C"),
+time_if_the_day = c(0.628049, 0.117647, 0.250000),
+weather = c(0.653621, 0.669707, 0.508183),
+safety = c(0.634146, 0.647059, 0.358730),
+terrain_elevation = c(0.723577, 0.777778, 0.407407)
+)
+sc_data1
+```
+
+```{r}
+library(tidyverse) 
+library(ggradar)  # Load the package without quotes
+sc_df1 <- sc_data1 %>% rownames_to_column("group")
+sc_df1
+```
+
+```{r}
+ggradar(
+   sc_df1, 
+   values.radar = c("0", "0.40", "0.80"),
+   grid.min = 0, grid.mid = 0.4, grid.max = 0.8,
+   # Polygons
+   group.line.width = 1, 
+   group.point.size = 3,
+   group.colours = c("#00AFBB", "#E7B800", "#FC4E07"),
+   background.circle.colour = "white",
+   gridline.mid.colour = "grey",
+   legend.position = "bottom"
+ )
+```
+
+```{r}
+sc_data2<- data.frame(
+row.names = c("A", "B", "C"),
+time_if_the_day = c(0.316667, 0.127551, 0.633929),
+weather = c(0.516667, 0.690081, 0.678848),
+safety = c(0.378571, 0.661808, 0.714286),
+terrain_elevation = c(0.458333, 0.775510, 0.791667)
+)
+sc_data2
+```
+
+```{r}
+library(tidyverse) 
+library(ggradar)  # Load the package without quotes
+sc_df2 <- sc_data2 %>% rownames_to_column("group")
+sc_df2
+```
+
+```{r}
+ggradar(
+   sc_df2, 
+   values.radar = c("0", "0.40", "0.80"),
+   grid.min = 0, grid.mid = 0.4, grid.max = 0.8,
+   # Polygons
+   group.line.width = 1, 
+   group.point.size = 3,
+   group.colours = c("#00AFBB", "#E7B800", "#FC4E07"),
+   background.circle.colour = "white",
+   gridline.mid.colour = "grey",
+   legend.position = "bottom"
+ )
+```

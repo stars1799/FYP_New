@@ -22,7 +22,7 @@ library(ggmap)
 
 ###### EDA Data ##### 
 
-Data <- read.csv("data/aspatial/Cleaned Data (Ver 2.0).csv")
+Data <- read.csv("data/aspatial/Cleaned_Data_v2.csv")
 
 
 ###### Geospatial ######
@@ -577,7 +577,7 @@ ui <- fluidPage(
                         ),
                         br(), 
                         tabsetPanel(
-                          tabPanel(strong("Key Insight 1"),
+                          tabPanel(strong("Key Insight 1 & 2"),
                                    br(),
                                    div(style = "background-color: #f2f2f2; padding: 10px;",
                                        h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Insight 1")),
@@ -616,12 +616,40 @@ ui <- fluidPage(
                                    p("Though we recognise that it is important to acknowledge that numerous mature estates have already undergone retrofitting processes to meet the resident’s needs. Which meant that, the recorded
                                      number of desired lines in our study may not entirely reflect the original situation accurately. Nevertheless, this insight spurred further research into the potential disparities between 
                                      infrastructure design and the preferences of demographics in mature and non-mature estates.")
-                                   )
-                          
+                                   ),
+                          tabPanel(strong("Key Insight 3"),
+                                   br(),
+                                   div(style = "background-color: #f2f2f2; padding: 10px;",
+                                       h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Insight 3")),
+                                       div(style = "text-align: center;",
+                                           HTML("<h4>In non-mature estates, buildings are often exhibit a smaller, squarish, and jaggs design, whereas mature estates tend to feature a more rectangular builind structure characterised 
+                                            by elongated corridors</h4>")
+                                       )
+                                   ),
+                                   br(),
+                                   br(),
+                                   div(style = "background-color: #f2f2f2; padding: 10px; text-align: center;",
+                                       h4(style = "margin-top: 0; margin-bottom: 8px; text-align: center;", 
+                                          strong("Interactive Map")), 
+                                       fluidRow(
+                                         column(8, 
+                                                tmapOutput("landuse_osm_pg"), # add in map 
+                                       )
+                                   )),
+                                   br(), 
+                                   p(strong("Description:"), "overlay color-coded building categorization onto an OpenStreetMap (OSM) layer, enabling users to explore both the geographical distribution of buildings and their respective 
+                                     categories while retaining the ability to zoom in for detailed views and identification of individual building names. "), 
+                                   p(strong("Analysis:"), "Key insight 3 can be seen through the comparison of the comparison of the building layout in Ang Mo Kio and Punggol. Which suggests that non-mature estates and mature estates 
+                                     feature distinct HDB layouts. In mature estates, the focus is often on basic, functional designs aimed at optimising space utilisation. Conversely, non-mature estates typically boast more contemporary 
+                                     layouts tailored to foster a conducive environment for community interaction.")
+                                   
                           )
+                          ) 
+                          
+                                    )
     ))
 )
-)
+
 
 
 
@@ -698,26 +726,6 @@ server <- function(input, output, session) {
   
   ###################################################
   
-  output$dl_map_2 <- renderTmap({
-    
-    tmap_mode("view")
-    # Check the selection and prepare the respective map
-    if (input$studyarea == "Ang Mo Kio") {
-      dl_map <- osm_basemap +
-        tm_shape(a_dl_class) +  # Assuming 'a_dl_class' is your spatial object for AMK
-        tm_lines(col = "red", lwd = 2) +
-        tmap_options(check.and.fix = TRUE)
-    } else {
-      # Prepare another map for 'other_map' selection
-      # This is just a placeholder, replace with actual code for the other map
-      dl_map <- osm_basemap +
-        tm_shape(dl_class) +  # Replace 'other_spatial_object' with the actual data
-        tm_lines(col = "blue", lwd = 2) +  # Example styling
-        tmap_options(check.and.fix = TRUE)
-    } 
-    return(dl_map)
-  })
-  
   output$dl_amk <- renderTmap({
     
     dl_map <- tm_basemap(server = "OpenStreetMap") +  # Use tm_basemap to specify the basemap
@@ -728,6 +736,18 @@ server <- function(input, output, session) {
       tmap_options(check.and.fix = TRUE)
     
     dl_map  # Return the map for rendering
+  })
+  
+  output$landuse_osm_pg <- renderTmap({
+    
+    dl_map <- tm_basemap(server = "OpenStreetMap") +  
+      tm_shape(mpsz[mpsz$PLN_AREA_N== "PUNGGOL", ]) +
+      tm_borders()+
+      tm_shape(pg_landuse)+
+      tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
+      tm_layout(legend.show = TRUE) 
+    
+    landuse_osm_pg  # Return the map for rendering
   })
   
   ###################################################
