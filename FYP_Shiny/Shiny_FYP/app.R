@@ -259,7 +259,7 @@ ui <- fluidPage(
                              <li>To construct more direct sheltered built paths with better drainage systems in order to incentivize their usage.</li>
                              <li>Develop simple HDB layouts that ensure direct and intuitive pathways for residents, in order to prevent residents from needing to
                                 create desired paths in order to prevent the use of the long-winding routes within the HDB estate.</li>
-                             <li>TBC</li>
+                             <li>To pave the sides of the roads, especially those near bus stops to increase convenience and to prevent the formation of desired paths.</li>
                              </ol>")
              ),
              br(), 
@@ -329,6 +329,10 @@ ui <- fluidPage(
                               column(6, div(style = "text-align: center;", imageOutput("eda_convenience"))),
                               column(6, div(style = "text-align: center;", imageOutput("pg_dashboard")))
                             ),
+                            p("Constructing direct paths aligns closely with residents' prioritisation of convenience and accessibility. By implementing this strategy, we can effectively reduce 
+                              desired lines by optimising residents' mobility."), 
+                            br(), 
+                            br()
                               )
                             )
                           ), 
@@ -336,7 +340,7 @@ ui <- fluidPage(
                         
                         br(), 
                         div(style = "background-color: #f2f2f2; padding: 10px;",
-                            h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
+                            h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 2")),
                             div(style = "text-align: center;",
                                 HTML("<h4>To construct more direct sheltered built paths with better drainage systems in order to incentivize their usage.</h4>")
                             )
@@ -399,7 +403,7 @@ ui <- fluidPage(
                tabPanel(strong("Key Actionable 3"),
                         br(), 
                         div(style = "background-color: #f2f2f2; padding: 10px;",
-                            h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
+                            h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 3")),
                             div(style = "text-align: center;",
                                 HTML("<h4>Develop simple HDB layouts that ensure direct and intuitive pathways for residents, in order to prevent residents from needing to
                                 create desired paths in order to prevent the use of the long-winding routes within the HDB estate.</h4>")
@@ -447,16 +451,56 @@ ui <- fluidPage(
                 tabPanel(strong("Key Actionable 4"),
                            br(), 
                            div(style = "background-color: #f2f2f2; padding: 10px;",
-                               h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 1")),
+                               h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 4")),
                                div(style = "text-align: center;",
-                                   HTML("<h4>Constructing direct paths that are easily accessible for residents to reduce the walking time and to facilitate easier access to 
-                                     transport, roundabouts, supermarkets and eateries, reducing the necessity for residents to resort to creating unofficial shortcuts.</h4>")
+                                   HTML("<h4>To pave the sides of the roads, especially those near bus stops to increase convenience and to prevent the formation of desired paths.</h4>")
                                )
                            ),
-                           br(),
-                           br()
-                        )
-                        )),
+                         br(),
+                         br(),
+                         tabsetPanel(
+                           tabPanel(strong("Sub-Challenge"),
+                                    div(style = "background-color: #f2f2f2; padding: 10px;",
+                                        h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Sub-Challenge")),
+                                        div(style = "text-align: center;",
+                                            HTML("<h4>How does the current state of road sides, especially those near bus stops, contribute to the formation of desired lines, and what 
+                                                 measures can be taken to reduce such instances?</h4>")
+                                        )), 
+                                        br(), 
+                                        p(strong("Purpose of Sub-challenge:")), 
+                                        p(strong("1. Road infrastructures exhibit the highest frequency of desired walkways.")),
+                                        #<insert desired lines map in pg> 
+                                        p("Our observations of desired lines in Punggol reveal a clustering effect along main roads, suggesting a natural emergence influenced by the 
+                                          convenience of crossing road infrastructure.")
+                                        ), 
+                           tabPanel(strong("Evidence"),
+                                    br(),
+                                    p(strong("Supporting Evidence")),
+                                    p("Based on our analysis, residents exhibit a tendency to create desired paths for convenient access to cross the road, particularly towards bus stops
+                                      and MRT stations where traffic lights may be less accessible compared to jaywalking. However, merely increasing the number of traffic lights or zebra 
+                                      crossings may not effectively address this issue, as people naturally opt for the most convenient route, as evidenced by the clustering of desired 
+                                      lines around bus stops."),
+                                    div(style = "text-align: center;", imageOutput("a4_amk_dl")),
+                                    fluidRow(
+                                      column(6, div(style = "text-align: center;", imageOutput("a4_pg_dl_1"))),
+                                      column(6, div(style = "text-align: center;", imageOutput("a4_pg_dl_2")))
+                                    ),
+                                    p("Our survey analysis suggests a strong preference among residents for the shortest walking time to public transport, with an average reasonable walking 
+                                      time to bus stops perceived to be around 5 minutes, which was the shortest among surveyed amenities. Therefore, our recommended course of action is not 
+                                      to implement path-blocking measures, as they would reduce the convenience for residents accessing their commute. Instead, we advise against actions that 
+                                      might provoke negative sentiments towards walkways and suggest initiatives aimed at enhancing pedestrian access to public transport hubs while maintaining
+                                      convenience and efficiency."), 
+                                    fluidRow(
+                                      column(6, div(style = "text-align: center;", imageOutput("eda_a4_ranking"))),
+                                      column(6, div(style = "text-align: center;", imageOutput("eda_a4_walkingtime")))
+                                    ),
+                                    p("As previously mentioned, residents have emphasised convenience as a crucial factor when selecting a route. Hence, I propose that we design walkways that 
+                                      cater to the specific needs and preferences of the community."), 
+                                    div(style = "text-align: center;", imageOutput("eda_a4_convenience"))
+                                  
+                                    )) 
+                                    
+                        ))),
     
     tabPanel("Desired Lines Calculator",
              div(style = "background-color: #f2f2f2; padding: 10px;",
@@ -620,7 +664,6 @@ ui <- fluidPage(
                              <li>Desired lines in Punggol (non-mature estates) are often found near main road infrastructure and areas beneath HDB blocks, often leading to pick-up points and recreational spots like playgrounds and exercise corners.</li>
                              <li>Ang Mo Kio (mature estates) have fewer and more dispersed desired lines, and within the HDB estate itself, there is a noticeable absence of desired lines.</li>
                              <li>In non-mature estates, buildings often exhibit a smaller, squarish, and jagged design, whereas mature estates tend to feature a more rectangular building structure characterised by elongated corridors.</li>
-                             <li>/</li>
                              </ol>")
                         ),
                         br(), 
@@ -785,7 +828,47 @@ server <- function(input, output, session) {
   ### Framework 3 OTG Punggol_Karina 
   output$otg_pg_dl <- renderImage({
     list(src = "images/OTG_pg_A3.jpg",
-         style = "max-width: 50%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 4 AMK_DL
+  output$a4_amk_dl <- renderImage({
+    list(src = "images/A4_AMK.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 4 PG_DL_1
+  output$a4_pg_dl_1 <- renderImage({
+    list(src = "images/A4_Punggol_1.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 4 PG_DL_1 
+  output$a4_pg_dl_2 <- renderImage({
+    list(src = "images/A4_Punggol_2.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  ### Framework 4 EDA A4 ranking 
+  output$eda_a4_ranking <- renderImage({
+    list(src = "images/EDA_A4_ranking.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  ### Framework 4 EDA A4 ranking 
+  output$eda_a4_walkingtime <- renderImage({
+    list(src = "images/EDA_A4_walkingtime.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 4 EDA A4 ranking 
+  output$eda_a4_convenience <- renderImage({
+    list(src = "images/EDA_A4_convenience.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
   },deleteFile = FALSE)
   
   

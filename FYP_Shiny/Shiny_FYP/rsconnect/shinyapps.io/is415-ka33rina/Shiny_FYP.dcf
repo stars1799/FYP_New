@@ -5,7 +5,7 @@ account: is415-ka33rina
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11511579
-bundleId: 8448789
+bundleId: 8449581
 url: https://is415-ka33rina.shinyapps.io/Shiny_FYP/
 version: 1
 asMultiple: FALSE
