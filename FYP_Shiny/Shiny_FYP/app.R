@@ -15,6 +15,9 @@ library(spatstat)
 library(ggplot2)
 library(ggmap)
 library(tidymodels)
+library(glmnet)
+
+
 
 
 
@@ -426,8 +429,7 @@ ui <- fluidPage(
                                      Nevertheless, this insight spurred further research into the potential disparities between infrastructure design and the preferences of demographics 
                                      in mature and non-mature estates.")
                                    ),
-                          tabPanel(
-                            strong('Evidence'), 
+                          tabPanel(strong('Evidence'), 
                             br(),
                             p(strong("Supporting Evidence")),
                             p("Through our research on walkway data, we found that residents are more inclined to adhere to constructed paths if they are straight and intuitive, as opposed 
@@ -456,35 +458,46 @@ ui <- fluidPage(
                         )
                         )),
     
-    tabPanel("Desired Lines Calculator ", 
+    tabPanel("Desired Lines Calculator",
              div(style = "background-color: #f2f2f2; padding: 10px;",
-                 h4(style = "margin-top: 0; margin-bottom: 10px;text-align: center", strong("Desired Lines Calculator")),
-                 p(
-                   "This calculator gives a prediction for how likely is one to walk on desire paths based on the given parameters in a logistic regression analysis.
-
-Simply enter the following parametrs then click the “Predict” button to create a prediction and a confidence level:"
-                 )),
-             br(),
-             sidebarLayout(
-               sidebarPanel(
-                 selectInput("input1", "Throughout the various times of the day, do you tend to use different routes when navigating through your residential estate?", choices = c("Yes", "No")),
-                 selectInput("input2", "Do well-lit walkways affect your choice of route when navigating through your residential estate?" , choices = c("Yes", "No")),
-                 selectInput("input3", "Does terrain elevation (e.g. hills/big slopes) affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No")),
-                 selectInput("input4", "Does convenience affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No")),
-                 numericInput("input5", "What is your age?", value = '25'),
-                 selectInput("input6", "What type of housing do you currently live in Singapore?", choices = c("HDB", "Condominium","Landed Property")),
-                 selectInput("input7", "How often do you walk in your immediate neighbourhood?",choices = c("Always", "Frequently","Sometimes","Seldom","Never")),
-                 actionButton("predictButton","Predict")
-               ),
-               mainPanel(
-                 textOutput("predictionText"),
-                 textOutput("confidenceText")
-               )
+                 h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Desired Lines Calculator")),
+                 div(style = "text-align: center;",
+                     p(strong("This calculator gives a prediction for how likely one is to walk on desire paths based on the given parameters in a logistic regression analysis.")),
+                     p(strong("Simply enter the following parameters then click the “Predict” button to create a prediction and a confidence level:"))
+                 )
              ),
-             
-             
-             
+             br(),
+             div(style = "background-color: #e9ecef; padding: 20px; border-radius: 5px;", # Shaded box for inputs
+                 fluidRow(
+                   column(4,
+                          selectInput("input1", "Throughout the various times of the day, do you tend to use different routes when navigating through your residential estate?", choices = c("Yes", "No")),
+                          selectInput("input2", "Do well-lit walkways affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No"))
+                   ),
+                   column(4,
+                          selectInput("input3", "Does terrain elevation (e.g., hills/big slopes) affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No")),
+                          selectInput("input4", "Does convenience affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No"))
+                   ),
+                   column(4,
+                          numericInput("input5", "What is your age?", value = 25),
+                          selectInput("input6", "What type of housing do you currently live in Singapore?", choices = c("HDB", "Condominium", "Landed Property")),
+                          selectInput("input7", "How often do you walk in your immediate neighbourhood?", choices = c("Always", "Frequently", "Sometimes", "Seldom", "Never")),
+                          actionButton("predictButton", "Predict", style = "margin-top: 20px; width: 100%; background-color: #ffffff; color: black; border: none;") # Custom styles for button
+                   )
+                 )
+             ),
+             br(), # Space between input box and result box
+             div(style = "background-color: #f2f2f2; padding: 10px; text-align: center;", # New shaded box for results with text centered
+                 h4(style = "margin-top: 0; margin-bottom: 10px;", strong("Results")), # Centered results header
+                 div( # Additional div for text outputs, if needed for further styling
+                   strong(textOutput("predictionText")),
+                   strong(textOutput("confidenceText"))
+                 )
+             )
     ),
+             
+   
+             
+    
     
     navbarMenu("Appendix",
                tabPanel("Demographics Analysis Insights",
@@ -678,13 +691,15 @@ Simply enter the following parametrs then click the “Predict” button to crea
                                      categories while retaining the ability to zoom in for detailed views and identification of individual building names. "), 
                                    p(strong("Analysis:"), "Key insight 3 can be seen through the comparison of the comparison of the building layout in Ang Mo Kio and Punggol. Which suggests that non-mature estates and mature estates 
                                      feature distinct HDB layouts. In mature estates, the focus is often on basic, functional designs aimed at optimising space utilisation. Conversely, non-mature estates typically boast more contemporary 
-                                     layouts tailored to foster a conducive environment for community interaction.")
+                                     layouts tailored to foster a conducive environment for community interaction."),
                                    
                           )
                           ) 
                           
                                     )
-    ))
+    )
+  )
+
 )
 
 
@@ -894,7 +909,7 @@ server <- function(input, output, session) {
   
   # Function to load data and train model
   load_and_train <- function() {
-    file_path <- "LR_Data.csv"
+    file_path <- "data/aspatial/LR_Data.csv"
     df <- read.csv(file_path, header = TRUE)[,-1]
     y <- df[[ncol(df)]]
     X <- df[, -ncol(df)]
