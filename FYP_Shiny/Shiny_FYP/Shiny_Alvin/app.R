@@ -23,7 +23,7 @@ library(tidymodels)
 
 ###### EDA Data ##### 
 
-Data <- read.csv("data/aspatial/Cleaned Data (Ver 2.0).csv")
+Data <- read.csv("data/aspatial/Cleaned_Data_v2.csv")
 
 
 ###### Geospatial ######
@@ -311,7 +311,7 @@ ui <- fluidPage(
              div(style = "background-color: #f2f2f2; padding: 10px;",
                  h4(style = "margin-top: 0; margin-bottom: 10px;", strong("Key Actionables")),
                  HTML("<ol>
-                             <li>Co                     anstructing direct paths that are easily accessible for residents to reduce the walking time and to facilitate easier access to 
+                             <li>Constructing direct paths that are easily accessible for residents to reduce the walking time and to facilitate easier access to 
                                      transport, roundabouts, supermarkets and eateries, reducing the necessity for residents to resort to creating unofficial shortcuts.</li>
                              <li>To construct more direct sheltered built paths with better drainage systems in order to incentivize their usage.</li>
                              <li>Develop simple HDB layouts that ensure direct and intuitive pathways for residents, in order to prevent residents from needing to
@@ -386,6 +386,8 @@ ui <- fluidPage(
                               column(6, div(style = "text-align: center;", imageOutput("eda_convenience"))),
                               column(6, div(style = "text-align: center;", imageOutput("pg_dashboard")))
                             ),
+                            p("Constructing direct paths aligns closely with residents' prioritisation of convenience and accessibility. By implementing this strategy, we can effectively reduce 
+                              desired lines by optimising residents' mobility."), 
                           )
                         )
                ), 
@@ -531,8 +533,47 @@ ui <- fluidPage(
                                      transport, roundabouts, supermarkets and eateries, reducing the necessity for residents to resort to creating unofficial shortcuts.</h4>")
                             )
                         ),
-                        br(),
-                        br()
+                        tabsetPanel(
+                          tabPanel(strong("Sub-Challenge"),
+                                   div(style = "background-color: #f2f2f2; padding: 10px;",
+                                       h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Sub-Challenge")),
+                                       div(style = "text-align: center;",
+                                           HTML("<h4>How does the current state of road sides, especially those near bus stops, contribute to the formation of desired lines, and what 
+                                                 measures can be taken to reduce such instances?</h4>")
+                                       )), 
+                                   br(), 
+                                   p(strong("Purpose of Sub-challenge:")), 
+                                   p(strong("1. Road infrastructures exhibit the highest frequency of desired walkways.")),
+                                   #<insert desired lines map in pg> 
+                                   p("Our observations of desired lines in Punggol reveal a clustering effect along main roads, suggesting a natural emergence influenced by the 
+                                          convenience of crossing road infrastructure.")
+                          ), 
+                          tabPanel(strong("Evidence"),
+                                   br(),
+                                   p(strong("Supporting Evidence")),
+                                   p("Based on our analysis, residents exhibit a tendency to create desired paths for convenient access to cross the road, particularly towards bus stops
+                                      and MRT stations where traffic lights may be less accessible compared to jaywalking. However, merely increasing the number of traffic lights or zebra 
+                                      crossings may not effectively address this issue, as people naturally opt for the most convenient route, as evidenced by the clustering of desired 
+                                      lines around bus stops."),
+                                   div(style = "text-align: center;", imageOutput("a4_amk_dl")),
+                                   fluidRow(
+                                     column(6, div(style = "text-align: center;", imageOutput("a4_pg_dl_1"))),
+                                     column(6, div(style = "text-align: center;", imageOutput("a4_pg_dl_2")))
+                                   ),
+                                   p("Our survey analysis suggests a strong preference among residents for the shortest walking time to public transport, with an average reasonable walking 
+                                      time to bus stops perceived to be around 5 minutes, which was the shortest among surveyed amenities. Therefore, our recommended course of action is not 
+                                      to implement path-blocking measures, as they would reduce the convenience for residents accessing their commute. Instead, we advise against actions that 
+                                      might provoke negative sentiments towards walkways and suggest initiatives aimed at enhancing pedestrian access to public transport hubs while maintaining
+                                      convenience and efficiency."), 
+                                   fluidRow(
+                                     column(6, div(style = "text-align: center;", imageOutput("eda_a4_ranking"))),
+                                     column(6, div(style = "text-align: center;", imageOutput("eda_a4_walkingtime")))
+                                   ),
+                                   p("As previously mentioned, residents have emphasised convenience as a crucial factor when selecting a route. Hence, I propose that we design walkways that 
+                                      cater to the specific needs and preferences of the community."), 
+                                   div(style = "text-align: center;", imageOutput("eda_a4_convenience"))
+                                   
+                          )) 
                )
              )),
     
@@ -545,24 +586,32 @@ ui <- fluidPage(
 Simply enter the following parametrs then click the “Predict” button to create a prediction and a confidence level:"
                  )),
              br(),
-             sidebarLayout(
-               sidebarPanel(
-                 selectInput("input1", "Throughout the various times of the day, do you tend to use different routes when navigating through your residential estate?", choices = c("Yes", "No")),
-                 selectInput("input2", "Do well-lit walkways affect your choice of route when navigating through your residential estate?" , choices = c("Yes", "No")),
-                 selectInput("input3", "Does terrain elevation (e.g. hills/big slopes) affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No")),
-                 selectInput("input4", "Does convenience affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No")),
-                 numericInput("input5", "What is your age?", value = '25'),
-                 selectInput("input6", "What type of housing do you currently live in Singapore?", choices = c("HDB", "Condominium","Landed Property")),
-                 selectInput("input7", "How often do you walk in your immediate neighbourhood?",choices = c("Always", "Frequently","Sometimes","Seldom","Never")),
-                 actionButton("predictButton","Predict")
-               ),
-               mainPanel(
-                 textOutput("predictionText"),
-                 textOutput("confidenceText")
-               )
+             div(style = "background-color: #e9ecef; padding: 20px; border-radius: 5px;", # Shaded box for inputs
+                 fluidRow(
+                   column(4,
+                          selectInput("input1", "Throughout the various times of the day, do you tend to use different routes when navigating through your residential estate?", choices = c("Yes", "No")),
+                          selectInput("input2", "Do well-lit walkways affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No"))
+                   ),
+                   column(4,
+                          selectInput("input3", "Does terrain elevation (e.g., hills/big slopes) affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No")),
+                          selectInput("input4", "Does convenience affect your choice of route when navigating through your residential estate?", choices = c("Yes", "No"))
+                   ),
+                   column(4,
+                          numericInput("input5", "What is your age?", value = 25),
+                          selectInput("input6", "What type of housing do you currently live in Singapore?", choices = c("HDB", "Condominium", "Landed Property")),
+                          selectInput("input7", "How often do you walk in your immediate neighbourhood?", choices = c("Always", "Frequently", "Sometimes", "Seldom", "Never")),
+                          actionButton("predictButton", "Predict", style = "margin-top: 20px; width: 100%; background-color: #ffffff; color: black; border: none;") # Custom styles for button
+                   )
+                 )
              ),
-             
-             
+             br(), # Space between input box and result box
+             div(style = "background-color: #f2f2f2; padding: 10px; text-align: center;", # New shaded box for results with text centered
+                 h4(style = "margin-top: 0; margin-bottom: 10px;", strong("Results")), # Centered results header
+                 div( # Additional div for text outputs, if needed for further styling
+                   strong(textOutput("predictionText")),
+                   strong(textOutput("confidenceText"))
+                 )
+             )
              
     ),
     
@@ -586,6 +635,13 @@ Simply enter the following parametrs then click the “Predict” button to crea
                                        div(style = "text-align: center;",
                                            HTML("<h4>Population has been steadily increasing over the years but the population of children is starting to fall</h4>")
                                        )
+                                   ),
+                                   br(),
+                                   br(),
+                                   div(style = "background-color: #f2f2f2; padding: 10px; text-align: center;",
+                                       h4(style = "margin-top: 0; margin-bottom: 8px; text-align: center;", 
+                                          strong("Population Pyramid")),  # Wrap with strong tag
+                                    imageOutput("Pop_Pyramid"),
                                    ),
                                    br(),
                                    br(), # Add a line break
@@ -684,7 +740,6 @@ Simply enter the following parametrs then click the “Predict” button to crea
                              <li>Desired lines in Punggol (non-mature estates) are often found near main road infrastructure and areas beneath HDB blocks, often leading to pick-up points and recreational spots like playgrounds and exercise corners.</li>
                              <li>Ang Mo Kio (mature estates) have fewer and more dispersed desired lines, and within the HDB estate itself, there is a noticeable absence of desired lines.</li>
                              <li>In non-mature estates, buildings often exhibit a smaller, squarish, and jagged design, whereas mature estates tend to feature a more rectangular building structure characterised by elongated corridors.</li>
-                             <li>/</li>
                              </ol>")
                         ),
                         br(), 
@@ -799,6 +854,11 @@ server <- function(input, output, session) {
          height = 45,
          onclick = "window.location.load()"), deleteFile = FALSE)
   
+  output$Pop_Pyramid <- renderImage(
+    list(
+        src = "images/Population Pyramid.png",
+        style = "width: 100%; height: auto;"), deleteFile = FALSE
+    )
   
   
   
@@ -852,6 +912,45 @@ server <- function(input, output, session) {
   output$otg_pg_dl <- renderImage({
     list(src = "images/OTG_pg_A3.jpg",
          style = "max-width: 50%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  ### Framework 4 AMK_DL
+  output$a4_amk_dl <- renderImage({
+    list(src = "images/A4_AMK.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 4 PG_DL_1
+  output$a4_pg_dl_1 <- renderImage({
+    list(src = "images/A4_Punggol_1.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 4 PG_DL_1 
+  output$a4_pg_dl_2 <- renderImage({
+    list(src = "images/A4_Punggol_2.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  ### Framework 4 EDA A4 ranking 
+  output$eda_a4_ranking <- renderImage({
+    list(src = "images/EDA_A4_ranking.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  ### Framework 4 EDA A4 ranking 
+  output$eda_a4_walkingtime <- renderImage({
+    list(src = "images/EDA_A4_walkingtime.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 4 EDA A4 ranking 
+  output$eda_a4_convenience <- renderImage({
+    list(src = "images/EDA_A4_convenience.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
   },deleteFile = FALSE)
   
   
@@ -1032,6 +1131,87 @@ server <- function(input, output, session) {
   
 }
 
+### Desire Line Calculator 
+# Initialize flag to track if data has been loaded
+is_loaded <- reactiveVal(FALSE)
+
+# Initialize trained model
+trained_model <- reactiveVal(NULL)
+
+# Function to load data and train model
+load_and_train <- function() {
+  file_path <- "data/aspatial/LR_Data.csv"
+  df <- read.csv(file_path, header = TRUE)[,-1]
+  y <- df[[ncol(df)]]
+  X <- df[, -ncol(df)]
+  
+  fit <- logistic_reg(mixture = double(1), penalty = double(1)) %>%
+    set_engine("glmnet") %>%
+    set_mode("classification") %>%
+    fit(as.factor(y) ~ ., data = X)
+  trained_model(fit)
+  is_loaded(TRUE)
+}
+
+# Make predictions
+observeEvent(input$predictButton, {
+  # Load data and train model if not already loaded
+  if (!is_loaded()) {
+    load_and_train()
+  }
+  ave <- 35.19708
+  std <- 16.25660
+  scaled_input5 <- (as.numeric(input$input5)-ave)/std
+  # Use new_data for predictions
+  new_data <- data.frame(
+    input1 = input$input1,
+    input2 = input$input2,
+    input3 = input$input3,
+    input4 = input$input4,
+    input5 = scaled_input5,
+    input6 = input$input6,
+    input7 = input$input7,
+    fixed_var1 = 0.948905,
+    fixed_var2 = 0.948905,
+    fixed_var3 = 0.649635,
+    stringsAsFactors = TRUE
+  )
+  
+  
+  colnames(new_data) <- c("Throughout.the.various.times.of.the.day..do.you.tend.to.use.different.routes.when.navigating.through.your.residential.estate.", 
+                          "Do.well.lit.walkways.affect.your.choice.of.route.when.navigating.through.your.residential.estate.",
+                          "Does.terrain.elevation..e.g..hills.big.slopes..affect.your.choice.of.route.when.navigating.through.your.residential.estate.",
+                          "Does.convenience.affect.your.choice.of.route.when.navigating.through.your.residential.estate.", 
+                          "What.is.your.age.", 
+                          "What.type.of.housing.do.you.currently.live.in.Singapore.", 
+                          "How.often.do.you.walk.in.your.immediate.neighbourhood.", 
+                          "Q32_Encoded", "Q33_Encoded", "Q34_Encoded")
+  
+  # Make predictions
+  if (!is.null(trained_model())) {
+    prediction <- predict(trained_model(), new_data = new_data, type = "class")
+    
+    if (prediction == 1) {
+      confidence <- predict(trained_model(), new_data = new_data, type = "prob")[, 2]  # Probability of class 1
+      confidence_text <- paste("Confidence (Likely to walk on desire path):", round(confidence * 100, 2), "%")
+    } else {
+      confidence <- predict(trained_model(), new_data = new_data, type = "prob")[, 1]  # Probability of class 0
+      confidence_text <- paste("Confidence (Not likely to walk on desire path):", round(confidence * 100, 2), "%")
+    }
+    
+    # Convert prediction to desired format
+    prediction_text <- ifelse(prediction == 1, "Likely to walk on desire path", "Not likely to walk on desire path")
+    
+    output$predictionText <- renderText(paste("Prediction:", prediction_text))
+    output$confidenceText <- renderText(confidence_text)
+  } else {
+    output$predictionText <- renderText("Model not trained yet.")
+    output$confidenceText <- renderText("")
+  }
+  
+})
+
+
 
 
 
@@ -1039,4 +1219,6 @@ server <- function(input, output, session) {
 
 
 shinyApp(ui = ui, server = server)
+
+
 

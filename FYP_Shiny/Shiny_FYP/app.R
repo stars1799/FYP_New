@@ -67,6 +67,9 @@ amk_sf <- st_as_sf(amk)
 pg_buildings <- st_intersection(pg_sf, tb_cat)
 amk_buildings <- st_intersection(amk_sf, tb_cat)
 
+amk_b_cat <- amk_buildings["Categorize"]
+pg_b_cat <- pg_buildings["Categorize"]
+
 
 landuse_pg <- st_read(dsn = "data/geospatial", 
                       layer = "FYP_target_landuse_PG")
@@ -139,7 +142,49 @@ pg_b_cat <- pg_buildings["Categorize"]
 
 a_dl_class <- amk_wdl["desired_li"]
 
-## Landuse map 
+## path map 
+
+# AMK data
+amk_res_block <- st_read(dsn = "data/geospatial2/HDB_Blocks", 
+                         layer = "temp1_amk_residential")
+amk_res_pge <- st_read(dsn = "data/geospatial2/Playground", 
+                       layer = "temp_amk_playground")
+amk_res_ww <- st_read(dsn = "data/geospatial2/Walkways", 
+                      layer = "temp_amk_walkway")
+amk_res_s1 <- st_read(dsn = "data/geospatial2/AMK_sp_dup", 
+                      layer = "amk_shortest_path_1_dup")
+amk_res_s2 <- st_read(dsn = "data/geospatial2/AMK_sp_dup", 
+                      layer = "amk_shortest_path_2_dup")
+amk_res_s3 <- st_read(dsn = "data/geospatial2/AMK_sp_dup", 
+                      layer = "amk_shortest_path_3_dup")
+
+# Punggol data
+pg_res_block <- st_read(dsn = "data/geospatial2/HDB_Blocks", 
+                        layer = "temp1_pg_residential")
+pg_res_pge <- st_read(dsn = "data/geospatial2/Playground", 
+                      layer = "temp_pg_playground")
+pg_res_ww <- st_read(dsn = "data/geospatial2/Walkways", 
+                     layer = "temp_pg_walkway")
+pg_res_s1 <- st_read(dsn = "data/geospatial2/PG_sp_dup", 
+                     layer = "pg_shortest_path_1_dup")
+pg_res_s2 <- st_read(dsn = "data/geospatial2/PG_sp_dup", 
+                     layer = "pg_shortest_path_2_dup")
+pg_res_s3 <- st_read(dsn = "data/geospatial2/PG_sp_dup", 
+                     layer = "pg_shortest_path_3_dup")
+
+
+housesym <- tmap_icons("data/geospatial2/house.png")
+playgsym <- tmap_icons("data/geospatial2/playground.png")
+
+
+pg_sa_res <- st_read(dsn = "data/geospatial2/pg_special_analysis", 
+                     layer = "temp4_pg_residential")
+pg_sa_path <- st_read(dsn = "data/geospatial2/PG_sp_dup", 
+                      layer = "pg_shortest_path_4_dup")
+pg_sa_ww <- st_read(dsn = "data/geospatial2/PG_SA_2", 
+                    layer = "temp4_pg_walkway_dup")
+pg_sa_pg <- st_read(dsn = "data/geospatial2/PG_SA_2", 
+                    layer = "temp4_pg_playground")
 
 
 
@@ -223,7 +268,23 @@ ui <- fluidPage(
       )
     )
   ),
-  
+  tags$script('
+        $(document).ready(function() {
+          // Function to adjust iframe width based on container width
+          function adjustIframeWidth() {
+            var containerWidth = $("#tableauContainer").width();
+            $("#tableauDashboard").width(containerWidth);
+          }
+
+          // Call the adjustIframeWidth function on window resize
+          $(window).resize(function() {
+            adjustIframeWidth();
+          });
+
+          // Call the adjustIframeWidth function on document ready
+          adjustIframeWidth();
+        });
+      '),
   
   
   # Navbar
@@ -446,7 +507,24 @@ ui <- fluidPage(
                             div(style = "text-align: center;", imageOutput("otg_pg_dl")),
                             p("Therefore, in more complex HDB layouts, our findings suggest that residents are more inclined to create their own pathways. These custom routes serve to simplify 
                               their journey, allowing them to effortlessly traverse the HDB estate and reach their destination."),
-                          ))),
+                          ),
+                          p('The built paths designated by URA (highlighted in red), shows the residents’ routes from their homes to the nearest playground or exercise corner. An observation made from the following routes suggests that in Ang Mo Kio, the routes to the following amenities require less turns and have longer straight routes. 
+                          In comparison, the route to the Punggol amenities often requires a more complex route that encompasses many small turns when using the built path. This layout may create a natural tendency for people to opt for a more direct route by cutting across the built pathways as illustrated through the shortest route (highlighted in green), 
+                          in order to reach the amenities more efficiently.'),
+                          fluidRow(
+                            column(4, # Selection panel takes up 4/12 of the width
+                                   selectInput("mapSelection3", "Select a Location:", choices = studyarea)),
+                            column(8, # Map takes up 8/12 of the width
+                                   uiOutput("dynamicMap3"))
+                          ),
+                          br(),
+                          br(),
+                          fluidRow(
+                            tmapOutput("pg_sa_map")
+                          )
+                          
+                          
+                          )),
                         
                 tabPanel(strong("Key Actionable 4"),
                            br(), 
@@ -565,9 +643,17 @@ ui <- fluidPage(
                                        )
                                    ),
                                    br(),
-                                   br(), # Add a line break
+                                   br(), 
                                    div(style = "background-color: #f2f2f2; padding: 10px; text-align: center;",
                                        h4(style = "margin-top: 0; margin-bottom: 8px; text-align: center;", 
+                                          strong("Population Pyramid")),  # Wrap with strong tag
+                                       imageOutput("Pop_Pyramid")
+                                   ),
+                                   br(),
+                                   br(),
+                                   br(),# Add a line break
+                                   div(style = "background-color: #f2f2f2; padding: 10px; text-align: center;",
+                                       h4(style = "margin-top: 8px; margin-bottom: 8px; text-align: center;", 
                                           strong("Tableau Dashboard")),  # Wrap with strong tag
                                        div(style = "text-align: center;",
                                            HTML('<iframe id="tableauDashboard" src="https://public.tableau.com/views/Hypothesis25/Dashboard1?:language=en-GB&:embed=y&:display_count=n&:showVizHome=no" 
@@ -780,7 +866,14 @@ server <- function(input, output, session) {
          height = 45,
          onclick = "window.location.load()"), deleteFile = FALSE)
   
-
+  output$Pop_Pyramid <- renderImage(
+    list(
+      src = "images/Population Pyramid.png",
+      contentType = "image/png",
+      style = "height: 100%; width: 100%; object-fit: contain;"
+    ),
+    deleteFile = FALSE
+  )
   
   
   ### Framework 1 EDA - James 
@@ -874,17 +967,33 @@ server <- function(input, output, session) {
   
   ###################################################
   
-  output$amk_landuse_map <- renderTmap(tm_shape(amk_landuse) +
-                                         tm_borders() +  # Plot borders of the polygons
-                                         tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
-                                         tm_layout(legend.show = TRUE) +  # Show legend
-                                         osm_basemap  )# Add basemap
+  output$amk_b_cat_map <- renderTmap(tm_shape(amk_b_cat) +
+                                       tm_borders() +  # Plot borders of the polygons
+                                       tm_fill(col = "Categorize", title = "Building Category") +  # Color categorization
+                                       tm_layout(legend.show = TRUE) +  # Show legend
+                                       osm_basemap   )# Add basemap
   
-  output$pg_landuse_map <- renderTmap(tm_shape(pg_landuse) +
-                                        tm_borders() +  # Plot borders of the polygons
-                                        tm_fill(col = "Categorize", title = "Landuse Category", alpha = 0.5) +  # Color categorization with lower opacity
-                                        tm_layout(legend.show = TRUE) +  # Show legend
-                                        osm_basemap  )# Add basemap
+  output$pg_b_cat_map <- renderTmap(tm_shape(pg_b_cat) +
+                                      tm_borders() +  # Plot borders of the polygons
+                                      tm_fill(col = "Categorize", title = "Building Category") +  # Color categorization
+                                      tm_layout(legend.show = TRUE) +  # Show legend
+                                      osm_basemap    )# Add basemap
+  
+  output$pg_sa_map <- renderTmap({
+    map <- tm_shape(pg_sa_res) +
+      tm_symbols(shape = housesym, size = 0.1, border.lwd = NA) +  # Plot geometry points with red color and smaller size
+      tm_layout(legend.show = TRUE) +  # Show legend
+      osm_basemap   +
+      tm_shape(pg_sa_ww) +
+      tm_lines(lwd = 1, col = "red")+
+      tm_shape(pg_sa_path) +
+      tm_lines(lwd = 1, col = "green") +
+      tm_shape(pg_sa_pg) +
+      tm_symbols(shape = playgsym, size = 0.2, border.lwd = NA) +
+      tm_shape(dl_pg) +
+      tm_lines(col = "black", lwd = 2) +  # Adjust line color and width as needed
+      tmap_options(check.and.fix = TRUE) 
+    map })# Add basemap
   
   
   output$dl_amk <- renderTmap({
@@ -911,6 +1020,44 @@ server <- function(input, output, session) {
     dl_map  # Return the map for rendering
   })
   
+  output$pg_ep_route <- renderTmap({
+    
+    dl_map <- tm_shape(pg_res_block) +
+      tm_symbols(shape = housesym, size = 0.1, border.lwd = NA) +
+      #tm_symbols(col = "black", size = 0.5) +  # Plot geometry points with red color and smaller size
+      tm_layout(legend.show = TRUE) +  # Show legend
+      osm_basemap +  # Add basemap 
+      tm_shape(pg_res_ww) +
+      tm_lines(lwd = 1, col = "red") +
+      tm_shape(pg_res_s1) +
+      tm_lines(lwd = 1, col = "green")+
+      tm_shape(pg_res_s2) +
+      tm_lines(lwd = 1, col = "green")+
+      tm_shape(pg_res_s3) +
+      tm_lines(lwd = 1, col = "green")+
+      tm_shape(pg_res_pge) +
+      tm_symbols(shape = playgsym, size = 0.2, border.lwd = NA)
+  })
+  
+  output$amk_ep_route <- renderTmap({
+    
+    dl_map <- tm_shape(amk_res_block) +
+      tm_symbols(shape = housesym, size = 0.1, border.lwd = NA) +
+      #tm_symbols(col = "black", size = 0.5) +  # Plot geometry points with red color and smaller size
+      tm_layout(legend.show = TRUE) +  # Show legend
+      osm_basemap +  # Add basemap 
+      tm_shape(amk_res_ww) +
+      tm_lines(lwd = 1, col = "red") +
+      tm_shape(amk_res_s1) +
+      tm_lines(lwd = 1, col = "green")+
+      tm_shape(amk_res_s2) +
+      tm_lines(lwd = 1, col = "green")+
+      tm_shape(amk_res_s3) +
+      tm_lines(lwd = 1, col = "green")+
+      tm_shape(amk_res_pge) +
+      tm_symbols(shape = playgsym, size = 0.2, border.lwd = NA)
+  })
+  
   output$dynamicMap <- renderUI({
     if (input$mapSelection == "Punggol") {
       tmapOutput("dl_pg")
@@ -921,9 +1068,17 @@ server <- function(input, output, session) {
   
   output$dynamicMap2 <- renderUI({
     if (input$mapSelection2 == "Punggol") {
-      tmapOutput("pg_landuse_map")
+      tmapOutput("pg_b_cat_map")
     } else {
-      tmapOutput("amk_landuse_map")
+      tmapOutput("amk_b_cat_map")
+    }
+  })
+  
+  output$dynamicMap3 <- renderUI({
+    if (input$mapSelection3 == "Punggol") {
+      tmapOutput("pg_ep_route")
+    } else {
+      tmapOutput("amk_ep_route")
     }
   })
   
