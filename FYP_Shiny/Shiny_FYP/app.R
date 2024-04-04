@@ -299,16 +299,16 @@ ui <- fluidPage(
     tags$p(class = "navbar-text", "STEP AHEAD SOLUTIONS"),
     
     tabPanel("Home",
-               div(style = "text-align: center;", imageOutput("logo")), 
-               hr(),
-               h4("Welcome to our framework designed to address the discrepancies between current urban plans and community preferences within HDB estates. Our framework aims to enhance accessibility for residents by identifying and mitigating desired pedestrian lines. Navigate through the various sections to explore our research insights, demographic analyses, and proposed solutions."),
-               br(),
-               h4(strong("Objective Framework")),
-               p("Our objective is to develop a comprehensive framework that identifies and mitigates discrepancies between the current urban plans and community preferences, specifically targeting desired pedestrian lines, thereby enhancing accessibility for residents in HDB estates."),
-               h4(strong("Link to Sponsor")),
-               p("By providing a comprehensive framework, our project empowers urban planners to align infrastructure development with the actual movement patterns and preferences of residents. This ensures that current urban layouts of the walkways accurately reflect the community's needs, enhancing convenience, effectiveness, and ultimately improving the overall quality of life within HDB estates."),
-               h4(strong("Challenge Statement")), 
-               p("To reduce the disparity between urban plans and community preferences, improving accessibility for residents in HDB estates by reducing desired pedestrian lines.")
+             div(style = "text-align: center;", imageOutput("logo")), 
+             hr(),
+             h4("Welcome to our framework designed to address the discrepancies between current urban plans and community preferences within HDB estates. Our framework aims to enhance accessibility for residents by identifying and mitigating desired pedestrian lines. Navigate through the various sections to explore our research insights, demographic analyses, and proposed solutions."),
+             br(), 
+             h4(strong("Objective Framework")),
+             p("Our objective is to develop a comprehensive framework that identifies and mitigates discrepancies between the current urban plans and community preferences, specifically targeting desired pedestrian lines, thereby enhancing accessibility for residents in HDB estates."),
+             h4(strong("Link to Sponsor")),
+             p("By providing a comprehensive framework, our project empowers urban planners to align infrastructure development with the actual movement patterns and preferences of residents. This ensures that current urban layouts of the walkways accurately reflect the community's needs, enhancing convenience, effectiveness, and ultimately improving the overall quality of life within HDB estates."),
+             h4(strong("Challenge Statement")), 
+             p("To reduce the disparity between urban plans and community preferences, improving accessibility for residents in HDB estates by reducing desired pedestrian lines.")
              ),
     
     tabPanel("Framework", 
@@ -348,6 +348,10 @@ ui <- fluidPage(
                                    p(strong("Purpose of Sub-Challenge:")),
                                    p(strong("1. Many desired lines in Punggol (non-mature estates) are often found in areas beneath HDB blocks, often leading to pick-up points and 
                                             recreational spots like playgrounds and exercise corners.")), 
+                                   fluidRow(
+                                     tmapOutput("dl_pg_2")
+                                   ),
+                                   br(),
                                    p("Our observations of desired lines in Punggol reveal a clustering effect beneath HDB blocks, suggesting a natural emergence influenced by the 
                                      convenience of crossing road infrastructure and accessibility to amenities like roundabouts, playgrounds, and exercise corners. This led us to 
                                      infer that desired lines naturally emerge based on the accessibility to amenities such as roundabouts, playgrounds, and exercise corners. This 
@@ -390,6 +394,9 @@ ui <- fluidPage(
                               column(6, div(style = "text-align: center;", imageOutput("eda_convenience"))),
                               column(6, div(style = "text-align: center;", imageOutput("pg_dashboard")))
                             ),
+                            br(), 
+                            br(),
+                            br(), 
                             p("Constructing direct paths aligns closely with residents' prioritisation of convenience and accessibility. By implementing this strategy, we can effectively reduce 
                               desired lines by optimising residents' mobility."), 
                             br(), 
@@ -457,7 +464,9 @@ ui <- fluidPage(
                               to the walkways. In our survey, a few of our residents also reported that walkway shelters do not adequately protect against heavy rain due to sustained wind
                               or narrowly-built shelters, which contributes to the overall decrease of safety on these walkways."),
                             p("Thus, reinforcing the recommendation to prioritise the construction of more direct built paths with adequate shelter. Hence, indicating that residents would 
-                              be more inclined to use a sheltered direct built path as their route.")
+                              be more inclined to use a sheltered direct built path as their route."), 
+                            br(), 
+                            br()
                           )
                           )
                         ), 
@@ -466,8 +475,8 @@ ui <- fluidPage(
                         div(style = "background-color: #f2f2f2; padding: 10px;",
                             h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Actionable 3")),
                             div(style = "text-align: center;",
-                                HTML("<h4>Develop simple HDB layouts that ensure direct and intuitive pathways for residents, in order to prevent residents from needing to
-                                create desired paths in order to prevent the use of the long-winding routes within the HDB estate.</h4>")
+                                HTML("<h4>Develop simple HDB layouts that ensure direct and intuitive pathways for residents to prevent residents from needing to create desired paths in 
+                                     order to avoid the use of the long-winding routes within the HDB estate. </h4>")
                             )
                         ),
                         br(),
@@ -486,45 +495,75 @@ ui <- fluidPage(
                                             absence of desired lines.")), 
                                    p("This can be seen through the comparison of the desired lines in Ang Mo Kio and Punggol, where Ang Mo Kio has fewer and more dispersed desired 
                                      lines. While the desired lines still emerge predominantly along the road infrastructure, the count is still notably lower compared to Punggol. 
-                                     Additionally, within the HDB estate of Ang Mo Kio, there is a noticeable absence of desired lines."), 
+                                     Additionally, within the HDB estate of Ang Mo Kio, there is a noticeable absence of desired lines. "), 
                                    br(),
                                    div(style = "text-align: center;", imageOutput("dl_dashboard_amk")),
                                    p("Though we recognise that it is important to acknowledge that numerous mature estates have already undergone retrofitting processes to meet the 
                                      resident’s needs. Which meant that, the recorded number of desired lines in our study may not entirely reflect the original situation accurately. 
                                      Nevertheless, this insight spurred further research into the potential disparities between infrastructure design and the preferences of demographics 
-                                     in mature and non-mature estates.")
+                                     in mature and non-mature estates."),
+                                   br(), 
+                                   br()
                                    ),
                           tabPanel(strong('Evidence'), 
                             br(),
                             p(strong("Supporting Evidence")),
                             p("Through our research on walkway data, we found that residents are more inclined to adhere to constructed paths if they are straight and intuitive, as opposed 
-                              to the winding routes often found in non-mature estates. Unlike non-mature estates, mature estates have simplified layouts that enable residents to navigate a 
-                              long direct and intuitive pathways with ease."),
+                              to the winding routes often found in non-mature estates. Unlike non-mature estates, mature estates have simplified layouts that enable residents to navigate 
+                              along direct and intuitive pathways with ease."),
                             p("Additionally, the complex design of the newer HDB estates has led to less intuitive walking pavements. Therefore, residents often resort to walking along the 
-                              main roads to reach their destination within the estate before creating a desired line to reconnect with the designated walking pavements."),
-                            #<insert map showing the walking data>
-                            #<insert on-the-ground research – Karina’s video & picture showing people walking on car-based roads>
+                              main roads to reach their destination within the estate before creating a desired line to reconnect with the designated walking pavements. "),
+                            p('The built paths designated by URA (highlighted in red), shows the residents’ routes from their homes to the nearest playground or exercise corner. An observation made 
+                              from the following routes suggests that in Ang Mo Kio, the routes to the following amenities require less turns and have longer straight routes. In comparison, the route to 
+                              the Punggol amenities often requires a more complex route that encompasses many small turns when using the built path. This layout may create a natural tendency for people 
+                              to opt for a more direct route by cutting across the built pathways as illustrated through the shortest route (highlighted in green), 
+                              in order to reach the amenities more efficiently.'),
+                            selectInput("mapSelection3", "Select a Location:", choices = studyarea), 
+                            br(), 
+                            br(), 
+                            uiOutput("dynamicMap3"), 
+                            br(),
+                            br(),
+                            p("The following map further reinforces this observation, as seen from the shortest route taken and the desired lines (highlighted in black). Notably, several desired lines are 
+                              directly aligned with the shortest path taken, emphasizing residents’ inclination towards more direct routes when navigating to amenities"),
+                            br(),
+                            fluidRow(
+                              tmapOutput("pg_sa_map")
+                            ),
+                            br(), 
+                            p("During our on-the-ground research, we recorded our walking data within the neighbourhoods to delve deeper into the nuances of our walking behaviours. Our analysis also revealed 
+                              this possible difference in how residents may navigate their surroundings. "),
                             div(style = "text-align: center;", imageOutput("otg_pg_dl")),
-                            p("Therefore, in more complex HDB layouts, our findings suggest that residents are more inclined to create their own pathways. These custom routes serve to simplify 
-                              their journey, allowing them to effortlessly traverse the HDB estate and reach their destination."),
-                          ),
-                          p('The built paths designated by URA (highlighted in red), shows the residents’ routes from their homes to the nearest playground or exercise corner. An observation made from the following routes suggests that in Ang Mo Kio, the routes to the following amenities require less turns and have longer straight routes. 
-                          In comparison, the route to the Punggol amenities often requires a more complex route that encompasses many small turns when using the built path. This layout may create a natural tendency for people to opt for a more direct route by cutting across the built pathways as illustrated through the shortest route (highlighted in green), 
-                          in order to reach the amenities more efficiently.'),
-                          fluidRow(
-                            column(4, # Selection panel takes up 4/12 of the width
-                                   selectInput("mapSelection3", "Select a Location:", choices = studyarea)),
-                            column(8, # Map takes up 8/12 of the width
-                                   uiOutput("dynamicMap3"))
-                          ),
-                          br(),
-                          br(),
-                          fluidRow(
-                            tmapOutput("pg_sa_map")
-                          )
+                            p("In the Ang Mo Kio neighbourhood, our observations suggested a tendency for walking behaviour to align closely with the layout of the HDB buildings. Therefore, the walking routes 
+                              were generally straight paths as they followed the simple and straightforward layout of the buildings. In contrast, our exploration of the Punggol neighbourhood highlighted 
+                              contrast in the walking behaviour. We observed a higher tendency to forge our own paths through the hdb estate rather than adhering strictly to the designated walkways. This could 
+                              cause the walkways to be less intuitive due to the more complex layout of the HDB estate and buildings."),
+                            br(),
+                            p("Punggol:"),
+                            div(style = "text-align: center;", imageOutput("wd_pg_1")),
+                            p("Ang Mo Kio:"),
+                            fluidRow(
+                              column(6,imageOutput("wd_amk_1")), 
+                              column(6,imageOutput("wd_amk_2"))
+                            ), 
+                            p("Our findings were further substantiated by data collected directly from residents. For instance, in our analysis of walking patterns from a Punggol resident's journey to the MRT 
+                              station, we observed that the resident did not follow the designated path (highlighted in blue). In contrast, the walking routes in Ang Mo Kio revealed a relatively consistent 
+                              adherence to the layout of the HDB buildings despite the potential of taking a diagonal shortcut through the estate. "), 
+                            fluidRow(
+                              column(6,"Punngol: "), 
+                              column(6,"Ang Mo Kio: ")
+                            ),
+                            fluidRow(
+                              column(6,imageOutput("wd_pg_2")), 
+                              column(6,imageOutput("wd_amk_3"))
+                            ), 
+                            p("Therefore, in more complex HDB layouts, our findings suggest that residents are more inclined to create their own pathways. These custom routes serve to simplify their journey, 
+                              allowing them to effortlessly traverse the HDB estate and reach their destination."), 
+                            br(), 
+                            br()
                           
-                          
-                          )),
+                            
+                            ))),
                         
                 tabPanel(strong("Key Actionable 4"),
                            br(), 
@@ -544,13 +583,17 @@ ui <- fluidPage(
                                             HTML("<h4>How does the current state of road sides, especially those near bus stops, contribute to the formation of desired lines, and what 
                                                  measures can be taken to reduce such instances?</h4>")
                                         )), 
-                                        br(), 
-                                        p(strong("Purpose of Sub-challenge:")), 
-                                        p(strong("1. Road infrastructures exhibit the highest frequency of desired walkways.")),
-                                        #<insert desired lines map in pg> 
-                                        p("Our observations of desired lines in Punggol reveal a clustering effect along main roads, suggesting a natural emergence influenced by the 
-                                          convenience of crossing road infrastructure.")
-                                        ), 
+                                    br(), 
+                                    p(strong("Purpose of Sub-challenge:")), 
+                                    p(strong("1. Road infrastructures exhibit the highest frequency of desired walkways.")),
+                                    p("Our observations of desired lines in Punggol reveal a clustering effect along main roads, suggesting a natural emergence influenced by the 
+                                          convenience of crossing road infrastructure."),
+                                    fluidRow(
+                                      tmapOutput("dl_pg")
+                                    ),
+                                    br(),
+                                    br()
+                                    ), 
                            tabPanel(strong("Evidence"),
                                     br(),
                                     p(strong("Supporting Evidence")),
@@ -664,7 +707,11 @@ ui <- fluidPage(
                                    br(), 
                                    br(), 
                                    p(strong("Description: "), "The dashboard looks to explore the population growth in Singapore from the 1950s to the 2020s with a specific look at the change in population for specific age groups (child - 0 to 19 years old, young adults - 20 to 39 years old, middle-aged - 40 to 59 years old, and elderly - 60 years old and above)."),
-                                   p(strong("Analysis:"), "Overall, the trends in the population pyramid suggest that the population in Singapore has been increasing over the last 70 years and this trend is consistent when we break down into the 4 age groups defined above. However, there is a worrying trend that is becoming increasingly apparent for the “Child” age group as they have been trending downwards since the 2010s while for the “Elderly” age group, they have been growing at an almost exponential rate since the turn of the century. This is also evident when looking at the scatter plots, where the number of male and female children in the 2020s are almost at levels that they were in the 1950s. These scatter plots also highlight another concerning trend among “Young Adults” and “Middle-aged” where their numbers are starting to plateau instead of showing any clear increase or decrease.")
+                                   p(strong("Analysis:"), "Overall, the trends in the population pyramid suggest that the population in Singapore has been increasing over the last 70 years and this trend is consistent when we break down into the 4 age groups defined above. However, there is a worrying trend that is becoming increasingly apparent for the “Child” age 
+                                     group as they have been trending downwards since the 2010s while for the “Elderly” age group, they have been growing at an almost exponential rate since the turn of the century. This is also evident when looking at the scatter plots, where the number of male and female children in the 2020s are almost at levels that they were in 
+                                     the 1950s. These scatter plots also highlight another concerning trend among “Young Adults” and “Middle-aged” where their numbers are starting to plateau instead of showing any clear increase or decrease."), 
+                                   br(), 
+                                   br()
                           ),
                           tabPanel(strong("Key Insight 2 & 3"),
                                    br(),
@@ -701,14 +748,15 @@ ui <- fluidPage(
                                      highlights the importance of adapting urban planning approaches to evolving demographic trends within mature HDB estates like Ang Mo Kio, emphasising the necessity of improving accessibility 
                                      for residents by addressing pedestrian preferences alongside with urban plans."), 
                                    br(), 
-                                   br(), 
                                    p(strong("Description for Insight 3: "), "The dashboard looks to explore the population growth in Singapore from the 1950s to the 2020s with a specific look at the change in population for specific age groups 
                                      (child - 0 to 19 years old, young adults - 20 to 39 years old, middle-aged - 40 to 59 years old, and elderly - 60 years old and above)."),
                                    p(strong("Analysis:"), "Overall, the trends in the population pyramid suggest that the population in Singapore has been increasing over the last 70 years and this trend is consistent when we break
                                     down into the 4 age groups defined above. However, there is a worrying trend that is becoming increasingly apparent for the “Child” age 
                                     group as they have been trending downwards since the 2010s while for the “Elderly” age group, they have been growing at an almost exponential rate since the turn of the century. 
                                     This is also evident when looking at the scatter plots, where the number of male and female children in the 2020s are almost at levels that they were in the 1950s. These scatter plots also highlight
-                                    another concerning trend among “Young Adults” and “Middle-aged” where their numbers are starting to plateau instead of showing any clear increase or decrease.")
+                                    another concerning trend among “Young Adults” and “Middle-aged” where their numbers are starting to plateau instead of showing any clear increase or decrease."), 
+                                   br(),
+                                   br()
                           ),
                           tabPanel(strong("Key Insight 4"),
                                    br(),
@@ -723,7 +771,7 @@ ui <- fluidPage(
                                    div(style = "background-color: #f2f2f2; padding: 10px; text-align: center;",
                                        h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Tableau Dashboard")),
                                        div(style = "text-align: center;",
-                                           HTML('<iframe id="tableauDashboard" src="https://public.tableau.com/views/Hypothesis27new/Dashboard12?:embed=y&:showVizHome=no" width="100%" height="800" frameborder="0"></iframe>')
+                                           HTML('<iframe id="tableauDashboard" src="https://public.tableau.com/views/Hypothesis27new/Dashboard12?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_link?:embed=y&:showVizHome=no" width="100%" height="800" frameborder="0"></iframe>')
                                        )
                                    ),
                                    br(), 
@@ -739,7 +787,9 @@ ui <- fluidPage(
                                    trend as well. However, plotting the trend line once again gives us a p-value of 0.27 which also implies that this trend is not statically significant, indicating that there is no real relationship between Area Size & Desire Lines."),
                                    p("Lastly, based on the Population & Desire Lines chart, we observe that there is an upward trend as well. However, plotting the trend line this time gives us a significant p-value of only 0.007. This means that, with our alpha at 
                                      0.05, this trend is statistically significant, indicating that there is a real relationship between Population & Desire Lines. From this, we can see that population is a factor that determines the formation of desire lines and the 
-                                     framework will delve deeper into the various demographics to see how they affect desire line formation.")
+                                     framework will delve deeper into the various demographics to see how they affect desire line formation."), 
+                                   br(), 
+                                   br()
                           )
                         )
                ),
@@ -792,7 +842,9 @@ ui <- fluidPage(
                                      estate of Ang Mo Kio, there is a noticeable absence of desired lines. "), 
                                    p("Though we recognise that it is important to acknowledge that numerous mature estates have already undergone retrofitting processes to meet the resident’s needs. Which meant that, the recorded
                                      number of desired lines in our study may not entirely reflect the original situation accurately. Nevertheless, this insight spurred further research into the potential disparities between 
-                                     infrastructure design and the preferences of demographics in mature and non-mature estates.")
+                                     infrastructure design and the preferences of demographics in mature and non-mature estates."), 
+                                   br(), 
+                                   br()
                                    ),
                           tabPanel(strong("Key Insight 3"),
                                    br(),
@@ -821,7 +873,8 @@ ui <- fluidPage(
                                    p(strong("Analysis:"), "Key insight 3 can be seen through the comparison of the comparison of the building layout in Ang Mo Kio and Punggol. Which suggests that non-mature estates and mature estates 
                                      feature distinct HDB layouts. In mature estates, the focus is often on basic, functional designs aimed at optimising space utilisation. Conversely, non-mature estates typically boast more contemporary 
                                      layouts tailored to foster a conducive environment for community interaction."),
-                                   
+                                   br(), 
+                                   br()
                           )
                           ) 
                           
@@ -925,6 +978,41 @@ server <- function(input, output, session) {
   },deleteFile = FALSE)
   
   
+  ### Framework 3 PG Walking Data 1 
+  output$wd_pg_1 <- renderImage({
+    list(src = "images/A3_PG_walking_data_1.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 3 PG Walking Data 2 
+  output$wd_pg_2 <- renderImage({
+    list(src = "images/A3_PG_walking_data_2.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 3 AMK Walking Data 1 
+  output$wd_amk_1 <- renderImage({
+    list(src = "images/A3_amk_walking_data_1.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  ### Framework 3 AMK Walking Data 2 
+  output$wd_amk_2 <- renderImage({
+    list(src = "images/A3_amk_walking_data_2.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  ### Framework 3 AMK Walking Data 3 
+  output$wd_amk_3 <- renderImage({
+    list(src = "images/A3_amk_walking_data_3.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  
+  
   ### Framework 4 AMK_DL
   output$a4_amk_dl <- renderImage({
     list(src = "images/A4_AMK.png",
@@ -1020,6 +1108,18 @@ server <- function(input, output, session) {
     dl_map  # Return the map for rendering
   })
   
+  output$dl_pg_2 <- renderTmap({
+    
+    dl_map <- osm_basemap +  # Use tm_basemap to specify the basemap
+      tm_shape(mpsz[mpsz$PLN_AREA_N=="PUNGGOL", ]) + #Replace by studyarea choices
+      tm_borders()+
+      tm_shape(dl_pg)+ #replace by combining the map of dl_amk & dl_pg
+      tm_lines(col = "blue", lwd = 2) +  # Adjust line color and width as needed
+      tmap_options(check.and.fix = TRUE)
+    
+    dl_map  # Return the map for rendering
+  })
+  
   output$pg_ep_route <- renderTmap({
     
     dl_map <- tm_shape(pg_res_block) +
@@ -1058,6 +1158,7 @@ server <- function(input, output, session) {
       tm_symbols(shape = playgsym, size = 0.2, border.lwd = NA)
   })
   
+
   output$dynamicMap <- renderUI({
     if (input$mapSelection == "Punggol") {
       tmapOutput("dl_pg")
@@ -1138,6 +1239,8 @@ server <- function(input, output, session) {
     text(x = bp, y = freq_counts_sorted, labels = freq_counts_sorted, pos = 3, col = "blue")
   })
 
+##################### Desire Line Calculator ############################
+  
   ### Desire Line Calculator 
   # Initialize flag to track if data has been loaded
   is_loaded <- reactiveVal(FALSE)
