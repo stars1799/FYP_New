@@ -390,12 +390,13 @@ ui <- fluidPage(
                               significance among the young adult population compared to the other demographic groups. This insight holds particular significance as our research also highlighted 
                               a trend of increasing young adult population in non-mature estates over the years. This demographic shift suggests an increasing need to cater to the needs and 
                               preferences of this demographic segment. Thus emphasizing on the increasing need to prioritize convenience when designing built paths. "), 
-                            fluidRow(
-                              column(6, div(style = "text-align: center;", imageOutput("eda_convenience"))),
-                              column(6, div(style = "text-align: center;", imageOutput("pg_dashboard")))
-                            ),
-                            br(), 
+                            div(style = "text-align: center;", imageOutput("eda_convenience")),
                             br(),
+                            br(), 
+                            br(), 
+                            br(), 
+                            div(style = "text-align: center;", HTML('<iframe id="tableauDashboard" src="https://public.tableau.com/views/PopulationDemoAnalysisPunggol/Punggol?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_linkl:embed=y&:display_count=n&:showVizHome=no" 
+                                                width="100%" height="800" frameborder="0"></iframe>')),
                             br(), 
                             p("Constructing direct paths aligns closely with residents' prioritisation of convenience and accessibility. By implementing this strategy, we can effectively reduce 
                               desired lines by optimising residents' mobility."), 
@@ -498,6 +499,18 @@ ui <- fluidPage(
                                      Additionally, within the HDB estate of Ang Mo Kio, there is a noticeable absence of desired lines. "), 
                                    br(),
                                    div(style = "text-align: center;", imageOutput("dl_dashboard_amk")),
+                                   fluidRow(
+                                     tmapOutput("dl_pg_3")
+                                   ),
+                                   br(),
+                                   fluidRow(
+                                     column(6,"Ang Mo Kio: "), 
+                                     column(6,"Punggol: ")
+                                   ),
+                                   fluidRow(
+                                     column(6,imageOutput("amk_hdb_layout")), 
+                                     column(6,imageOutput("pg_hdb_layout"))
+                                   ), 
                                    p("Though we recognise that it is important to acknowledge that numerous mature estates have already undergone retrofitting processes to meet the 
                                      resident’s needs. Which meant that, the recorded number of desired lines in our study may not entirely reflect the original situation accurately. 
                                      Nevertheless, this insight spurred further research into the potential disparities between infrastructure design and the preferences of demographics 
@@ -508,11 +521,15 @@ ui <- fluidPage(
                           tabPanel(strong('Evidence'), 
                             br(),
                             p(strong("Supporting Evidence")),
-                            p("Through our research on walkway data, we found that residents are more inclined to adhere to constructed paths if they are straight and intuitive, as opposed 
-                              to the winding routes often found in non-mature estates. Unlike non-mature estates, mature estates have simplified layouts that enable residents to navigate 
-                              along direct and intuitive pathways with ease."),
+                            div(style = "text-align: center;", imageOutput("eda_a4_convenience")), 
+                            p("Based on our survey findings, we have determined that there is a general consensus that convenience is a significant factor influencing route selection across all 
+                              demographics. Hence, we concluded that demographic differences do not influence the emergence of desired lines."), 
+                            p("However, through our research on walkway data, we found that residents are more inclined to adhere to constructed paths if they are straight and intuitive, as opposed 
+                              to the winding routes often found in non-mature estates. Unlike non-mature estates, mature estates have simplified layouts that enable residents to navigate along direct 
+                              and intuitive pathways with ease."),
                             p("Additionally, the complex design of the newer HDB estates has led to less intuitive walking pavements. Therefore, residents often resort to walking along the 
                               main roads to reach their destination within the estate before creating a desired line to reconnect with the designated walking pavements. "),
+                            div(style = "text-align: center;", imageOutput("otg_pg_dl")),
                             p('The built paths designated by URA (highlighted in red), shows the residents’ routes from their homes to the nearest playground or exercise corner. An observation made 
                               from the following routes suggests that in Ang Mo Kio, the routes to the following amenities require less turns and have longer straight routes. In comparison, the route to 
                               the Punggol amenities often requires a more complex route that encompasses many small turns when using the built path. This layout may create a natural tendency for people 
@@ -533,7 +550,7 @@ ui <- fluidPage(
                             br(), 
                             p("During our on-the-ground research, we recorded our walking data within the neighbourhoods to delve deeper into the nuances of our walking behaviours. Our analysis also revealed 
                               this possible difference in how residents may navigate their surroundings. "),
-                            div(style = "text-align: center;", imageOutput("otg_pg_dl")),
+                            
                             p("In the Ang Mo Kio neighbourhood, our observations suggested a tendency for walking behaviour to align closely with the layout of the HDB buildings. Therefore, the walking routes 
                               were generally straight paths as they followed the simple and straightforward layout of the buildings. In contrast, our exploration of the Punggol neighbourhood highlighted 
                               contrast in the walking behaviour. We observed a higher tendency to forge our own paths through the hdb estate rather than adhering strictly to the designated walkways. This could 
@@ -617,7 +634,7 @@ ui <- fluidPage(
                                     ),
                                     p("As previously mentioned, residents have emphasised convenience as a crucial factor when selecting a route. Hence, I propose that we design walkways that 
                                       cater to the specific needs and preferences of the community."), 
-                                    div(style = "text-align: center;", imageOutput("eda_a4_convenience"))
+                                    div(style = "text-align: center;", imageOutput("eda_a4_convenience_1"))
                                   
                                     )) 
                                     
@@ -700,7 +717,7 @@ ui <- fluidPage(
                                           strong("Tableau Dashboard")),  # Wrap with strong tag
                                        div(style = "text-align: center;",
                                            HTML('<iframe id="tableauDashboard" src="https://public.tableau.com/views/Hypothesis25/Dashboard1?:language=en-GB&:embed=y&:display_count=n&:showVizHome=no" 
-              width="100%" height="800" frameborder="0"></iframe>')
+                                                width="100%" height="800" frameborder="0"></iframe>')
                                            
                                        )
                                    ),
@@ -971,6 +988,19 @@ server <- function(input, output, session) {
   },deleteFile = FALSE)
   
   
+  ### Framework 3 amk HDB layout
+  output$amk_hdb_layout <- renderImage({
+    list(src = "images/A3_amk_building_layout.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 3  pg HDB layout
+  output$pg_hdb_layout <- renderImage({
+    list(src = "images/A3_pg_building_layout.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
   ### Framework 3 OTG Punggol_Karina 
   output$otg_pg_dl <- renderImage({
     list(src = "images/OTG_pg_A3.jpg",
@@ -1052,6 +1082,13 @@ server <- function(input, output, session) {
          style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
   },deleteFile = FALSE)
   
+  ### Framework 4 EDA A4 ranking 
+  output$eda_a4_convenience_1 <- renderImage({
+    list(src = "images/EDA_A4_convenience.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
   
   ###################################################
   
@@ -1109,6 +1146,19 @@ server <- function(input, output, session) {
   })
   
   output$dl_pg_2 <- renderTmap({
+    
+    dl_map <- osm_basemap +  # Use tm_basemap to specify the basemap
+      tm_shape(mpsz[mpsz$PLN_AREA_N=="PUNGGOL", ]) + #Replace by studyarea choices
+      tm_borders()+
+      tm_shape(dl_pg)+ #replace by combining the map of dl_amk & dl_pg
+      tm_lines(col = "blue", lwd = 2) +  # Adjust line color and width as needed
+      tmap_options(check.and.fix = TRUE)
+    
+    dl_map  # Return the map for rendering
+  })
+  
+  
+  output$dl_pg_3 <- renderTmap({
     
     dl_map <- osm_basemap +  # Use tm_basemap to specify the basemap
       tm_shape(mpsz[mpsz$PLN_AREA_N=="PUNGGOL", ]) + #Replace by studyarea choices
