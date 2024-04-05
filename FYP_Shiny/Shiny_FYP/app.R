@@ -303,12 +303,12 @@ ui <- fluidPage(
              hr(),
              h4("Welcome to our framework designed to address the discrepancies between current urban plans and community preferences within HDB estates. Our framework aims to enhance accessibility for residents by identifying and mitigating desired pedestrian lines. Navigate through the various sections to explore our research insights, demographic analyses, and proposed solutions."),
              br(), 
-             h4(strong("Objective Framework")),
+             h3(strong("Challenge Statement")), 
+             p("To reduce the disparity between urban plans and community preferences, improving accessibility for residents in HDB estates by reducing desired pedestrian lines."),
+             h3(strong("Objective Framework")),
              p("Our objective is to develop a comprehensive framework that identifies and mitigates discrepancies between the current urban plans and community preferences, specifically targeting desired pedestrian lines, thereby enhancing accessibility for residents in HDB estates."),
-             h4(strong("Link to Sponsor")),
+             h3(strong("Link to Sponsor")),
              p("By providing a comprehensive framework, our project empowers urban planners to align infrastructure development with the actual movement patterns and preferences of residents. This ensures that current urban layouts of the walkways accurately reflect the community's needs, enhancing convenience, effectiveness, and ultimately improving the overall quality of life within HDB estates."),
-             h4(strong("Challenge Statement")), 
-             p("To reduce the disparity between urban plans and community preferences, improving accessibility for residents in HDB estates by reducing desired pedestrian lines.")
              ),
     
     tabPanel("Framework", 
@@ -349,7 +349,14 @@ ui <- fluidPage(
                                    p(strong("1. Many desired lines in Punggol (non-mature estates) are often found in areas beneath HDB blocks, often leading to pick-up points and 
                                             recreational spots like playgrounds and exercise corners.")), 
                                    fluidRow(
-                                     tmapOutput("dl_pg_2")
+                                     column(12, # Full width for the map
+                                            tmapOutput("dl_pg_2")
+                                     ),
+                                     column(12, # Full width for the text
+                                            div(style = "text-align: center; font-style: italic;",
+                                                "Desire Lines In Punggol"
+                                            )
+                                     )
                                    ),
                                    br(),
                                    p("Our observations of desired lines in Punggol reveal a clustering effect beneath HDB blocks, suggesting a natural emergence influenced by the 
@@ -375,27 +382,54 @@ ui <- fluidPage(
                                 fluidRow(
                                   column(offset = 2, width = 8, # Adjust the offset and width as needed
                                          plotOutput("distPlot2", height = "600px")
+                                  ),
+                                  column(12, # Full width for the text
+                                         div(style = "text-align: center; font-style: italic;",
+                                             "Bar chart for how likely users will instinctively take the shortest path to different key amenities"
+                                         )
                                   )
                                 ),
+                                br(),
                             ),
                             br(), 
                             p("Our survey findings also revealed the importance of convenience in residents' decision-making regarding their walking routes for daily activities. With 
                               convenience ranking as the primary factor influencing their choice of route, it becomes evident that residents prioritise efficiency when accessing amenities 
                               within their neighbourhoods."),
                             br(), 
-                            div(style = "text-align: center;", imageOutput("eda_choices")),
+                            fluidRow(
+                              column(12, # Full width for the map
+                                     imageOutput("eda_choices")
+                              ),
+                              column(12, # Full width for the text
+                                     div(style = "text-align: center; font-style: italic;",
+                                         "Bar chart visualizing the top factors which influence residents’ choice of walking routes"
+                                     )
+                              ),
+                              br(),
+                            ),
+                            br(),
                             p("Additionally, the subsequent top-ranking factors—short walking distance and accessibility—further brings out the aspects needed to create this path. This further
                               emphasises the need to create the most accessible and direct routes possible, minimising travel time."), 
                             p("Upon further exploration of our top-ranking factor of convenience through demographic segmentation, our findings reveal that convenience holds the highest 
                               significance among the young adult population compared to the other demographic groups. This insight holds particular significance as our research also highlighted 
                               a trend of increasing young adult population in non-mature estates over the years. This demographic shift suggests an increasing need to cater to the needs and 
                               preferences of this demographic segment. Thus emphasizing on the increasing need to prioritize convenience when designing built paths. "), 
-                            div(style = "text-align: center;", imageOutput("eda_convenience")),
-                            br(),
+                            fluidRow(
+                              column(12, # Full width for the map
+                                     imageOutput("eda_convenience")
+                              ),
+                              column(12, # Full width for the text
+                                     div(style = "text-align: center; font-style: italic;padding-top:80px",
+                                         "Stacked bar chart visualizing the proportion of age groups who agreed or disagreed with this question"
+                                     )
+                              ),
+                              br(),
+                              br(), 
+                            ),
+
                             br(), 
                             br(), 
-                            br(), 
-                            div(style = "text-align: center;", HTML('<iframe id="tableauDashboard" src="https://public.tableau.com/views/PopulationDemoAnalysisPunggol/Punggol?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_linkl:embed=y&:display_count=n&:showVizHome=no" 
+                            div(style = "text-align: center;font-weight: bold;font-size: 30px", "Punggol Age Dashboard",HTML('<iframe id="tableauDashboard" src="https://public.tableau.com/views/PopulationDemoAnalysisPunggol/Punggol?:language=en-GB&:sid=&:display_count=n&:origin=viz_share_linkl:embed=y&:display_count=n&:showVizHome=no" 
                                                 width="100%" height="800" frameborder="0"></iframe>')),
                             br(), 
                             p("Constructing direct paths aligns closely with residents' prioritisation of convenience and accessibility. By implementing this strategy, we can effectively reduce 
@@ -449,6 +483,12 @@ ui <- fluidPage(
                               column(6, div(style = "text-align: center;", imageOutput("dislike_bigram"))),
                               column(6, div(style = "text-align: center;", imageOutput("dislike_unigram")))
                             ),
+                            fluidRow(
+                              column(12, div(style = "text-align: center; font-style: italic;",
+                            "Word Clouds visualizing the most common words and phrases used"
+                              )),
+                            ),
+                            br(),
                             p("Furthermore, our data analysis revealed that adverse weather conditions, such as intense sunlight and rainfall, significantly influence residents to alter 
                               their routes. This would suggest a natural inclination among people to seek sheltered paths to avoid exposure to the sun, which is prevalent in Singapore’s 
                               climate."),
@@ -458,6 +498,11 @@ ui <- fluidPage(
                             fluidRow(
                               column(offset = 2, width = 8, # Adjust the offset and width as needed
                                      plotOutput("distPlot6", height = "600px")
+                              ),
+                              column(12, # Full width for the text
+                                     div(style = "text-align: center; font-style: italic;padding-bottom:20px",
+                                         "Bar chart visualizing the likelihood of residents altering their planned route due to adverse weather conditions"
+                                     )
                               )
                             ),
                             p("On the flipside, heavy rain may result in ponding in sections of sheltered walkways, which renders these walkways slippery and unsafe to use. This could be
@@ -494,34 +539,82 @@ ui <- fluidPage(
                                    p(strong("Purpose of Sub-Challenge:")),
                                    p(strong("1. Ang Mo Kio (mature estates) have fewer and more dispersed desired lines, and within the HDB estate itself, there is a noticeable 
                                             absence of desired lines.")), 
-                                   p("This can be seen through the comparison of the desired lines in Ang Mo Kio and Punggol, where Ang Mo Kio has fewer and more dispersed desired 
-                                     lines. While the desired lines still emerge predominantly along the road infrastructure, the count is still notably lower compared to Punggol. 
-                                     Additionally, within the HDB estate of Ang Mo Kio, there is a noticeable absence of desired lines. "), 
-                                   br(),
-                                   div(style = "text-align: center;", imageOutput("dl_dashboard_amk")),
-                                   fluidRow(
-                                     tmapOutput("dl_pg_3")
-                                   ),
+                                   p("This can be seen through the comparison of the desired lines in Ang Mo Kio and Punggol, 
+                                   where Ang Mo Kio has fewer and more dispersed desired lines. While the desired lines still 
+                                   emerge predominantly along the road infrastructure, the count is still notably lower compared to Punggol. 
+                                     Additionally, within the HDB estate of Ang Mo Kio, there is a noticeable absence of desired lines."), 
                                    br(),
                                    fluidRow(
-                                     column(6,"Ang Mo Kio: "), 
-                                     column(6,"Punggol: ")
+                                     column(6,imageOutput("dl_amk_img")),
+                                     column(6,imageOutput("dl_pg_img")),
                                    ),
+                                   fluidRow(
+                                     column(12,div(style = "text-align: center; font-style: italic;padding-bottom:30px;",
+                                     "Maps showing the locations of desired paths in Ang Mo Kio & Punggol"
+                                     )),
+                                   ),
+                                   fluidRow(
+                                     column(12, # Full width for the map
+                                            imageOutput("dl_dashboard_amk")
+                                     ),
+                                     column(12, # Full width for the text
+                                            div(style = "text-align: center; font-style: italic;",
+                                                "Map showing the count of desired paths in Ang Mo Kio & Punggol"
+                                            )
+                                     ),
+                                     br(),
+                                   ),
+                                   br(),
+                                   p("Though we recognise that it is important to acknowledge that numerous mature estates have already undergone 
+                                     retrofitting processes to meet the resident’s needs. Which meant that, the recorded number of desired lines in 
+                                     our study may not entirely reflect the original situation accurately."),
+                                   br(),
+                                   p(strong("2. There is no significant difference between the average distance between the HDB and common amenities for both amenities.")), 
+                                   p("After an initial study to compare the differences in the average distance to travel between the HDB buildings to commonly 
+                                     used amenities such as playgrounds and exercise corners, we concluded that there was no significant difference."), 
+                                   br(),
+                                   fluidRow(
+                                     column(12, # Full width for the map
+                                            imageOutput("dl_distance_map")
+                                     ),
+                                     column(12, # Full width for the text
+                                            div(style = "text-align: center; font-style: italic;padding-bottom:30px;",
+                                                "Map showing the difference in the average distance between the HDB to a playground/exercise corner"
+                                            )
+                                     ),
+                                     br(),
+                                   ),
+                                   p("Therefore, this insight spurred further research into the 
+                                     potential disparities between layout design and the preferences of 
+                                     demographics in mature and non-mature estates."),
+                                   br(),
+                                   br(),
                                    fluidRow(
                                      column(6,imageOutput("amk_hdb_layout")), 
                                      column(6,imageOutput("pg_hdb_layout"))
                                    ), 
-                                   p("Though we recognise that it is important to acknowledge that numerous mature estates have already undergone retrofitting processes to meet the 
-                                     resident’s needs. Which meant that, the recorded number of desired lines in our study may not entirely reflect the original situation accurately. 
-                                     Nevertheless, this insight spurred further research into the potential disparities between infrastructure design and the preferences of demographics 
-                                     in mature and non-mature estates."),
+                                   fluidRow(
+                                     column(12,div(style = "text-align: center; font-style: italic;padding-bottom:30px;",
+                                                   "Maps showing the shape of buildings in Ang Mo Kio & Punggol"
+                                     )),
+                                   ),
                                    br(), 
                                    br()
                                    ),
                           tabPanel(strong('Evidence'), 
                             br(),
                             p(strong("Supporting Evidence")),
-                            div(style = "text-align: center;", imageOutput("eda_a4_convenience")), 
+                            fluidRow(
+                              column(12, # Full width for the map
+                                     imageOutput("eda_a4_convenience")
+                              ),
+                              column(12, # Full width for the text
+                                     div(style = "text-align: center; font-style: italic;padding-bottom:30px;",
+                                         "Bar chart highlighting how much convenience factors into route selection"
+                                     )
+                              ),
+                              br(),
+                            ),
                             p("Based on our survey findings, we have determined that there is a general consensus that convenience is a significant factor influencing route selection across all 
                               demographics. Hence, we concluded that demographic differences do not influence the emergence of desired lines."), 
                             p("However, through our research on walkway data, we found that residents are more inclined to adhere to constructed paths if they are straight and intuitive, as opposed 
@@ -529,7 +622,17 @@ ui <- fluidPage(
                               and intuitive pathways with ease."),
                             p("Additionally, the complex design of the newer HDB estates has led to less intuitive walking pavements. Therefore, residents often resort to walking along the 
                               main roads to reach their destination within the estate before creating a desired line to reconnect with the designated walking pavements. "),
-                            div(style = "text-align: center;", imageOutput("otg_pg_dl")),
+                            fluidRow(
+                              column(12, # Full width for the map
+                                     imageOutput("otg_pg_dl")
+                              ),
+                              column(12, # Full width for the text
+                                     div(style = "text-align: center; font-style: italic;padding-bottom:30px;",
+                                         "Example of a desired line found within newer HDB estates"
+                                     )
+                              ),
+                              br(),
+                            ),
                             p('The built paths designated by URA (highlighted in red), shows the residents’ routes from their homes to the nearest playground or exercise corner. An observation made 
                               from the following routes suggests that in Ang Mo Kio, the routes to the following amenities require less turns and have longer straight routes. In comparison, the route to 
                               the Punggol amenities often requires a more complex route that encompasses many small turns when using the built path. This layout may create a natural tendency for people 
@@ -538,14 +641,33 @@ ui <- fluidPage(
                             selectInput("mapSelection3", "Select a Location:", choices = studyarea), 
                             br(), 
                             br(), 
-                            uiOutput("dynamicMap3"), 
-                            br(),
+                            fluidRow(
+                              column(12, # Full width for the map
+                                     uiOutput("dynamicMap3")
+                              ),
+                              column(12, # Full width for the text
+                                     div(style = "text-align: center; font-style: italic;padding-bottom:10px;padding-top:10px;",
+                                         "Example of a desired line found within newer HDB estatesMaps showing URA’s built paths (highlighted in red) and the shortest Euclidean distance
+                                         (highlighted in blue) from residential blocks to playgrounds/exercise corners"
+                                     )
+                              ),
+                              br(),
+                            ),
                             br(),
                             p("The following map further reinforces this observation, as seen from the shortest route taken and the desired lines (highlighted in black). Notably, several desired lines are 
                               directly aligned with the shortest path taken, emphasizing residents’ inclination towards more direct routes when navigating to amenities"),
                             br(),
                             fluidRow(
-                              tmapOutput("pg_sa_map")
+                              column(12, # Full width for the map
+                                     tmapOutput("pg_sa_map")
+                              ),
+                              column(12, # Full width for the text
+                                     div(style = "text-align: center; font-style: italic;padding-bottom:10px;padding-top:10px;",
+                                         "Maps showing URA’s built paths (highlighted in red), the shortest Euclidean distance (highlighted in blue) 
+                                         from residential blocks to playgrounds/exercise corners, and desired paths (in black)."
+                                     )
+                              ),
+                              br(),
                             ),
                             br(), 
                             p("During our on-the-ground research, we recorded our walking data within the neighbourhoods to delve deeper into the nuances of our walking behaviours. Our analysis also revealed 
@@ -556,23 +678,36 @@ ui <- fluidPage(
                               contrast in the walking behaviour. We observed a higher tendency to forge our own paths through the hdb estate rather than adhering strictly to the designated walkways. This could 
                               cause the walkways to be less intuitive due to the more complex layout of the HDB estate and buildings."),
                             br(),
-                            p("Punggol:"),
-                            div(style = "text-align: center;", imageOutput("wd_pg_1")),
-                            p("Ang Mo Kio:"),
+                            fluidRow(
+                              column(12, # Full width for the map
+                                     imageOutput("wd_pg_1")
+                              ),
+                              column(12, # Full width for the text
+                                     div(style = "text-align: center; font-style: italic;padding-bottom:50px;padding-top:5px;",
+                                         "Map showing our walking routes during our on-the-ground research in Punggol"
+                                     )
+                              ),
+                            ),
                             fluidRow(
                               column(6,imageOutput("wd_amk_1")), 
-                              column(6,imageOutput("wd_amk_2"))
+                              column(6,imageOutput("wd_amk_2")),
+                              column(12, # Full width for the text
+                                     div(style = "text-align: center; font-style: italic;padding-bottom:10px;",
+                                         "Maps showing our walking routes during our on-the-ground research in Ang Mo Kio"
+                                     )
+                              )
                             ), 
                             p("Our findings were further substantiated by data collected directly from residents. For instance, in our analysis of walking patterns from a Punggol resident's journey to the MRT 
                               station, we observed that the resident did not follow the designated path (highlighted in blue). In contrast, the walking routes in Ang Mo Kio revealed a relatively consistent 
                               adherence to the layout of the HDB buildings despite the potential of taking a diagonal shortcut through the estate. "), 
                             fluidRow(
-                              column(6,"Punngol: "), 
-                              column(6,"Ang Mo Kio: ")
-                            ),
-                            fluidRow(
                               column(6,imageOutput("wd_pg_2")), 
-                              column(6,imageOutput("wd_amk_3"))
+                              column(6,imageOutput("wd_amk_3")),
+                              column(12, # Full width for the text
+                                     div(style = "text-align: center; font-style: italic;padding-bottom:40px;",
+                                         "Maps showing resident’s walking route to the public transport stations in Punggol (left) and Ang Mo Kio (right)"
+                                     )
+                              )
                             ), 
                             p("Therefore, in more complex HDB layouts, our findings suggest that residents are more inclined to create their own pathways. These custom routes serve to simplify their journey, 
                               allowing them to effortlessly traverse the HDB estate and reach their destination."), 
@@ -606,7 +741,14 @@ ui <- fluidPage(
                                     p("Our observations of desired lines in Punggol reveal a clustering effect along main roads, suggesting a natural emergence influenced by the 
                                           convenience of crossing road infrastructure."),
                                     fluidRow(
-                                      tmapOutput("dl_pg")
+                                      column(12, # Full width for the map
+                                             tmapOutput("dl_pg")
+                                      ),
+                                      column(12, # Full width for the text
+                                             div(style = "text-align: center; font-style: italic;padding-bottom:50px;padding-top:5px;",
+                                                 "Map showing our walking routes during our on-the-ground research in Punggol"
+                                             )
+                                      ),
                                     ),
                                     br(),
                                     br()
@@ -618,10 +760,24 @@ ui <- fluidPage(
                                       and MRT stations where traffic lights may be less accessible compared to jaywalking. However, merely increasing the number of traffic lights or zebra 
                                       crossings may not effectively address this issue, as people naturally opt for the most convenient route, as evidenced by the clustering of desired 
                                       lines around bus stops."),
-                                    div(style = "text-align: center;", imageOutput("a4_amk_dl")),
+                                    fluidRow(
+                                      column(12, # Full width for the map
+                                             imageOutput("a4_amk_dl")
+                                      ),
+                                      column(12, # Full width for the text
+                                             div(style = "text-align: center; font-style: italic;padding-bottom:50px;padding-top:5px;",
+                                                 "Map showing the location of desired paths and its proximity to bus stops in Ang Mo Kio"
+                                             )
+                                      ),
+                                    ),
                                     fluidRow(
                                       column(6, div(style = "text-align: center;", imageOutput("a4_pg_dl_1"))),
-                                      column(6, div(style = "text-align: center;", imageOutput("a4_pg_dl_2")))
+                                      column(6, div(style = "text-align: center;", imageOutput("a4_pg_dl_2"))),
+                                      column(12, # Full width for the text
+                                             div(style = "text-align: center; font-style: italic;padding-bottom:50px;padding-top:5px;",
+                                                 "Map showing the location of desired paths and its proximity to Oasis LRT Station (left) and bus stops (right) in Punggol"
+                                             )
+                                      ),
                                     ),
                                     p("Our survey analysis suggests a strong preference among residents for the shortest walking time to public transport, with an average reasonable walking 
                                       time to bus stops perceived to be around 5 minutes, which was the shortest among surveyed amenities. Therefore, our recommended course of action is not 
@@ -634,7 +790,17 @@ ui <- fluidPage(
                                     ),
                                     p("As previously mentioned, residents have emphasised convenience as a crucial factor when selecting a route. Hence, I propose that we design walkways that 
                                       cater to the specific needs and preferences of the community."), 
-                                    div(style = "text-align: center;", imageOutput("eda_a4_convenience_1"))
+                                    fluidRow(
+                                      column(12, # Full width for the map
+                                             imageOutput("eda_a4_convenience_1")
+                                      ),
+                                      column(12, # Full width for the text
+                                             div(style = "text-align: center; font-style: italic;padding-bottom:30px;",
+                                                 "Bar chart highlighting how much convenience factors into route selection"
+                                             )
+                                      ),
+                                      br(),
+                                    ),
                                   
                                     )) 
                                     
@@ -684,7 +850,7 @@ ui <- fluidPage(
     navbarMenu("Appendix",
                tabPanel("Demographics Analysis Insights",
                         div(style = "background-color: #f2f2f2; padding: 10px;",
-                            h4(style = "margin-top: 0; margin-bottom: 10px;", strong("Key Insights")),
+                            h4(style = "margin-top: 0; margin-bottom: 10px;", strong("Demographics Analysis Key Insights")),
                             HTML("<ol>
                              <li>Population has been steadily increasing over the years but the population of children is starting to fall</li>
                              <li>There is an increasing trend in the combined population of middle-aged and elderly individuals over the years in Ang Mo Kio (mature estates)</li>
@@ -724,8 +890,9 @@ ui <- fluidPage(
                                    br(), 
                                    br(), 
                                    p(strong("Description: "), "The dashboard looks to explore the population growth in Singapore from the 1950s to the 2020s with a specific look at the change in population for specific age groups (child - 0 to 19 years old, young adults - 20 to 39 years old, middle-aged - 40 to 59 years old, and elderly - 60 years old and above)."),
-                                   p(strong("Analysis:"), "Overall, the trends in the population pyramid suggest that the population in Singapore has been increasing over the last 70 years and this trend is consistent when we break down into the 4 age groups defined above. However, there is a worrying trend that is becoming increasingly apparent for the “Child” age 
-                                     group as they have been trending downwards since the 2010s while for the “Elderly” age group, they have been growing at an almost exponential rate since the turn of the century. This is also evident when looking at the scatter plots, where the number of male and female children in the 2020s are almost at levels that they were in 
+                                   p(strong("Analysis:"), "Overall, the trends in the bar chart suggest that the population in Singapore has been increasing over the last 70 years and this trend is consistent when we break down into the 4 age groups defined above. However, there is a worrying trend that is becoming increasingly apparent for the “Child” age 
+                                     group as they have been trending downwards since the 2010s while for the “Elderly” age group, they have been growing at an almost exponential rate since the turn of the century. This is evident in the population pyramid for 2023 as well where the population for the age range of 30 to 34 years old is the most and the polulation for every age group after is decreasing.
+                                     In addition, this is also evident when looking at the scatter plots, where the number of male and female children in the 2020s are almost at levels that they were in 
                                      the 1950s. These scatter plots also highlight another concerning trend among “Young Adults” and “Middle-aged” where their numbers are starting to plateau instead of showing any clear increase or decrease."), 
                                    br(), 
                                    br()
@@ -765,13 +932,13 @@ ui <- fluidPage(
                                      highlights the importance of adapting urban planning approaches to evolving demographic trends within mature HDB estates like Ang Mo Kio, emphasising the necessity of improving accessibility 
                                      for residents by addressing pedestrian preferences alongside with urban plans."), 
                                    br(), 
-                                   p(strong("Description for Insight 3: "), "The dashboard looks to explore the population growth in Singapore from the 1950s to the 2020s with a specific look at the change in population for specific age groups 
-                                     (child - 0 to 19 years old, young adults - 20 to 39 years old, middle-aged - 40 to 59 years old, and elderly - 60 years old and above)."),
-                                   p(strong("Analysis:"), "Overall, the trends in the population pyramid suggest that the population in Singapore has been increasing over the last 70 years and this trend is consistent when we break
-                                    down into the 4 age groups defined above. However, there is a worrying trend that is becoming increasingly apparent for the “Child” age 
-                                    group as they have been trending downwards since the 2010s while for the “Elderly” age group, they have been growing at an almost exponential rate since the turn of the century. 
-                                    This is also evident when looking at the scatter plots, where the number of male and female children in the 2020s are almost at levels that they were in the 1950s. These scatter plots also highlight
-                                    another concerning trend among “Young Adults” and “Middle-aged” where their numbers are starting to plateau instead of showing any clear increase or decrease."), 
+                                   p(strong("Description for Insight 3: "), "This dashboard aims to provide a comprehensive overview of the Punggol demographics population by looking at factors such as age groups, gender, years etc."),
+                                   p(strong("Analysis:"), "Based on the Age Group Trend chart in Punggol, there has been a notable change in the demographic composition across age groups in Punggol over the past decade with significant increases across all age groups, suggesting a transformation in the demographic composition of the area. The highest population is in the age group 35-39 with 199,160 individuals, followed by the age group 30-34, with a total of 182,410 individuals. These age groups represent the peak working-age population. 
+                                   Overall, the chart indicates a substantial working-age population and a decreasing trend in older age groups.
+                                   In the nested chart, both groups, “Child + Young Adults” and “Middle Aged + Elderly,” experience significant population growth over the years, 
+                                  indicating demographic changes in these age categories. The overall trend indicates an increasing population in Punggol, with both younger and 
+                                  older age groups contributing to this growth. Lastly, the data suggests a generally balanced gender distribution across age groups, with some variations in specific age brackets. In the working-age groups, there are variations, with some age groups having more females (25-34), and others having more males (40-49). By recognizing the significant increases in both working-age and older populations, the framework aims to address these demographic shifts by enhancing accessibility through tailored pedestrian solutions, 
+                                  thereby fostering a more inclusive and responsive environment in non-mature HDB estates like Punggol."), 
                                    br(),
                                    br()
                           ),
@@ -812,7 +979,7 @@ ui <- fluidPage(
                ),
                tabPanel("Geographical Analysis Insights",
                         div(style = "background-color: #f2f2f2; padding: 10px;",
-                            h4(style = "margin-top: 0; margin-bottom: 10px;", strong("Key Insights")),
+                            h4(style = "margin-top: 0; margin-bottom: 10px;", strong("Geographical Analysis Key Insights")),
                             HTML("<ol>
                              <li>Desired lines in Punggol (non-mature estates) are often found near main road infrastructure and areas beneath HDB blocks, often leading to pick-up points and recreational spots like playgrounds and exercise corners.</li>
                              <li>Ang Mo Kio (mature estates) have fewer and more dispersed desired lines, and within the HDB estate itself, there is a noticeable absence of desired lines.</li>
@@ -987,6 +1154,18 @@ server <- function(input, output, session) {
          style = "max-width: 50%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
   },deleteFile = FALSE)
   
+  ### Framework 3 AMK DL
+  output$dl_amk_img <- renderImage({
+    list(src = "images/Amk_dl.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
+  
+  
+  ### Framework 3 Pg DL
+  output$dl_pg_img <- renderImage({
+    list(src = "images/pg_dl.png",
+         style = "max-width: 100%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
   
   ### Framework 3 amk HDB layout
   output$amk_hdb_layout <- renderImage({
@@ -1041,7 +1220,11 @@ server <- function(input, output, session) {
   },deleteFile = FALSE)
   
   
-  
+  ### Framework 3 dl distance map
+  output$dl_distance_map <- renderImage({
+    list(src = "images/dl_distance_map.png",
+         style = "max-width: 50%; height: 365px; display: block; margin-left: auto; margin-right: auto;")
+  },deleteFile = FALSE)
   
   ### Framework 4 AMK_DL
   output$a4_amk_dl <- renderImage({
@@ -1089,7 +1272,7 @@ server <- function(input, output, session) {
   },deleteFile = FALSE)
   
   
-  
+
   ###################################################
   
   output$amk_b_cat_map <- renderTmap(tm_shape(amk_b_cat) +
@@ -1112,7 +1295,7 @@ server <- function(input, output, session) {
       tm_shape(pg_sa_ww) +
       tm_lines(lwd = 1, col = "red")+
       tm_shape(pg_sa_path) +
-      tm_lines(lwd = 1, col = "green") +
+      tm_lines(lwd = 1, col = "blue") +
       tm_shape(pg_sa_pg) +
       tm_symbols(shape = playgsym, size = 0.2, border.lwd = NA) +
       tm_shape(dl_pg) +
@@ -1180,11 +1363,11 @@ server <- function(input, output, session) {
       tm_shape(pg_res_ww) +
       tm_lines(lwd = 1, col = "red") +
       tm_shape(pg_res_s1) +
-      tm_lines(lwd = 1, col = "green")+
+      tm_lines(lwd = 1, col = "blue")+
       tm_shape(pg_res_s2) +
-      tm_lines(lwd = 1, col = "green")+
+      tm_lines(lwd = 1, col = "blue")+
       tm_shape(pg_res_s3) +
-      tm_lines(lwd = 1, col = "green")+
+      tm_lines(lwd = 1, col = "blue")+
       tm_shape(pg_res_pge) +
       tm_symbols(shape = playgsym, size = 0.2, border.lwd = NA)
   })
@@ -1199,11 +1382,11 @@ server <- function(input, output, session) {
       tm_shape(amk_res_ww) +
       tm_lines(lwd = 1, col = "red") +
       tm_shape(amk_res_s1) +
-      tm_lines(lwd = 1, col = "green")+
+      tm_lines(lwd = 1, col = "blue")+
       tm_shape(amk_res_s2) +
-      tm_lines(lwd = 1, col = "green")+
+      tm_lines(lwd = 1, col = "blue")+
       tm_shape(amk_res_s3) +
-      tm_lines(lwd = 1, col = "green")+
+      tm_lines(lwd = 1, col = "blue")+
       tm_shape(amk_res_pge) +
       tm_symbols(shape = playgsym, size = 0.2, border.lwd = NA)
   })
