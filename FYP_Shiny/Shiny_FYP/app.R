@@ -891,7 +891,7 @@ ui <- fluidPage(
                                    br(), 
                                    p(strong("Description: "), "The dashboard looks to explore the population growth in Singapore from the 1950s to the 2020s with a specific look at the change in population for specific age groups (child - 0 to 19 years old, young adults - 20 to 39 years old, middle-aged - 40 to 59 years old, and elderly - 60 years old and above)."),
                                    p(strong("Analysis:"), "Overall, the trends in the bar chart suggest that the population in Singapore has been increasing over the last 70 years and this trend is consistent when we break down into the 4 age groups defined above. However, there is a worrying trend that is becoming increasingly apparent for the “Child” age 
-                                     group as they have been trending downwards since the 2010s while for the “Elderly” age group, they have been growing at an almost exponential rate since the turn of the century. This is evident in the population pyramid for 2023 as well where the population for the age range of 30 to 34 years old is the most and the polulation for every age group after is decreasing.
+                                     group as they have been trending downwards since the 2010s while for the “Elderly” age group, they have been growing at an almost exponential rate since the turn of the century. This is evident in the population pyramid for 2023 as well where the population for the age range of 30 to 34 years old is the most and the population for every age group after is decreasing.
                                      In addition, this is also evident when looking at the scatter plots, where the number of male and female children in the 2020s are almost at levels that they were in 
                                      the 1950s. These scatter plots also highlight another concerning trend among “Young Adults” and “Middle-aged” where their numbers are starting to plateau instead of showing any clear increase or decrease."), 
                                    br(), 
@@ -1035,7 +1035,7 @@ ui <- fluidPage(
                                    div(style = "background-color: #f2f2f2; padding: 10px;",
                                        h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Insight 3")),
                                        div(style = "text-align: center;",
-                                           HTML("<h4>In non-mature estates, buildings are often exhibit a smaller, squarish, and jaggs design, whereas mature estates tend to feature a more rectangular builind structure characterised 
+                                           HTML("<h4>In non-mature estates, buildings are often exhibit a smaller, squarish, and jagged design, whereas mature estates tend to feature a more rectangular builind structure characterised 
                                             by elongated corridors</h4>")
                                        )
                                    ),
