@@ -779,6 +779,9 @@ ui <- fluidPage(
                                              )
                                       ),
                                     ),
+                                    p("This is also evidenced by the average ranking of amenities in which residents would most likely take the shortest path to as shown in the table, in 
+                                      which bus stops ranked joint-first with an average ranking of 2.12. It further reflects the need to avoid making residents walk inefficient routes to 
+                                      get to time-sensitive amenities like bus stops."), 
                                     p("Our survey analysis suggests a strong preference among residents for the shortest walking time to public transport, with an average reasonable walking 
                                       time to bus stops perceived to be around 5 minutes, which was the shortest among surveyed amenities. Therefore, our recommended course of action is not 
                                       to implement path-blocking measures, as they would reduce the convenience for residents accessing their commute. Instead, we advise against actions that 
