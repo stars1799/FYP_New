@@ -1038,8 +1038,7 @@ ui <- fluidPage(
                                    div(style = "background-color: #f2f2f2; padding: 10px;",
                                        h4(style = "margin-top: 0; margin-bottom: 10px; text-align: center;", strong("Key Insight 3")),
                                        div(style = "text-align: center;",
-                                           HTML("<h4>In non-mature estates, buildings are often exhibit a smaller, squarish, and jagged design, whereas mature estates tend to feature a more rectangular builind structure characterised 
-                                            by elongated corridors</h4>")
+                                           HTML("<h4>In non-mature estates, buildings often exhibit a smaller, squarish, and jagged design, whereas mature estates tend to feature a more rectangular building structure characterised by elongated corridors.</h4>")
                                        )
                                    ),
                                    br(),
@@ -1055,11 +1054,11 @@ ui <- fluidPage(
                                            selectInput("mapSelection2", "Select a Location:", choices = studyarea))
                                        )),
                                    br(), 
-                                   p(strong("Description:"), "overlay color-coded building categorization onto an OpenStreetMap (OSM) layer, enabling users to explore both the geographical distribution of buildings and their respective 
-                                     categories while retaining the ability to zoom in for detailed views and identification of individual building names. "), 
-                                   p(strong("Analysis:"), "Key insight 3 can be seen through the comparison of the comparison of the building layout in Ang Mo Kio and Punggol. Which suggests that non-mature estates and mature estates 
-                                     feature distinct HDB layouts. In mature estates, the focus is often on basic, functional designs aimed at optimising space utilisation. Conversely, non-mature estates typically boast more contemporary 
-                                     layouts tailored to foster a conducive environment for community interaction."),
+                                   p(strong("Description:"), "These 2 maps overlay color-coded building categorization onto an OpenStreetMap (OSM) layer, enabling users to explore both the geographical distribution of buildings and their respective categories while retaining the ability to zoom in for detailed views and identification of individual building names."), 
+                                   p(strong("Analysis:"), "Key insight 3 can be seen through the comparison of the comparison of the building layout in 
+                                   Ang Mo Kio and Punggol. Which suggests that non-mature estates and mature estates feature distinct HDB layouts. In mature estates,
+                                   the focus is often on basic, functional designs aimed at optimising space utilisation. Conversely, non-mature estates typically boast more contemporary layouts tailored to foster a conducive 
+                                     environment for community interaction."),
                                    br(), 
                                    br()
                           )
