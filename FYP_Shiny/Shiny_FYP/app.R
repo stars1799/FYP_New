@@ -636,7 +636,7 @@ ui <- fluidPage(
                             p('The built paths designated by URA (highlighted in red), shows the residents’ routes from their homes to the nearest playground or exercise corner. An observation made 
                               from the following routes suggests that in Ang Mo Kio, the routes to the following amenities require less turns and have longer straight routes. In comparison, the route to 
                               the Punggol amenities often requires a more complex route that encompasses many small turns when using the built path. This layout may create a natural tendency for people 
-                              to opt for a more direct route by cutting across the built pathways as illustrated through the shortest route (highlighted in green), 
+                              to opt for a more direct route by cutting across the built pathways as illustrated through the shortest route (highlighted in blue), 
                               in order to reach the amenities more efficiently.'),
                             selectInput("mapSelection3", "Select a Location:", choices = studyarea), 
                             br(), 
