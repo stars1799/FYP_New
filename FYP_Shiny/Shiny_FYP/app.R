@@ -647,7 +647,7 @@ ui <- fluidPage(
                               ),
                               column(12, # Full width for the text
                                      div(style = "text-align: center; font-style: italic;padding-bottom:10px;padding-top:10px;",
-                                         "Example of a desired line found within newer HDB estatesMaps showing URA’s built paths (highlighted in red) and the shortest Euclidean distance
+                                         "Maps showing URA’s built paths (highlighted in red) and the shortest Euclidean distance
                                          (highlighted in blue) from residential blocks to playgrounds/exercise corners"
                                      )
                               ),
